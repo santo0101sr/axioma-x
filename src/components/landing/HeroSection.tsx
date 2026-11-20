@@ -174,21 +174,20 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Official Brand Banner with 3D tilt, orbiting neon border & parallax */}
+        {/* Official Transparent Brand Banner */}
         <motion.div
           style={{ y: bannerY }}
           initial={{ opacity: 0, y: 20, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ type: "spring", stiffness: 130, damping: 20 }}
+          className="mx-auto mb-10 max-w-3xl"
         >
-          <TiltBannerCard className="mx-auto mb-10 max-w-3xl shadow-2xl shadow-black/60">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/brand/axioma-banner.png"
-              alt="Axioma-X — Cotizador inteligente"
-              className="block h-auto w-full object-cover"
-            />
-          </TiltBannerCard>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/axioma-banner.png"
+            alt="Axioma-X — Cotizador inteligente"
+            className="block h-auto w-full object-contain drop-shadow-[0_12px_32px_rgba(37,99,235,0.2)]"
+          />
         </motion.div>
 
         {/* Hero Top Copy */}
