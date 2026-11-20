@@ -43,7 +43,7 @@ export function RoiCalculator() {
   return (
     <section
       id="impacto"
-      className="bg-subtle-grid overflow-hidden border-t border-slate-200/80 bg-[#eef2f7]/80 py-20 backdrop-blur-[1px] transition-colors duration-300 dark:border-white/10 dark:bg-[#070b14]/84 sm:py-24"
+      className="bg-subtle-grid overflow-hidden border-t border-slate-200/80 bg-[#eef2f7]/80 py-20 backdrop-blur-[1px] transition-colors duration-300 dark:border-white/10 dark:bg-[#070b14]/85 sm:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <ScrollReveal className="max-w-2xl">

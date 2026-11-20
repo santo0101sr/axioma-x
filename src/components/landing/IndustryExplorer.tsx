@@ -22,7 +22,7 @@ export function IndustryExplorer() {
   return (
     <section
       id="industrias"
-      className="overflow-hidden border-t border-slate-200/80 bg-[#e6ecf4]/70 py-20 backdrop-blur-[1px] transition-colors duration-300 dark:border-white/10 dark:bg-[#0b1120]/84 sm:py-24"
+      className="overflow-hidden border-t border-slate-200/80 bg-[#e6ecf4]/70 py-20 backdrop-blur-[1px] transition-colors duration-300 dark:border-white/10 dark:bg-[#0b1120]/85 sm:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <ScrollReveal>
