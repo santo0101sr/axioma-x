@@ -11,9 +11,10 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import { ScrollReveal, SpotlightCard } from "@/components/landing/MotionPrimitives";
 
-const FEATURES = [
+const FEATURES_ES = [
   {
     title: "Entrada Multimodal",
     desc: "Procesa texto libre de WhatsApp, dictado por voz en tiempo real (Web Speech API) e imágenes de referencia.",
@@ -52,7 +53,46 @@ const FEATURES = [
   },
 ];
 
-const PIPELINE = [
+const FEATURES_EN = [
+  {
+    title: "Multimodal Input",
+    desc: "Process freeform WhatsApp text, real-time voice dictation (Web Speech API), and reference images.",
+    badge: "Text • Voice • Photo",
+    icon: Mic,
+  },
+  {
+    title: "Resilient Hybrid Engine",
+    desc: "Supports Groq / Gemini / OpenAI with your API key, plus an instant deterministic engine for zero downtime.",
+    badge: "High Availability",
+    icon: Cpu,
+  },
+  {
+    title: "Instant Branded PDF",
+    desc: "Client-side generation with jsPDF + autoTable: custom logo, discounts, tax, and commercial terms.",
+    badge: "Ready to send",
+    icon: FileDown,
+  },
+  {
+    title: "Approval Portal (/q)",
+    desc: "Every quote generates a shareable URL so your client can approve or request changes in 1 click.",
+    badge: "No login required",
+    icon: Link2,
+  },
+  {
+    title: "Pipeline & CSV Export",
+    desc: "Track quote statuses (Draft, Sent, Approved, Rejected), edit existing quotes, and export to Excel/CSV.",
+    badge: "Sales control",
+    icon: FileSpreadsheet,
+  },
+  {
+    title: "Privacy & JSON Backup",
+    desc: "Instant persistence with full export and restore of your business profile, catalog, and quote history in JSON.",
+    badge: "100% Portable",
+    icon: Database,
+  },
+];
+
+const PIPELINE_ES = [
   {
     label: "1. Captura",
     detail: "WhatsApp / Voz / Imagen",
@@ -71,7 +111,30 @@ const PIPELINE = [
   },
 ];
 
+const PIPELINE_EN = [
+  {
+    label: "1. Capture",
+    detail: "WhatsApp / Voice / Image",
+  },
+  {
+    label: "2. Extraction",
+    detail: "/api/extract (LLM + Deterministic)",
+  },
+  {
+    label: "3. Pricing Engine",
+    detail: "Catalog + Discounts + Tax",
+  },
+  {
+    label: "4. Delivery",
+    detail: "PDF + /q Link + CSV",
+  },
+];
+
 export function ArchitectureBento() {
+  const { isEn } = useLanguage();
+  const FEATURES = isEn ? FEATURES_EN : FEATURES_ES;
+  const PIPELINE = isEn ? PIPELINE_EN : PIPELINE_ES;
+
   return (
     <section
       id="arquitectura"
@@ -81,13 +144,17 @@ export function ArchitectureBento() {
         <ScrollReveal className="max-w-2xl">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-bold text-blue-700 dark:text-sky-300">
             <ShieldCheck className="h-3.5 w-3.5" />
-            Capacidades &amp; Arquitectura
+            {isEn ? "Capabilities & Architecture" : "Capacidades & Arquitectura"}
           </span>
           <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-            Construido para operar en producción desde el primer día
+            {isEn
+              ? "Built to run in production from day one"
+              : "Construido para operar en producción desde el primer día"}
           </h2>
           <p className="mt-3 text-base text-slate-600 dark:text-slate-400">
-            Cada módulo funciona en vivo dentro de Next.js 15 + React 19 + TypeScript, diseñado para máxima velocidad y cero fricción.
+            {isEn
+              ? "Every module runs live inside Next.js 15 + React 19 + TypeScript, engineered for maximum speed and zero friction."
+              : "Cada módulo funciona en vivo dentro de Next.js 15 + React 19 + TypeScript, diseñado para máxima velocidad y cero fricción."}
           </p>
         </ScrollReveal>
 
@@ -102,9 +169,9 @@ export function ArchitectureBento() {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   className="h-full"
                 >
-                  <SpotlightCard className="group h-full rounded-2xl border border-slate-200/90 bg-white/90 p-6 shadow-sm transition-colors duration-300 hover:border-blue-500/40 dark:border-white/10 dark:bg-[#0f172a]/85 dark:shadow-none">
+                  <SpotlightCard className="group h-full rounded-2xl border border-slate-200/90 bg-white/90 p-6 shadow-sm transition-colors duration-300 hover:border-blue-400/60 dark:border-white/10 dark:bg-[#0f172a]/85 dark:shadow-none dark:hover:border-blue-500/40">
                     <div className="flex items-center justify-between">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-500/25 bg-blue-500/10 text-blue-600 transition duration-300 group-hover:scale-110 group-hover:border-blue-400/60 group-hover:bg-blue-500/20 group-hover:text-blue-700 group-hover:shadow-[0_0_18px_rgba(59,130,246,0.2)] dark:text-blue-400 dark:group-hover:bg-blue-500/25 dark:group-hover:text-sky-300 dark:group-hover:shadow-[0_0_18px_rgba(59,130,246,0.3)]">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-500/25 bg-blue-500/10 text-blue-600 transition duration-300 group-hover:scale-110 group-hover:border-blue-400/60 group-hover:bg-blue-500/20 group-hover:text-blue-700 group-hover:shadow-[0_0_18px_rgba(59,130,246,0.25)] dark:text-blue-400 dark:group-hover:bg-blue-500/25 dark:group-hover:text-sky-300 dark:group-hover:shadow-[0_0_18px_rgba(59,130,246,0.3)]">
                         <Icon className="h-5 w-5" />
                       </div>
                       <span className="rounded-full border border-slate-200 bg-slate-100 px-2.5 py-1 font-mono text-[10px] font-semibold text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-400">
@@ -131,7 +198,7 @@ export function ArchitectureBento() {
               <div className="flex items-center gap-2">
                 <Sparkles className="h-4 w-4 animate-pulse text-blue-600 dark:text-blue-400" />
                 <h3 className="text-sm font-bold tracking-tight">
-                  Flujo Técnico End-to-End de Axioma-X
+                  {isEn ? "End-to-End Technical Flow of Axioma-X" : "Flujo Técnico End-to-End de Axioma-X"}
                 </h3>
               </div>
               <span className="font-mono text-[11px] text-slate-500">
@@ -155,7 +222,7 @@ export function ArchitectureBento() {
                       <motion.div
                         whileHover={{ y: -3 }}
                         transition={{ type: "spring", stiffness: 280, damping: 20 }}
-                        className="h-full rounded-xl border border-slate-200/90 bg-slate-50/95 p-4 transition-colors duration-300 hover:border-blue-500/40 dark:border-white/10 dark:bg-[#070b14]/95"
+                        className="h-full rounded-xl border border-slate-200 bg-slate-50/90 p-4 transition-colors duration-300 hover:border-blue-500/40 dark:border-white/10 dark:bg-[#070b14]/95"
                       >
                         <span className="font-mono text-xs font-bold text-blue-600 dark:text-blue-400">
                           {node.label}

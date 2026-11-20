@@ -94,7 +94,9 @@ export function HeroSection() {
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-1.5">
-                <p className="truncate text-xs font-bold text-slate-900 dark:text-white">Extracción IA</p>
+                <p className="truncate text-xs font-bold text-slate-900 dark:text-white">
+                  {isEn ? "AI Extraction" : "Extracción IA"}
+                </p>
                 <div className="flex h-3.5 items-end gap-[2px]" aria-hidden="true">
                   {EQ_DELAYS.map((delay, idx) => (
                     <span
@@ -105,7 +107,9 @@ export function HeroSection() {
                   ))}
                 </div>
               </div>
-              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">0.4 seg • Voz y Chat</p>
+              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">
+                {isEn ? "0.4 sec • Voice & Chat" : "0.4 seg • Voz y Chat"}
+              </p>
             </div>
           </div>
         </motion.div>
@@ -123,8 +127,12 @@ export function HeroSection() {
               <FileText className="h-4 w-4" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-xs font-bold text-slate-900 dark:text-white">PDF Corporativo</p>
-              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">Logo + IVA + Descuento</p>
+              <p className="truncate text-xs font-bold text-slate-900 dark:text-white">
+                {isEn ? "Branded PDF" : "PDF Corporativo"}
+              </p>
+              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">
+                {isEn ? "Logo + Tax + Discount" : "Logo + IVA + Descuento"}
+              </p>
               <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
                 <div className="animate-pdf-progress h-full rounded-full bg-gradient-to-r from-blue-500 to-sky-400 dark:to-sky-300" />
               </div>
@@ -150,12 +158,16 @@ export function HeroSection() {
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-1">
-                <p className="truncate text-xs font-bold text-slate-900 dark:text-white">Aprobado</p>
+                <p className="truncate text-xs font-bold text-slate-900 dark:text-white">
+                  {isEn ? "Approved" : "Aprobado"}
+                </p>
                 <span className="shrink-0 rounded bg-blue-500/15 px-1.5 py-0.5 font-mono text-[9px] font-bold text-blue-700 dark:text-sky-300">
                   +$1,988
                 </span>
               </div>
-              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">Portal cliente /q</p>
+              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">
+                {isEn ? "Client portal /q" : "Portal cliente /q"}
+              </p>
             </div>
           </div>
         </motion.div>
@@ -178,7 +190,9 @@ export function HeroSection() {
                 <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sky-500 dark:bg-sky-400" />
                 <p className="truncate text-xs font-bold text-slate-900 dark:text-white">Cloud Firestore</p>
               </div>
-              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">Sincronización en vivo</p>
+              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">
+                {isEn ? "Live sync" : "Sincronización en vivo"}
+              </p>
             </div>
           </div>
         </motion.div>

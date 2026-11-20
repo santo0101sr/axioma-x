@@ -179,7 +179,9 @@ export function IndustryExplorer() {
                         <p className="font-mono text-sm font-extrabold text-blue-600 dark:text-sky-400">
                           {formatMoney(item.unitPrice, preset.business.currency)}
                         </p>
-                        <p className="text-[11px] text-slate-500">por {item.unit}</p>
+                        <p className="text-[11px] text-slate-500">
+                          {isEn ? "per" : "por"} {item.unit}
+                        </p>
                       </div>
                     </motion.div>
                   ))}

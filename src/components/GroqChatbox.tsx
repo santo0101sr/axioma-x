@@ -207,7 +207,7 @@ export function GroqChatbox() {
                   <h2 className="text-sm font-bold text-slate-900 dark:text-white">Axioma AI</h2>
                   <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/25 bg-blue-500/10 px-2 py-0.5 font-mono text-[10px] font-semibold text-blue-700 dark:border-sky-400/25 dark:bg-sky-500/10 dark:text-sky-300">
                     <Zap className="h-2.5 w-2.5" />
-                    IA
+                    {isEn ? "AI" : "IA"}
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400">

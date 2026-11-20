@@ -191,30 +191,33 @@ export function AuthGate() {
             </div>
           ) : (
             <div className="mt-6 space-y-4">
-              <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-xs leading-relaxed text-amber-200">
-                <p className="font-bold text-amber-300">
-                  Falta conectar tu proyecto gratuito de Firebase
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-xs leading-relaxed text-amber-900 dark:text-amber-200">
+                <p className="font-bold text-amber-800 dark:text-amber-300">
+                  {isEn
+                    ? "Connect your free Firebase project"
+                    : "Falta conectar tu proyecto gratuito de Firebase"}
                 </p>
-                <p className="mt-1 text-amber-100/80">
-                  Crea un proyecto gratis (Plan Spark) en{" "}
+                <p className="mt-1 text-amber-900/80 dark:text-amber-100/80">
+                  {isEn ? "Create a free project (Spark Plan) at " : "Crea un proyecto gratis (Plan Spark) en "}
                   <a
                     href="https://console.firebase.google.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-semibold underline hover:text-white"
+                    className="font-semibold underline hover:text-amber-950 dark:hover:text-white"
                   >
                     console.firebase.google.com
                   </a>
-                  , activa <strong>Authentication (Google)</strong> y{" "}
-                  <strong>Cloud Firestore</strong>, y pega tus claves en{" "}
-                  <code className="rounded bg-black/40 px-1 py-0.5 font-mono text-[11px]">
+                  {isEn
+                    ? ", enable Authentication (Google) and Cloud Firestore, and paste your keys into "
+                    : ", activa Authentication (Google) y Cloud Firestore, y pega tus claves en "}
+                  <code className="rounded bg-black/10 px-1 py-0.5 font-mono text-[11px] dark:bg-black/40">
                     .env.local
                   </code>
                   :
                 </p>
               </div>
 
-              <div className="relative rounded-xl border border-white/10 bg-[#070b14] p-3.5">
+              <div className="relative rounded-xl border border-slate-200 bg-slate-900 p-3.5 dark:border-white/10 dark:bg-[#070b14]">
                 <button
                   type="button"
                   onClick={handleCopyEnv}
@@ -223,12 +226,12 @@ export function AuthGate() {
                   {copiedEnv ? (
                     <>
                       <Check className="h-3 w-3 text-blue-400" />
-                      Copiado
+                      {isEn ? "Copied" : "Copiado"}
                     </>
                   ) : (
                     <>
                       <Copy className="h-3 w-3" />
-                      Copiar
+                      {isEn ? "Copy" : "Copiar"}
                     </>
                   )}
                 </button>
@@ -237,10 +240,14 @@ export function AuthGate() {
                 </pre>
               </div>
 
-              <p className="text-[11px] text-slate-400">
-                Después de guardar <code className="font-mono text-slate-200">.env.local</code>,
-                reinicia <code className="font-mono text-slate-200">npm run dev</code> y el
-                botón de <strong>Continuar con Google</strong> aparecerá automáticamente.
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                {isEn ? "After saving " : "Después de guardar "}
+                <code className="font-mono text-slate-800 dark:text-slate-200">.env.local</code>
+                {isEn ? ", restart " : ", reinicia "}
+                <code className="font-mono text-slate-800 dark:text-slate-200">npm run dev</code>
+                {isEn ? " and the " : " y el botón de "}
+                <strong>{isEn ? "Continue with Google" : "Continuar con Google"}</strong>
+                {isEn ? " button will appear automatically." : " aparecerá automáticamente."}
               </p>
             </div>
           )}

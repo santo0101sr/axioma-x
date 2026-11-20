@@ -347,7 +347,7 @@ export function HeroSimulator() {
                         {activePreset.business.name}
                       </p>
                       <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                        Para:{" "}
+                        {isEn ? "To:" : "Para:"}{" "}
                         <span className="font-semibold text-slate-800 dark:text-slate-200">
                           {quote.clientName}
                         </span>
