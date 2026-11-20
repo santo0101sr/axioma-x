@@ -367,23 +367,16 @@ export function GroqChatbox() {
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={isOpen ? "Cerrar asistente Axioma AI" : "Abrir asistente Axioma AI"}
-        className="group relative flex items-center gap-2 rounded-full border border-blue-400/30 bg-gradient-to-r from-blue-600 to-sky-500 px-4 py-2.5 text-xs font-bold text-white shadow-xl shadow-blue-600/30 transition hover:scale-[1.03] hover:shadow-blue-500/50 active:scale-[0.98]"
+        title={isOpen ? "Cerrar asistente" : "Axioma AI"}
+        className="group relative flex h-14 w-14 items-center justify-center rounded-full border border-blue-400/35 bg-gradient-to-br from-blue-600 to-sky-500 text-white shadow-xl shadow-blue-600/35 transition hover:scale-105 hover:shadow-blue-500/55 active:scale-95"
       >
         {isOpen ? (
-          <>
-            <X className="h-4 w-4" />
-            <span>Cerrar</span>
-          </>
+          <X className="h-5 w-5" />
         ) : (
-          <>
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/25 transition-transform duration-200 group-hover:scale-110">
-              <AxiomaMarkIcon className="h-4 w-4 text-white" accentClassName="text-sky-200" />
-            </span>
-            <span>Axioma AI</span>
-            <span className="rounded-full bg-white/20 px-1.5 py-0.5 font-mono text-[10px] font-semibold">
-              IA
-            </span>
-          </>
+          <AxiomaMarkIcon
+            className="h-7 w-7 text-white transition-transform duration-200 group-hover:scale-110"
+            accentClassName="text-sky-200"
+          />
         )}
       </button>
     </div>
