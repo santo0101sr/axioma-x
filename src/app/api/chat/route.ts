@@ -10,7 +10,7 @@ interface ChatRequestBody {
 }
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const DEFAULT_MODEL = "llama-3.3-70b-versatile";
+const DEFAULT_MODEL = "openai/gpt-oss-120b";
 
 const SYSTEM_PROMPT = `Eres Axioma AI, el asistente comercial inteligente integrado en Axioma-X (impulsado por Groq).
 Axioma-X es una plataforma para PyMEs y profesionales en Latinoamérica que convierte mensajes informales de WhatsApp, dictado por voz o imágenes en cotizaciones PDF profesionales con enlace de aprobación para clientes en segundos.

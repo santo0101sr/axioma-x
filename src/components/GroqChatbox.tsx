@@ -155,7 +155,7 @@ export function GroqChatbox() {
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-400">
-                  Asistente comercial · Llama 3.3 70B
+                  Asistente comercial · GPT-OSS 120B
                 </p>
               </div>
             </div>
