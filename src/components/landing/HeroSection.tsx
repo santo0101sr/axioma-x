@@ -183,11 +183,23 @@ export function HeroSection() {
           className="mx-auto mb-10 max-w-3xl"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/brand/axioma-banner.png"
-            alt="Axioma-X — Cotizador inteligente"
-            className="block h-auto w-full object-contain drop-shadow-[0_12px_32px_rgba(37,99,235,0.2)]"
-          />
+          <div className="relative">
+            {/* Dark theme banner */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/brand/axioma-banner.png"
+              alt="Axioma-X — Cotizador inteligente"
+              className="block h-auto w-full object-contain opacity-0 drop-shadow-[0_12px_32px_rgba(37,99,235,0.2)] transition-opacity duration-500 ease-in-out dark:opacity-100"
+            />
+            {/* Light theme banner (crossfade) */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/brand/axioma-banner-light.png"
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 block h-auto w-full object-contain opacity-100 transition-opacity duration-500 ease-in-out dark:opacity-0"
+            />
+          </div>
         </motion.div>
 
         {/* Hero Top Copy */}
