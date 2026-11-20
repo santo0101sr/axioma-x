@@ -1,0 +1,163 @@
+import {
+  Cpu,
+  Database,
+  FileDown,
+  FileSpreadsheet,
+  Link2,
+  Mic,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
+import { ScrollReveal, SpotlightCard } from "@/components/landing/MotionPrimitives";
+
+const FEATURES = [
+  {
+    title: "Entrada Multimodal",
+    desc: "Procesa texto libre de WhatsApp, dictado por voz en tiempo real (Web Speech API) e imágenes de referencia.",
+    badge: "Texto • Voz • Foto",
+    icon: Mic,
+  },
+  {
+    title: "Motor Híbrido Resiliente",
+    desc: "Compatible con Gemini / OpenAI cuando configuras API key, y motor determinístico instantáneo para operar sin interrupciones.",
+    badge: "Alta Disponibilidad",
+    icon: Cpu,
+  },
+  {
+    title: "PDF Corporativo al Instante",
+    desc: "Generación cliente con jsPDF + autoTable: logotipo personalizado, descuentos, IVA y condiciones comerciales.",
+    badge: "Listo para enviar",
+    icon: FileDown,
+  },
+  {
+    title: "Portal de Aprobación (/q)",
+    desc: "Cada cotización genera un enlace compartible codificado en URL para que el cliente apruebe o pida cambios en 1 clic.",
+    badge: "Sin login requerido",
+    icon: Link2,
+  },
+  {
+    title: "Pipeline y Exportación CSV",
+    desc: "Gestiona estados (Borrador, Enviada, Aprobada, Rechazada), edita cotizaciones previas y exporta a Excel/CSV.",
+    badge: "Control comercial",
+    icon: FileSpreadsheet,
+  },
+  {
+    title: "Privacidad y Respaldo JSON",
+    desc: "Persistencia local inmediata con exportación y restauración completa de negocio, catálogo e historial en JSON.",
+    badge: "Portabilidad 100%",
+    icon: Database,
+  },
+];
+
+const PIPELINE = [
+  {
+    label: "1. Captura",
+    detail: "WhatsApp / Voz / Imagen",
+  },
+  {
+    label: "2. Extracción",
+    detail: "/api/extract (LLM + Determinístico)",
+  },
+  {
+    label: "3. Motor Comercial",
+    detail: "Catálogo + Descuentos + IVA",
+  },
+  {
+    label: "4. Entrega",
+    detail: "PDF + Link /q + CSV",
+  },
+];
+
+export function ArchitectureBento() {
+  return (
+    <section
+      id="arquitectura"
+      className="border-t border-white/10 bg-[#070b14] py-20 sm:py-24"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <ScrollReveal className="max-w-2xl">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-300">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            Capacidades &amp; Arquitectura
+          </span>
+          <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+            Construido para operar en producción desde el primer día
+          </h2>
+          <p className="mt-3 text-base text-slate-400">
+            Cada módulo funciona en vivo dentro de Next.js 15 + React 19 + TypeScript, diseñado para máxima velocidad y cero fricción.
+          </p>
+        </ScrollReveal>
+
+        {/* 6-Card Bento Grid */}
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURES.map((feat, idx) => {
+            const Icon = feat.icon;
+            return (
+              <ScrollReveal key={feat.title} delay={idx * 75}>
+                <SpotlightCard className="group h-full rounded-2xl border border-white/10 bg-[#0f172a]/85 p-6 transition duration-300 hover:-translate-y-1 hover:border-emerald-500/40">
+                  <div className="flex items-center justify-between">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-500/25 bg-emerald-500/10 text-emerald-400 transition duration-300 group-hover:scale-110 group-hover:border-emerald-400/60 group-hover:bg-emerald-500/25 group-hover:text-emerald-300 group-hover:shadow-[0_0_18px_rgba(16,185,129,0.3)]">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[10px] font-semibold text-slate-400">
+                      {feat.badge}
+                    </span>
+                  </div>
+                  <h3 className="mt-5 text-base font-bold text-white">
+                    {feat.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                    {feat.desc}
+                  </p>
+                </SpotlightCard>
+              </ScrollReveal>
+            );
+          })}
+        </div>
+
+        {/* Clean Architecture Flow Bar */}
+        <ScrollReveal delay={120}>
+          <div className="mt-10 overflow-hidden rounded-2xl border border-white/10 bg-[#0b1120] p-6 text-white sm:p-8">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4 animate-pulse text-emerald-400" />
+                <h3 className="text-sm font-bold tracking-tight">
+                  Flujo Técnico End-to-End de Axioma-X
+                </h3>
+              </div>
+              <span className="font-mono text-[11px] text-slate-500">
+                Next.js 15 • TypeScript • Tailwind CSS • jsPDF • Web Speech API
+              </span>
+            </div>
+
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {PIPELINE.map((node, idx) => (
+                <div key={node.label} className="relative">
+                  <ScrollReveal delay={idx * 90} className="h-full">
+                    <div className="h-full rounded-xl border border-white/10 bg-[#070b14] p-4 transition duration-300 hover:border-emerald-500/40">
+                      <span className="font-mono text-xs font-bold text-emerald-400">
+                        {node.label}
+                      </span>
+                      <p className="mt-1.5 text-sm font-semibold text-slate-100">
+                        {node.detail}
+                      </p>
+                    </div>
+                  </ScrollReveal>
+                  {idx < PIPELINE.length - 1 && (
+                    <span
+                      style={{ animationDelay: `${idx * 250}ms` }}
+                      className="animate-flow-arrow pointer-events-none absolute -right-3 top-1/2 z-10 hidden font-mono text-sm font-bold text-emerald-400 lg:block"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}

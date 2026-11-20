@@ -1,0 +1,345 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-[#070b14] text-slate-100 antialiased;
+  }
+}
+
+.bg-hero-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+}
+
+.bg-subtle-grid {
+  background-size: 32px 32px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes auroraFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(28px, -22px, 0) scale(1.07);
+  }
+  66% {
+    transform: translate3d(-22px, 16px, 0) scale(0.95);
+  }
+}
+
+@keyframes auroraFloatReverse {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(-32px, 20px, 0) scale(1.06);
+  }
+  66% {
+    transform: translate3d(24px, -18px, 0) scale(0.94);
+  }
+}
+
+.animate-aurora {
+  animation: auroraFloat 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-aurora-reverse {
+  animation: auroraFloatReverse 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-text {
+  background-size: 200% auto;
+  animation: gradientShift 6s ease infinite;
+}
+
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  45%,
+  100% {
+    transform: translateX(220%) skewX(-20deg);
+  }
+}
+
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 45%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.32),
+    transparent
+  );
+  transform: translateX(-120%) skewX(-20deg);
+  animation: shimmerSweep 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes marqueeScroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 28s linear infinite;
+  will-change: transform;
+}
+
+.marquee-container:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+@keyframes floatGentle {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-gentle {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+@keyframes scanBeam {
+  0% {
+    top: 0%;
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.95;
+  }
+  100% {
+    top: 100%;
+    opacity: 0.15;
+  }
+}
+
+.animate-scan-beam {
+  animation: scanBeam 1.2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.025);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+@keyframes flowArrow {
+  0%,
+  100% {
+    transform: translate(0, -50%);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(4px, -50%);
+    opacity: 1;
+  }
+}
+
+.animate-flow-arrow {
+  animation: flowArrow 1.6s ease-in-out infinite;
+}
+
+@keyframes totalPop {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  60% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-total-pop {
+  animation: totalPop 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes beamHorizontal {
+  0% {
+    transform: translateX(-220px);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  88% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(120vw);
+    opacity: 0;
+  }
+}
+
+.animate-beam-h {
+  animation: beamHorizontal 8.5s linear infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes beamVertical {
+  0% {
+    transform: translateY(-220px);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  88% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(960px);
+    opacity: 0;
+  }
+}
+
+.animate-beam-v {
+  animation: beamVertical 9s linear infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes borderSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.animate-border-spin {
+  animation: borderSpin 7s linear infinite;
+  will-change: transform;
+}
+
+@keyframes floatSlowAlt {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(4px, -8px, 0);
+  }
+}
+
+.animate-float-alt {
+  animation: floatSlowAlt 6.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-aurora,
+  .animate-aurora-reverse,
+  .animate-gradient-text,
+  .btn-shimmer::after,
+  .animate-marquee,
+  .animate-float-gentle,
+  .animate-float-alt,
+  .animate-scan-beam,
+  .animate-pulse-glow,
+  .animate-flow-arrow,
+  .animate-beam-h,
+  .animate-beam-v,
+  .animate-border-spin {
+    animation: none !important;
+  }
+}
+
+/* Custom sleek dark range slider for ROI calculator */
+input[type="range"].axioma-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.12);
+  outline: none;
+}
+
+input[type="range"].axioma-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: #10b981;
+  border: 3px solid #070b14;
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.5), 0 4px 12px rgba(16, 185, 129, 0.4);
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+input[type="range"].axioma-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+  background: #34d399;
+}
