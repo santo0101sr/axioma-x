@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { ArrowRight, Calculator, Clock, DollarSign, TrendingUp } from "lucide-react";
 import {
   AnimatedNumber,
+  MagneticButton,
   ScrollReveal,
   SpotlightCard,
 } from "@/components/landing/MotionPrimitives";
@@ -33,10 +35,15 @@ export function RoiCalculator() {
       maximumFractionDigits: 0,
     }).format(val);
 
+  const axiomaWidthPercent = Math.max(
+    3,
+    Math.min(100, (axiomaHoursPerMonth / manualHoursPerMonth) * 100)
+  );
+
   return (
     <section
       id="impacto"
-      className="bg-subtle-grid border-t border-white/10 bg-[#070b14] py-20 sm:py-24"
+      className="bg-subtle-grid overflow-hidden border-t border-white/10 bg-[#070b14] py-20 sm:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <ScrollReveal className="max-w-2xl">
@@ -161,6 +168,14 @@ export function RoiCalculator() {
                       Basado en {monthlyQuotes} cotizaciones/mes y +8% de cierre por respuesta inmediata
                     </p>
                   </div>
+
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-500/10 px-3 py-1 font-mono text-[11px] font-bold text-emerald-300">
+                    Ahorro anual:{" "}
+                    <AnimatedNumber
+                      value={hoursSavedPerMonth * 12}
+                      formatter={(n) => `${Math.round(n)} horas/año`}
+                    />
+                  </span>
                 </div>
 
                 <div className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -240,14 +255,10 @@ export function RoiCalculator() {
                       </span>
                     </div>
                     <div className="mt-1.5 h-2.5 w-full overflow-hidden rounded-full bg-slate-800">
-                      <div
-                        className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-300 shadow-[0_0_14px_rgba(16,185,129,0.45)] transition-all duration-300"
-                        style={{
-                          width: `${Math.max(
-                            3,
-                            Math.min(100, (axiomaHoursPerMonth / manualHoursPerMonth) * 100)
-                          )}%`,
-                        }}
+                      <motion.div
+                        animate={{ width: `${axiomaWidthPercent}%` }}
+                        transition={{ type: "spring", stiffness: 160, damping: 24 }}
+                        className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-300 shadow-[0_0_14px_rgba(16,185,129,0.45)]"
                       />
                     </div>
                   </div>
@@ -258,13 +269,15 @@ export function RoiCalculator() {
                 <p className="text-xs text-slate-400">
                   Sin configuraciones complejas ni fricción para empezar.
                 </p>
-                <Link
-                  href="/app"
-                  className="btn-shimmer group inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-xs font-extrabold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400"
-                >
-                  Probar con mis precios
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
+                <MagneticButton>
+                  <Link
+                    href="/app"
+                    className="btn-shimmer group inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-xs font-extrabold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400"
+                  >
+                    Probar con mis precios
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </Link>
+                </MagneticButton>
               </div>
             </div>
           </ScrollReveal>

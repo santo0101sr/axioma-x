@@ -1,39 +1,29 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import {
+  motion,
+  useMotionValue,
+  useScroll,
+  useSpring,
+} from "framer-motion";
 
 export function ScrollProgressBar() {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const updateProgress = () => {
-      const doc = document.documentElement;
-      const maxScroll = doc.scrollHeight - window.innerHeight;
-      if (maxScroll <= 0) {
-        setProgress(0);
-        return;
-      }
-      const ratio = Math.min(1, Math.max(0, window.scrollY / maxScroll));
-      setProgress(ratio * 100);
-    };
-
-    updateProgress();
-    window.addEventListener("scroll", updateProgress, { passive: true });
-    window.addEventListener("resize", updateProgress, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", updateProgress);
-      window.removeEventListener("resize", updateProgress);
-    };
-  }, []);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 180,
+    damping: 28,
+    restDelta: 0.001,
+  });
 
   return (
     <div
-      className="pointer-events-none fixed left-0 top-0 z-50 h-[2.5px] w-full bg-transparent"
+      className="pointer-events-none fixed left-0 top-0 z-50 h-[3px] w-full bg-transparent"
       aria-hidden="true"
     >
-      <div
-        className="h-full bg-gradient-to-r from-emerald-400 via-teal-300 to-blue-500 shadow-[0_0_10px_rgba(16,185,129,0.6)] transition-[width] duration-75 ease-out"
-        style={{ width: `${progress}%` }}
+      <motion.div
+        style={{ scaleX }}
+        className="h-full origin-left bg-gradient-to-r from-emerald-400 via-teal-300 to-blue-500 shadow-[0_0_12px_rgba(16,185,129,0.75)]"
       />
     </div>
   );
@@ -52,60 +42,74 @@ export function ScrollReveal({
   delay = 0,
   direction = "up",
 }: ScrollRevealProps) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const rect = el.getBoundingClientRect();
-    if (rect.top <= window.innerHeight * 0.96) {
-      setVisible(true);
-      return;
-    }
-
-    if (typeof IntersectionObserver === "undefined") {
-      setVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            observer.disconnect();
-            break;
-          }
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  const hiddenClass =
+  const initialState =
     direction === "left"
-      ? "opacity-0 -translate-x-6"
+      ? { opacity: 0, x: -28, y: 0, scale: 1 }
       : direction === "right"
-      ? "opacity-0 translate-x-6"
+      ? { opacity: 0, x: 28, y: 0, scale: 1 }
       : direction === "scale"
-      ? "opacity-0 scale-95"
-      : "opacity-0 translate-y-6";
+      ? { opacity: 0, x: 0, y: 12, scale: 0.94 }
+      : { opacity: 0, x: 0, y: 26, scale: 1 };
 
   return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
-      className={`transition-all duration-700 ease-out will-change-transform ${
-        visible ? "translate-x-0 translate-y-0 scale-100 opacity-100" : hiddenClass
-      } ${className}`}
+    <motion.div
+      initial={initialState}
+      whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.12 }}
+      transition={{
+        type: "spring",
+        stiffness: 130,
+        damping: 22,
+        delay: delay / 1000,
+      }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
+  );
+}
+
+interface MagneticButtonProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function MagneticButton({
+  children,
+  className = "",
+}: MagneticButtonProps) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 260, damping: 18 });
+  const springY = useSpring(y, { stiffness: 260, damping: 18 });
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect || rect.width === 0 || rect.height === 0) return;
+    const relX = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+    const relY = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+    x.set(Math.max(-6, Math.min(6, relX * 6)));
+    y.set(Math.max(-6, Math.min(6, relY * 6)));
+  }
+
+  function handleMouseLeave() {
+    x.set(0);
+    y.set(0);
+  }
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
+      className={`inline-block ${className}`}
+    >
+      {children}
+    </motion.div>
   );
 }
 
@@ -183,8 +187,8 @@ export function TiltBannerCard({ children, className = "" }: TiltBannerCardProps
     const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
     const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
     setTilt({
-      rx: -ny * 3.2,
-      ry: nx * 3.5,
+      rx: -ny * 3.5,
+      ry: nx * 3.8,
       hovering: true,
     });
   }
@@ -200,17 +204,17 @@ export function TiltBannerCard({ children, className = "" }: TiltBannerCardProps
       onMouseLeave={handleMouseLeave}
       style={{
         transform: tilt.hovering
-          ? `perspective(1100px) rotateX(${tilt.rx.toFixed(2)}deg) rotateY(${tilt.ry.toFixed(2)}deg) scale3d(1.012, 1.012, 1.012)`
+          ? `perspective(1100px) rotateX(${tilt.rx.toFixed(2)}deg) rotateY(${tilt.ry.toFixed(2)}deg) scale3d(1.015, 1.015, 1.015)`
           : "perspective(1100px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
       }}
       className={`animated-border-beam relative overflow-hidden rounded-2xl p-[1.5px] transition-transform duration-300 ease-out will-change-transform ${className}`}
     >
       {/* Orbiting cobalt -> emerald -> cyan border beam */}
       <div
-        className="animate-border-spin pointer-events-none absolute left-1/2 top-1/2 h-[220%] w-[220%] opacity-85"
+        className="animate-border-spin pointer-events-none absolute left-1/2 top-1/2 h-[220%] w-[220%] opacity-90"
         style={{
           background:
-            "conic-gradient(from 0deg, transparent 0deg, rgba(59, 91, 255, 0.9) 70deg, rgba(52, 211, 153, 0.95) 140deg, rgba(34, 211, 238, 0.75) 190deg, transparent 250deg, transparent 360deg)",
+            "conic-gradient(from 0deg, transparent 0deg, rgba(59, 91, 255, 0.92) 70deg, rgba(52, 211, 153, 0.98) 140deg, rgba(34, 211, 238, 0.8) 190deg, transparent 250deg, transparent 360deg)",
         }}
         aria-hidden="true"
       />
@@ -218,6 +222,189 @@ export function TiltBannerCard({ children, className = "" }: TiltBannerCardProps
         {children}
       </div>
     </div>
+  );
+}
+
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  r: number;
+  color: string;
+}
+
+const PARTICLE_COLORS = ["#34d399", "#4f6fff", "#38bdf8"];
+
+export function KineticCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    let width = 0;
+    let height = 0;
+    let rafId = 0;
+    const mouse = { x: -9999, y: -9999, active: false };
+    const particles: Particle[] = [];
+
+    const initParticles = (w: number, h: number) => {
+      particles.length = 0;
+      const count = 72;
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.55,
+          vy: (Math.random() - 0.5) * 0.55,
+          r: 1.5 + Math.random() * 1.1,
+          color: PARTICLE_COLORS[i % PARTICLE_COLORS.length],
+        });
+      }
+    };
+
+    const resize = () => {
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      const rect = parent.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = Math.max(1, rect.width);
+      height = Math.max(1, rect.height);
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (particles.length === 0) {
+        initParticles(width, height);
+      }
+    };
+
+    resize();
+
+    const ro =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(resize) : null;
+    if (ro && canvas.parentElement) ro.observe(canvas.parentElement);
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      if (mx >= 0 && mx <= rect.width && my >= 0 && my <= rect.height) {
+        mouse.x = mx;
+        mouse.y = my;
+        mouse.active = true;
+      } else {
+        mouse.active = false;
+      }
+    };
+
+    const handleMouseLeave = () => {
+      mouse.active = false;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave);
+
+    const drawFrame = () => {
+      if (document.hidden) {
+        rafId = requestAnimationFrame(drawFrame);
+        return;
+      }
+
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        if (!prefersReducedMotion) {
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0) p.x = width;
+          if (p.x > width) p.x = 0;
+          if (p.y < 0) p.y = height;
+          if (p.y > height) p.y = 0;
+
+          if (mouse.active) {
+            const dx = mouse.x - p.x;
+            const dy = mouse.y - p.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist > 8 && dist < 155) {
+              p.x += (dx / dist) * 0.22;
+              p.y += (dy / dist) * 0.22;
+            }
+          }
+        }
+
+        // Draw particle dot
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = 0.85;
+        ctx.fill();
+
+        // Crisp constellation lines between nearby particles
+        for (let j = i + 1; j < particles.length; j++) {
+          const q = particles[j];
+          const dx = p.x - q.x;
+          const dy = p.y - q.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 155) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = i % 2 === 0 ? "#34d399" : "#4f6fff";
+            ctx.globalAlpha = (1 - dist / 155) * 0.36;
+            ctx.lineWidth = 0.9;
+            ctx.stroke();
+          }
+        }
+
+        // Crisp geometric filaments connecting nearby particles to mouse cursor
+        if (mouse.active) {
+          const mdx = p.x - mouse.x;
+          const mdy = p.y - mouse.y;
+          const mdist = Math.hypot(mdx, mdy);
+          if (mdist < 175) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = p.color;
+            ctx.globalAlpha = (1 - mdist / 175) * 0.55;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      ctx.globalAlpha = 1;
+      if (!prefersReducedMotion) {
+        rafId = requestAnimationFrame(drawFrame);
+      }
+    };
+
+    drawFrame();
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      ro?.disconnect();
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      aria-hidden="true"
+    />
   );
 }
 
@@ -243,7 +430,10 @@ export function HeroInteractiveBackdrop() {
         }}
       />
 
-      {/* Seamless high-blur atmospheric aurora orbs (no 8-bit banding) */}
+      {/* Interactive particle constellation canvas */}
+      <KineticCanvas />
+
+      {/* Seamless high-blur atmospheric aurora orbs */}
       <div className="animate-aurora absolute -top-36 left-1/4 h-[460px] w-[560px] rounded-full bg-[#2546f0]/16 blur-[160px]" />
       <div className="animate-aurora-reverse absolute -top-20 right-1/4 h-[420px] w-[540px] rounded-full bg-emerald-500/12 blur-[160px]" />
 
@@ -332,44 +522,75 @@ export function AnimatedNumber({
   return <>{formatter(displayValue)}</>;
 }
 
-const MARQUEE_ITEMS = [
+const MARQUEE_ROW_ONE = [
   "WhatsApp → PDF en 15s",
   "Dictado por Voz",
   "Extracción desde Fotos",
-  "Catálogo en Tiempo Real",
-  "Firebase Auth + Firestore",
   "Portal Cliente /q en 1 Clic",
-  "Multi-moneda USD · CRC · MXN · COP",
+  "Firebase Auth + Firestore",
+  "Catálogo en Tiempo Real",
   "Exportación Excel / CSV",
   "Respaldo JSON 100%",
 ];
 
+const MARQUEE_ROW_TWO = [
+  "Remodelaciones",
+  "Agencias Digitales",
+  "Talleres Automotrices",
+  "Catering & Eventos",
+  "Consultorías",
+  "Clínicas & Salud",
+  "Arquitectura",
+  "Servicios Técnicos",
+  "Multi-moneda USD · CRC · MXN · COP",
+];
+
 export function MarqueeStrip() {
   return (
-    <div className="marquee-container relative overflow-hidden border-y border-white/10 bg-[#0b1120]/90 py-3.5 backdrop-blur-sm">
+    <div className="marquee-container relative overflow-hidden border-y border-white/10 bg-[#0b1120]/90 py-4 backdrop-blur-sm">
       <div
-        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#070b14] to-transparent"
+        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#070b14] to-transparent"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#070b14] to-transparent"
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#070b14] to-transparent"
         aria-hidden="true"
       />
 
-      <div className="animate-marquee">
-        {[0, 1].map((trackIdx) => (
-          <div key={trackIdx} className="flex shrink-0 items-center gap-6 pr-6">
-            {MARQUEE_ITEMS.map((item) => (
-              <div
-                key={`${trackIdx}-${item}`}
-                className="inline-flex shrink-0 items-center gap-3 whitespace-nowrap text-xs font-semibold tracking-wide text-slate-300"
-              >
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-                <span>{item}</span>
-              </div>
-            ))}
-          </div>
-        ))}
+      <div className="space-y-2.5">
+        {/* Row 1: left-scrolling capabilities */}
+        <div className="animate-marquee">
+          {[0, 1].map((trackIdx) => (
+            <div key={trackIdx} className="flex shrink-0 items-center gap-3 pr-3">
+              {MARQUEE_ROW_ONE.map((item) => (
+                <div
+                  key={`r1-${trackIdx}-${item}`}
+                  className="inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-semibold tracking-wide text-slate-300 transition hover:border-emerald-400/40 hover:bg-emerald-500/10 hover:text-white"
+                >
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Row 2: right-scrolling industries & currencies */}
+        <div className="animate-marquee-reverse">
+          {[0, 1].map((trackIdx) => (
+            <div key={trackIdx} className="flex shrink-0 items-center gap-3 pr-3">
+              {MARQUEE_ROW_TWO.map((item) => (
+                <div
+                  key={`r2-${trackIdx}-${item}`}
+                  className="inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-semibold tracking-wide text-slate-400 transition hover:border-blue-400/40 hover:bg-blue-500/10 hover:text-white"
+                >
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-400 shadow-[0_0_8px_rgba(79,111,255,0.85)]" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

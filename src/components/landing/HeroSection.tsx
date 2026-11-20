@@ -1,0 +1,302 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Database,
+  FileText,
+  Play,
+  Sparkles,
+  Zap,
+} from "lucide-react";
+import {
+  HeroInteractiveBackdrop,
+  MagneticButton,
+  TiltBannerCard,
+} from "@/components/landing/MotionPrimitives";
+import { HeroSimulator } from "@/components/landing/HeroSimulator";
+
+const ROTATING_PHRASES = [
+  "cotización PDF",
+  "propuesta formal",
+  "portal de aprobación",
+  "venta cerrada",
+];
+
+const EQ_DELAYS = ["0s", "0.15s", "0.3s", "0.45s", "0.6s"];
+const EQ_HEIGHTS = ["h-3", "h-4", "h-2.5", "h-4", "h-3"];
+
+export function HeroSection() {
+  const heroRef = useRef<HTMLElement | null>(null);
+  const [phraseIndex, setPhraseIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPhraseIndex((prev) => (prev + 1) % ROTATING_PHRASES.length);
+    }, 2800);
+    return () => clearInterval(id);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 24,
+    restDelta: 0.001,
+  });
+
+  const leftTopY = useTransform(smoothProgress, [0, 1], [0, -56]);
+  const leftBottomY = useTransform(smoothProgress, [0, 1], [0, -90]);
+  const rightTopY = useTransform(smoothProgress, [0, 1], [0, -68]);
+  const rightBottomY = useTransform(smoothProgress, [0, 1], [0, -104]);
+  const bannerY = useTransform(smoothProgress, [0, 1], [0, -24]);
+
+  return (
+    <section
+      ref={heroRef}
+      className="bg-hero-grid relative overflow-hidden bg-slate-950 pb-20 pt-14 text-white sm:pb-28 sm:pt-20"
+    >
+      <HeroInteractiveBackdrop />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
+        {/* Top-left floating telemetry card: Extracción IA + live equalizer */}
+        <motion.div
+          style={{ y: leftTopY }}
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: "spring", stiffness: 120, damping: 18, delay: 0.15 }}
+          className="pointer-events-auto absolute left-3 top-12 z-20 hidden w-[204px] xl:block"
+        >
+          <div className="animate-float-gentle flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0b1328]/85 px-3.5 py-2.5 shadow-xl shadow-black/45 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-emerald-400/45">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/15 text-emerald-400">
+              <Zap className="h-4 w-4" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-1.5">
+                <p className="truncate text-xs font-bold text-white">Extracción IA</p>
+                <div className="flex h-3.5 items-end gap-[2px]" aria-hidden="true">
+                  {EQ_DELAYS.map((delay, idx) => (
+                    <span
+                      key={idx}
+                      style={{ animationDelay: delay }}
+                      className={`animate-eq w-[2.5px] rounded-full bg-emerald-400 ${EQ_HEIGHTS[idx]}`}
+                    />
+                  ))}
+                </div>
+              </div>
+              <p className="truncate text-[10px] text-slate-400">0.4 seg • Voz y Chat</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Bottom-left floating telemetry card: PDF Corporativo + animated progress */}
+        <motion.div
+          style={{ y: leftBottomY }}
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: "spring", stiffness: 120, damping: 18, delay: 0.28 }}
+          className="pointer-events-auto absolute left-3 top-64 z-20 hidden w-[204px] xl:block"
+        >
+          <div className="animate-float-alt flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0b1328]/85 px-3.5 py-2.5 shadow-xl shadow-black/45 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-blue-400/45">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/15 text-blue-400">
+              <FileText className="h-4 w-4" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-xs font-bold text-white">PDF Corporativo</p>
+              <p className="truncate text-[10px] text-slate-400">Logo + IVA + Descuento</p>
+              <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-slate-800">
+                <div className="animate-pdf-progress h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400" />
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Top-right floating telemetry card: Cierre en 1 Clic + live ping & badge */}
+        <motion.div
+          style={{ y: rightTopY }}
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: "spring", stiffness: 120, damping: 18, delay: 0.2 }}
+          className="pointer-events-auto absolute right-3 top-14 z-20 hidden w-[204px] xl:block"
+        >
+          <div className="animate-float-alt flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0b1328]/85 px-3.5 py-2.5 shadow-xl shadow-black/45 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-emerald-400/45">
+            <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/15 text-emerald-400">
+              <CheckCircle2 className="h-4 w-4" />
+              <span className="absolute -right-0.5 -top-0.5 flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              </span>
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-1">
+                <p className="truncate text-xs font-bold text-white">Aprobado</p>
+                <span className="shrink-0 rounded bg-emerald-500/15 px-1.5 py-0.5 font-mono text-[9px] font-bold text-emerald-300">
+                  +$1,988
+                </span>
+              </div>
+              <p className="truncate text-[10px] text-slate-400">Portal cliente /q</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Bottom-right floating telemetry card: Cloud Firestore + pulsing sync ring */}
+        <motion.div
+          style={{ y: rightBottomY }}
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: "spring", stiffness: 120, damping: 18, delay: 0.34 }}
+          className="pointer-events-auto absolute right-3 top-[17rem] z-20 hidden w-[204px] xl:block"
+        >
+          <div className="animate-float-gentle flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0b1328]/85 px-3.5 py-2.5 shadow-xl shadow-black/45 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-blue-400/45">
+            <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/15 text-blue-400">
+              <Database className="h-4 w-4" />
+              <span className="absolute inset-0 animate-pulse rounded-xl ring-1 ring-blue-400/40" />
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                <p className="truncate text-xs font-bold text-white">Cloud Firestore</p>
+              </div>
+              <p className="truncate text-[10px] text-slate-400">Sincronización en vivo</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Official Brand Banner with 3D tilt, orbiting neon border & parallax */}
+        <motion.div
+          style={{ y: bannerY }}
+          initial={{ opacity: 0, y: 20, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ type: "spring", stiffness: 130, damping: 20 }}
+        >
+          <TiltBannerCard className="mx-auto mb-10 max-w-3xl shadow-2xl shadow-black/60">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/brand/axioma-banner.jpg"
+              alt="Axioma-X — Cotizador inteligente — Build for Business"
+              className="block h-auto w-full object-cover"
+            />
+          </TiltBannerCard>
+        </motion.div>
+
+        {/* Hero Top Copy */}
+        <div className="mx-auto max-w-3xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 150, damping: 20, delay: 0.08 }}
+          >
+            <div className="animate-float-gentle inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-semibold text-emerald-300 shadow-[0_0_24px_rgba(16,185,129,0.18)]">
+              <Sparkles className="h-3.5 w-3.5" />
+              Plataforma Inteligente de Cotizaciones para PyMEs
+            </div>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 140, damping: 20, delay: 0.14 }}
+            className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl"
+          >
+            De mensaje de WhatsApp a{" "}
+            <span className="inline-flex min-h-[1.2em] items-center justify-center align-bottom">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={ROTATING_PHRASES[phraseIndex]}
+                  initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -18, filter: "blur(6px)" }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  className="animate-gradient-text inline-block bg-gradient-to-r from-emerald-400 via-teal-200 to-blue-400 bg-clip-text text-transparent"
+                >
+                  {ROTATING_PHRASES[phraseIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </span>{" "}
+            en 15 segundos.
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 140, damping: 20, delay: 0.22 }}
+            className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg"
+          >
+            Axioma-X convierte solicitudes informales por texto, dictado de voz o
+            imagen en cotizaciones corporativas exactas con tu catálogo de precios y
+            un enlace de aprobación inmediata para tu cliente.
+          </motion.p>
+
+          {/* Primary CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 140, damping: 20, delay: 0.28 }}
+            className="mt-8 flex flex-wrap items-center justify-center gap-3"
+          >
+            <MagneticButton>
+              <Link
+                href="/app"
+                className="btn-shimmer group inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-xl shadow-emerald-500/25 transition hover:bg-emerald-400 hover:shadow-emerald-500/40 active:scale-[0.98]"
+              >
+                Probar Workspace Completo
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </MagneticButton>
+
+            <a
+              href="#demo"
+              className="group inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white transition hover:border-emerald-400/40 hover:bg-white/10 active:scale-[0.98]"
+            >
+              <Play className="h-4 w-4 text-emerald-400 transition-transform duration-300 group-hover:scale-110" />
+              Probar simulador en vivo
+            </a>
+          </motion.div>
+
+          {/* Proof metrics strip */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 140, damping: 20, delay: 0.34 }}
+            className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs text-slate-400"
+          >
+            <span className="inline-flex items-center gap-1.5">
+              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+              <strong className="text-white">&lt; 15 seg</strong> por cotización
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+              <strong className="text-white">Multimodal:</strong> Texto, Voz y Foto
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+              <strong className="text-white">PDF + Portal /q</strong> en 1 clic
+            </span>
+          </motion.div>
+        </div>
+
+        {/* Live Interactive Sandbox */}
+        <motion.div
+          initial={{ opacity: 0, y: 28, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.38 }}
+          className="mt-12 sm:mt-14"
+        >
+          <HeroSimulator />
+        </motion.div>
+      </div>
+    </section>
+  );
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
   CheckCircle2,
@@ -85,7 +86,7 @@ export function BeforeAfterSection() {
   return (
     <section
       id="como-funciona"
-      className="border-t border-white/10 bg-[#0b1120] py-20 sm:py-24"
+      className="overflow-hidden border-t border-white/10 bg-[#0b1120] py-20 sm:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <ScrollReveal>
@@ -103,91 +104,134 @@ export function BeforeAfterSection() {
               </p>
             </div>
 
-            {/* Interactive Mode Switcher */}
+            {/* Interactive Mode Switcher with spring morphing pill */}
             <div className="inline-flex rounded-2xl border border-white/10 bg-[#070b14] p-1.5">
               <button
                 type="button"
                 onClick={() => setMode("manual")}
-                className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
-                  !isAxioma
-                    ? "bg-white/10 text-white shadow-sm ring-1 ring-white/15"
-                    : "text-slate-400 hover:text-slate-200"
+                className={`relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+                  !isAxioma ? "text-white" : "text-slate-400 hover:text-slate-200"
                 }`}
               >
-                <Clock className="h-3.5 w-3.5 text-rose-400" />
-                Proceso Manual (45 min)
+                {!isAxioma && (
+                  <motion.span
+                    layoutId="mode-switch-pill"
+                    transition={{ type: "spring", stiffness: 360, damping: 28 }}
+                    className="absolute inset-0 rounded-xl bg-white/10 shadow-sm ring-1 ring-white/15"
+                  />
+                )}
+                <Clock className="relative z-10 h-3.5 w-3.5 text-rose-400" />
+                <span className="relative z-10">Proceso Manual (45 min)</span>
               </button>
+
               <button
                 type="button"
                 onClick={() => setMode("axioma")}
-                className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
-                  isAxioma
-                    ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                    : "text-slate-400 hover:text-slate-200"
+                className={`relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+                  isAxioma ? "text-slate-950" : "text-slate-400 hover:text-slate-200"
                 }`}
               >
-                <Send className="h-3.5 w-3.5" />
-                Con Axioma-X (15 seg)
+                {isAxioma && (
+                  <motion.span
+                    layoutId="mode-switch-pill"
+                    transition={{ type: "spring", stiffness: 360, damping: 28 }}
+                    className="absolute inset-0 rounded-xl bg-emerald-500 shadow-md shadow-emerald-500/20"
+                  />
+                )}
+                <Send className="relative z-10 h-3.5 w-3.5" />
+                <span className="relative z-10">Con Axioma-X (15 seg)</span>
               </button>
             </div>
           </div>
         </ScrollReveal>
 
-        {/* 4-Step Interactive Cards */}
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((item, idx) => {
-            const Icon = item.icon;
-            return (
-              <ScrollReveal key={`${mode}-${item.step}`} delay={idx * 85}>
-                <SpotlightCard
-                  spotlightColor={
-                    isAxioma
-                      ? "rgba(52, 211, 153, 0.07)"
-                      : "rgba(244, 63, 94, 0.07)"
-                  }
-                  className={`group flex h-full flex-col justify-between rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 ${
-                    isAxioma
-                      ? "border-emerald-500/25 bg-gradient-to-b from-[#0f172a] to-emerald-950/20 hover:border-emerald-400/45"
-                      : "border-white/10 bg-[#0f172a]/70 hover:border-rose-500/35"
-                  }`}
-                >
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <div
-                        className={`flex h-10 w-10 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${
-                          isAxioma
-                            ? "bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30"
-                            : "bg-white/5 text-slate-400 ring-1 ring-white/10"
-                        }`}
-                      >
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <span
-                        className={`rounded-full px-2.5 py-1 font-mono text-[11px] font-bold ${
-                          isAxioma
-                            ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
-                            : "border border-rose-500/30 bg-rose-500/10 text-rose-300"
-                        }`}
-                      >
-                        {item.time}
-                      </span>
-                    </div>
+        {/* 4-Step Interactive Cards + Traveling Energy Track */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={mode}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.25 }}
+            className="relative mt-10"
+          >
+            {isAxioma && (
+              <div
+                className="pointer-events-none absolute left-10 right-10 top-1/2 hidden h-px -translate-y-1/2 overflow-hidden bg-emerald-500/15 lg:block"
+                aria-hidden="true"
+              >
+                <span className="animate-data-packet absolute top-1/2 h-2 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-transparent via-emerald-400 to-cyan-300 shadow-[0_0_12px_rgba(52,211,153,0.9)]" />
+              </div>
+            )}
 
-                    <p className="mt-5 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                      Paso {item.step}
-                    </p>
-                    <h3 className="mt-1 text-base font-bold text-white">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                      {item.desc}
-                    </p>
-                  </div>
-                </SpotlightCard>
-              </ScrollReveal>
-            );
-          })}
-        </div>
+            <div className="relative z-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {steps.map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <motion.div
+                    key={item.step}
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 200,
+                      damping: 22,
+                      delay: idx * 0.07,
+                    }}
+                    whileHover={{ y: -6, scale: 1.015 }}
+                    className="h-full"
+                  >
+                    <SpotlightCard
+                      spotlightColor={
+                        isAxioma
+                          ? "rgba(52, 211, 153, 0.07)"
+                          : "rgba(244, 63, 94, 0.07)"
+                      }
+                      className={`group flex h-full flex-col justify-between rounded-2xl border p-6 transition-colors duration-300 ${
+                        isAxioma
+                          ? "border-emerald-500/25 bg-gradient-to-b from-[#0f172a] to-emerald-950/20 hover:border-emerald-400/45"
+                          : "border-white/10 bg-[#0f172a]/70 hover:border-rose-500/35"
+                      }`}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between">
+                          <div
+                            className={`flex h-10 w-10 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${
+                              isAxioma
+                                ? "bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30"
+                                : "bg-white/5 text-slate-400 ring-1 ring-white/10"
+                            }`}
+                          >
+                            <Icon className="h-5 w-5" />
+                          </div>
+                          <span
+                            className={`rounded-full px-2.5 py-1 font-mono text-[11px] font-bold ${
+                              isAxioma
+                                ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                                : "border border-rose-500/30 bg-rose-500/10 text-rose-300"
+                            }`}
+                          >
+                            {item.time}
+                          </span>
+                        </div>
+
+                        <p className="mt-5 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                          Paso {item.step}
+                        </p>
+                        <h3 className="mt-1 text-base font-bold text-white">
+                          {item.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </SpotlightCard>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+        </AnimatePresence>
 
         {/* Bottom Summary Strip */}
         <ScrollReveal delay={160}>

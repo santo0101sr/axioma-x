@@ -298,12 +298,90 @@
   will-change: transform;
 }
 
+@keyframes marqueeScrollReverse {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-marquee-reverse {
+  display: flex;
+  width: max-content;
+  animation: marqueeScrollReverse 32s linear infinite;
+  will-change: transform;
+}
+
+.marquee-container:hover .animate-marquee-reverse {
+  animation-play-state: paused;
+}
+
+@keyframes eqBounce {
+  0%,
+  100% {
+    transform: scaleY(0.28);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-eq {
+  transform-origin: bottom;
+  animation: eqBounce 0.9s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes dataPacket {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-data-packet {
+  animation: dataPacket 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: left, opacity;
+}
+
+@keyframes pdfProgress {
+  0% {
+    width: 12%;
+  }
+  65% {
+    width: 100%;
+  }
+  85%,
+  100% {
+    width: 100%;
+    opacity: 0.85;
+  }
+}
+
+.animate-pdf-progress {
+  animation: pdfProgress 3.2s ease-in-out infinite;
+  will-change: width, opacity;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-aurora,
   .animate-aurora-reverse,
   .animate-gradient-text,
   .btn-shimmer::after,
   .animate-marquee,
+  .animate-marquee-reverse,
   .animate-float-gentle,
   .animate-float-alt,
   .animate-scan-beam,
@@ -311,7 +389,10 @@
   .animate-flow-arrow,
   .animate-beam-h,
   .animate-beam-v,
-  .animate-border-spin {
+  .animate-border-spin,
+  .animate-eq,
+  .animate-data-packet,
+  .animate-pdf-progress {
     animation: none !important;
   }
 }

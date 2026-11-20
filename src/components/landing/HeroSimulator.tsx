@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   ArrowUpRight,
   CheckCircle2,
@@ -197,23 +198,40 @@ export function HeroSimulator() {
           <span className="mr-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
             Rubro:
           </span>
-          {INDUSTRY_PRESETS.map((preset) => (
-            <button
-              key={preset.id}
-              type="button"
-              onClick={() => handlePresetChange(preset.id)}
-              className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
-                presetId === preset.id
-                  ? "bg-emerald-500 text-slate-950 shadow-sm shadow-emerald-500/30"
-                  : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
-              }`}
-            >
-              {preset.label}
-            </button>
-          ))}
+          {INDUSTRY_PRESETS.map((preset) => {
+            const isSelected = presetId === preset.id;
+            return (
+              <button
+                key={preset.id}
+                type="button"
+                onClick={() => handlePresetChange(preset.id)}
+                className={`relative rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
+                  isSelected
+                    ? "text-slate-950"
+                    : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                {isSelected && (
+                  <motion.span
+                    layoutId="hero-preset-pill"
+                    transition={{ type: "spring", stiffness: 360, damping: 28 }}
+                    className="absolute inset-0 rounded-lg bg-emerald-500 shadow-sm shadow-emerald-500/30"
+                  />
+                )}
+                <span className="relative z-10">{preset.label}</span>
+              </button>
+            );
+          })}
         </div>
 
-        <div className="grid gap-0 lg:grid-cols-12">
+        <div className="relative grid gap-0 lg:grid-cols-12">
+          {/* Animated traveling pulse indicator between input & quote panels */}
+          <div
+            className="pointer-events-none hidden lg:block lg:absolute lg:inset-y-4 lg:left-[41.666%] lg:z-10 lg:w-px lg:-translate-x-1/2 lg:bg-white/10"
+            aria-hidden="true"
+          >
+            <div className="animate-beam-v h-20 w-full bg-gradient-to-b from-transparent via-emerald-400 to-transparent" />
+          </div>
           {/* Left: WhatsApp-style informal message input */}
           <div className="flex flex-col justify-between border-b border-white/10 p-4 sm:p-5 lg:col-span-5 lg:border-b-0 lg:border-r">
             <div>
@@ -337,10 +355,17 @@ export function HeroSimulator() {
                   {/* Items */}
                   <div key={quote.id} className="mt-2.5 divide-y divide-white/5">
                     {quote.items.slice(0, 4).map((item, idx) => (
-                      <div
+                      <motion.div
                         key={item.id}
-                        style={{ animationDelay: `${idx * 65}ms` }}
-                        className="animate-fade-in-up flex items-center justify-between gap-3 py-1.5 text-xs"
+                        initial={{ opacity: 0, x: 14 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 260,
+                          damping: 24,
+                          delay: idx * 0.06,
+                        }}
+                        className="flex items-center justify-between gap-3 py-1.5 text-xs"
                       >
                         <div className="min-w-0">
                           <p className="truncate font-semibold text-slate-200">
@@ -354,7 +379,7 @@ export function HeroSimulator() {
                         <span className="shrink-0 font-mono text-xs font-bold text-white">
                           {formatMoney(item.quantity * item.unitPrice, quote.currency)}
                         </span>
-                      </div>
+                      </motion.div>
                     ))}
                     {quote.items.length === 0 && (
                       <p className="py-3 text-center text-xs text-slate-500">
