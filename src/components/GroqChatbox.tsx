@@ -3,17 +3,44 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import {
-  Bot,
   Check,
   Copy,
   Loader2,
-  MessageSquare,
   Send,
-  Sparkles,
   Trash2,
   X,
   Zap,
 } from "lucide-react";
+
+function AxiomaMarkIcon({
+  className = "h-5 w-5",
+  accentClassName = "text-sky-200",
+}: {
+  className?: string;
+  accentClassName?: string;
+}) {
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Outer geometric "A" frame matching the Axioma-X brand mark */}
+      <path
+        d="M12.6 4.5C13.1 3.55 14.05 3 15.1 3H16.9C17.95 3 18.9 3.55 19.4 4.5L28.4 25.5C28.85 26.55 28.08 27.7 26.95 27.7H23.2C22.4 27.7 21.68 27.22 21.38 26.48L16 12.8L10.62 26.48C10.32 27.22 9.6 27.7 8.8 27.7H5.05C3.92 27.7 3.15 26.55 3.6 25.5L12.6 4.5Z"
+        fill="currentColor"
+      />
+      {/* Interlocking "X" crossbar */}
+      <path
+        d="M11.6 18.2L14.2 18.2L16 20.65L17.8 18.2L20.4 18.2L17.45 22.15L20.9 26.8C21.15 27.15 20.9 27.7 20.45 27.7H17.9L16 25.05L14.1 27.7H11.55C11.1 27.7 10.85 27.15 11.1 26.8L14.55 22.15L11.6 18.2Z"
+        fill="currentColor"
+        className={accentClassName}
+      />
+    </svg>
+  );
+}
 
 interface ChatMessage {
   id: string;
@@ -157,8 +184,8 @@ export function GroqChatbox() {
           {/* Header */}
           <div className="flex items-center justify-between border-b border-slate-200/80 bg-slate-100/80 px-4 py-3 dark:border-white/10 dark:bg-slate-950/70">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/15 ring-1 ring-blue-500/30 dark:from-blue-500/25 dark:to-cyan-500/20 dark:ring-blue-400/30">
-                <Sparkles className="h-4 w-4 text-blue-600 dark:text-sky-300" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-sky-500 text-white shadow-md shadow-blue-600/20 ring-1 ring-blue-400/30">
+                <AxiomaMarkIcon className="h-5 w-5" accentClassName="text-sky-200" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
@@ -202,7 +229,10 @@ export function GroqChatbox() {
               <div className="flex h-full flex-col justify-between gap-4">
                 <div className="rounded-xl border border-slate-200/90 bg-white/80 p-4 shadow-sm dark:border-white/10 dark:bg-white/[0.03] dark:shadow-none">
                   <div className="flex items-center gap-2 text-xs font-semibold text-blue-700 dark:text-sky-300">
-                    <Bot className="h-4 w-4" />
+                    <AxiomaMarkIcon
+                      className="h-4 w-4 text-blue-600 dark:text-blue-400"
+                      accentClassName="text-sky-500 dark:text-sky-200"
+                    />
                     ¡Hola! Soy Axioma AI
                   </div>
                   <p className="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
@@ -258,8 +288,8 @@ export function GroqChatbox() {
                         >
                           {copiedId === msg.id ? (
                             <>
-                              <Check className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
-                              <span className="text-emerald-600 dark:text-emerald-400">Copiado</span>
+                              <Check className="h-3 w-3 text-blue-600 dark:text-sky-400" />
+                              <span className="text-blue-600 dark:text-sky-400">Copiado</span>
                             </>
                           ) : (
                             <>
@@ -337,7 +367,7 @@ export function GroqChatbox() {
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={isOpen ? "Cerrar asistente Axioma AI" : "Abrir asistente Axioma AI"}
-        className="group relative flex items-center gap-2 rounded-full border border-blue-400/30 bg-gradient-to-r from-blue-600 to-sky-500 px-4 py-3 text-xs font-bold text-white shadow-xl shadow-blue-600/30 transition hover:scale-[1.03] hover:shadow-blue-500/50 active:scale-[0.98]"
+        className="group relative flex items-center gap-2 rounded-full border border-blue-400/30 bg-gradient-to-r from-blue-600 to-sky-500 px-4 py-2.5 text-xs font-bold text-white shadow-xl shadow-blue-600/30 transition hover:scale-[1.03] hover:shadow-blue-500/50 active:scale-[0.98]"
       >
         {isOpen ? (
           <>
@@ -346,7 +376,9 @@ export function GroqChatbox() {
           </>
         ) : (
           <>
-            <MessageSquare className="h-4 w-4 transition-transform group-hover:scale-110" />
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/25 transition-transform duration-200 group-hover:scale-110">
+              <AxiomaMarkIcon className="h-4 w-4 text-white" accentClassName="text-sky-200" />
+            </span>
             <span>Axioma AI</span>
             <span className="rounded-full bg-white/20 px-1.5 py-0.5 font-mono text-[10px] font-semibold">
               IA
