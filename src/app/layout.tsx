@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { GroqChatbox } from "@/components/GroqChatbox";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default function RootLayout({
     <html lang="es" className={`scroll-smooth ${jakarta.variable} ${jetbrains.variable}`}>
       <body className="min-h-screen font-sans selection:bg-blue-500/25 selection:text-sky-200">
         {children}
+        <GroqChatbox />
       </body>
     </html>
   );
