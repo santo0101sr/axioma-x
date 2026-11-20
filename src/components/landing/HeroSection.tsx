@@ -66,7 +66,7 @@ export function HeroSection() {
   return (
     <section
       ref={heroRef}
-      className="bg-hero-grid relative overflow-hidden bg-slate-950 pb-20 pt-14 text-white sm:pb-28 sm:pt-20"
+      className="relative overflow-hidden bg-slate-950/45 pb-20 pt-14 text-white sm:pb-28 sm:pt-20"
     >
       <HeroInteractiveBackdrop />
 

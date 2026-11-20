@@ -75,7 +75,7 @@ export function ArchitectureBento() {
   return (
     <section
       id="arquitectura"
-      className="overflow-hidden border-t border-white/10 bg-[#070b14] py-20 sm:py-24"
+      className="overflow-hidden border-t border-white/10 bg-[#070b14]/84 py-20 backdrop-blur-[1px] sm:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <ScrollReveal className="max-w-2xl">

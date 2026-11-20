@@ -225,189 +225,6 @@ export function TiltBannerCard({ children, className = "" }: TiltBannerCardProps
   );
 }
 
-interface Particle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  r: number;
-  color: string;
-}
-
-const PARTICLE_COLORS = ["#34d399", "#4f6fff", "#38bdf8"];
-
-export function KineticCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    let width = 0;
-    let height = 0;
-    let rafId = 0;
-    const mouse = { x: -9999, y: -9999, active: false };
-    const particles: Particle[] = [];
-
-    const initParticles = (w: number, h: number) => {
-      particles.length = 0;
-      const count = 72;
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.55,
-          vy: (Math.random() - 0.5) * 0.55,
-          r: 1.5 + Math.random() * 1.1,
-          color: PARTICLE_COLORS[i % PARTICLE_COLORS.length],
-        });
-      }
-    };
-
-    const resize = () => {
-      const parent = canvas.parentElement;
-      if (!parent) return;
-      const rect = parent.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = Math.max(1, rect.width);
-      height = Math.max(1, rect.height);
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      if (particles.length === 0) {
-        initParticles(width, height);
-      }
-    };
-
-    resize();
-
-    const ro =
-      typeof ResizeObserver !== "undefined" ? new ResizeObserver(resize) : null;
-    if (ro && canvas.parentElement) ro.observe(canvas.parentElement);
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      const mx = e.clientX - rect.left;
-      const my = e.clientY - rect.top;
-      if (mx >= 0 && mx <= rect.width && my >= 0 && my <= rect.height) {
-        mouse.x = mx;
-        mouse.y = my;
-        mouse.active = true;
-      } else {
-        mouse.active = false;
-      }
-    };
-
-    const handleMouseLeave = () => {
-      mouse.active = false;
-    };
-
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    document.addEventListener("mouseleave", handleMouseLeave);
-
-    const drawFrame = () => {
-      if (document.hidden) {
-        rafId = requestAnimationFrame(drawFrame);
-        return;
-      }
-
-      ctx.clearRect(0, 0, width, height);
-
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-
-        if (!prefersReducedMotion) {
-          p.x += p.vx;
-          p.y += p.vy;
-
-          if (p.x < 0) p.x = width;
-          if (p.x > width) p.x = 0;
-          if (p.y < 0) p.y = height;
-          if (p.y > height) p.y = 0;
-
-          if (mouse.active) {
-            const dx = mouse.x - p.x;
-            const dy = mouse.y - p.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist > 8 && dist < 155) {
-              p.x += (dx / dist) * 0.22;
-              p.y += (dy / dist) * 0.22;
-            }
-          }
-        }
-
-        // Draw particle dot
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = 0.85;
-        ctx.fill();
-
-        // Crisp constellation lines between nearby particles
-        for (let j = i + 1; j < particles.length; j++) {
-          const q = particles[j];
-          const dx = p.x - q.x;
-          const dy = p.y - q.y;
-          const dist = Math.hypot(dx, dy);
-          if (dist < 155) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = i % 2 === 0 ? "#34d399" : "#4f6fff";
-            ctx.globalAlpha = (1 - dist / 155) * 0.36;
-            ctx.lineWidth = 0.9;
-            ctx.stroke();
-          }
-        }
-
-        // Crisp geometric filaments connecting nearby particles to mouse cursor
-        if (mouse.active) {
-          const mdx = p.x - mouse.x;
-          const mdy = p.y - mouse.y;
-          const mdist = Math.hypot(mdx, mdy);
-          if (mdist < 175) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = p.color;
-            ctx.globalAlpha = (1 - mdist / 175) * 0.55;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
-      }
-
-      ctx.globalAlpha = 1;
-      if (!prefersReducedMotion) {
-        rafId = requestAnimationFrame(drawFrame);
-      }
-    };
-
-    drawFrame();
-
-    return () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      ro?.disconnect();
-      window.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="pointer-events-none absolute inset-0 h-full w-full"
-      aria-hidden="true"
-    />
-  );
-}
-
 const GRID_SPARKS = [
   { top: "120px", left: "20%", color: "bg-emerald-400", delay: "0s" },
   { top: "280px", left: "80%", color: "bg-blue-400", delay: "0.9s" },
@@ -416,11 +233,43 @@ const GRID_SPARKS = [
 ];
 
 export function HeroInteractiveBackdrop() {
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const gridX = useSpring(rawX, { stiffness: 80, damping: 24 });
+  const gridY = useSpring(rawY, { stiffness: 80, damping: 24 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const nx = (e.clientX / Math.max(1, window.innerWidth)) * 2 - 1;
+      const ny = (e.clientY / Math.max(1, window.innerHeight)) * 2 - 1;
+      rawX.set(-nx * 16);
+      rawY.set(-ny * 12);
+    };
+
+    const handleMouseLeave = () => {
+      rawX.set(0);
+      rawY.set(0);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [rawX, rawY]);
+
   return (
     <div
       className="pointer-events-none absolute inset-0 overflow-hidden"
       aria-hidden="true"
     >
+      {/* Mouse-driven 3D parallax architectural grid */}
+      <motion.div
+        style={{ x: gridX, y: gridY }}
+        className="bg-hero-grid absolute -inset-6"
+      />
+
       {/* Subtle radial vignette softening the edges of the architectural grid */}
       <div
         className="absolute inset-0"
@@ -429,9 +278,6 @@ export function HeroInteractiveBackdrop() {
             "radial-gradient(ellipse 80% 60% at 50% 15%, transparent 45%, rgba(2, 6, 23, 0.85) 100%)",
         }}
       />
-
-      {/* Interactive particle constellation canvas */}
-      <KineticCanvas />
 
       {/* Seamless high-blur atmospheric aurora orbs */}
       <div className="animate-aurora absolute -top-36 left-1/4 h-[460px] w-[560px] rounded-full bg-[#2546f0]/16 blur-[160px]" />

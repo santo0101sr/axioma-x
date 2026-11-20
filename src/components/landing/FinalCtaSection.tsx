@@ -10,7 +10,7 @@ interface FinalCtaSectionProps {
 
 export function FinalCtaSection({ samplePortalHref }: FinalCtaSectionProps) {
   return (
-    <section className="relative overflow-hidden bg-slate-950 py-20 text-white sm:py-24">
+    <section className="relative overflow-hidden bg-slate-950/65 py-20 text-white sm:py-24">
       <div
         className="animate-aurora pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-[#2546f0]/20 blur-[120px]"
         aria-hidden="true"
