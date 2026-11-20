@@ -4,6 +4,7 @@ import { INDUSTRY_PRESETS, INITIAL_QUOTES } from "@/data/presets";
 import { encodeSharedQuote } from "@/lib/share-link";
 import { AxiomaLogo } from "@/components/landing/AxiomaLogo";
 import { AntigravityField } from "@/components/landing/AntigravityField";
+import { MagneticCursor } from "@/components/landing/MagneticCursor";
 import {
   MarqueeStrip,
   ScrollProgressBar,
@@ -25,6 +26,7 @@ export default function LandingPage() {
     <div className="relative min-h-screen bg-[#070b14] text-slate-100">
       <ScrollProgressBar />
       <AntigravityField />
+      <MagneticCursor />
 
       <div className="relative z-10">
         {/* Sticky Dark Glassmorphic Navbar */}

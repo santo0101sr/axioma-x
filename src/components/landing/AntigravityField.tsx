@@ -24,6 +24,12 @@ interface RippleWave {
   alpha: number;
 }
 
+interface TrailPoint {
+  x: number;
+  y: number;
+  life: number;
+}
+
 const COLORS = [
   "#34d399", // mint emerald
   "#4f6fff", // cobalt blue
@@ -61,6 +67,7 @@ export function AntigravityField() {
 
     const particles: AntigravityParticle[] = [];
     const ripples: RippleWave[] = [];
+    const trail: TrailPoint[] = [];
 
     const buildParticles = (w: number, h: number) => {
       particles.length = 0;
@@ -122,6 +129,12 @@ export function AntigravityField() {
       mouse.normX = (nx / Math.max(1, width)) * 2 - 1;
       mouse.normY = (ny / Math.max(1, height)) * 2 - 1;
       mouse.active = true;
+
+      const last = trail[trail.length - 1];
+      if (!last || Math.hypot(nx - last.x, ny - last.y) > 3) {
+        trail.push({ x: nx, y: ny, life: 1 });
+        if (trail.length > 16) trail.shift();
+      }
     };
 
     const handleMouseLeave = () => {
@@ -131,7 +144,6 @@ export function AntigravityField() {
     };
 
     const handleClick = (e: MouseEvent) => {
-      if (prefersReducedMotion) return;
       ripples.push({
         x: e.clientX,
         y: e.clientY,
@@ -163,13 +175,14 @@ export function AntigravityField() {
 
       const energized: Array<{ p: AntigravityParticle; energy: number }> = [];
       const radiusLimit = 220;
+      const waveScale = prefersReducedMotion ? 0.55 : 1;
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
         // Organic zero-gravity wave + subtle depth parallax from cursor
-        const waveX = Math.sin(t * 0.7 + p.phase) * 14 * p.z;
-        const waveY = Math.cos(t * 0.55 + p.phase * 1.3) * 12 * p.z;
+        const waveX = Math.sin(t * 0.7 + p.phase) * 14 * p.z * waveScale;
+        const waveY = Math.cos(t * 0.55 + p.phase * 1.3) * 12 * p.z * waveScale;
         const paraX = mouse.normX * -24 * p.z;
         const paraY = mouse.normY * -16 * p.z;
 
@@ -178,52 +191,47 @@ export function AntigravityField() {
 
         let energy = 0;
 
-        if (!prefersReducedMotion) {
-          // Spring pull back toward drifting anchor target
-          p.vx += (tx - p.x) * 0.028;
-          p.vy += (ty - p.y) * 0.028;
+        // Spring pull back toward drifting anchor target
+        p.vx += (tx - p.x) * 0.028;
+        p.vy += (ty - p.y) * 0.028;
 
-          // Magnetic fluid cursor parting + tangential swirl + wake drag
-          if (mouse.active) {
-            const dx = p.x - mouse.x;
-            const dy = p.y - mouse.y;
-            const dist = Math.hypot(dx, dy);
+        // Magnetic fluid cursor parting + tangential swirl + wake drag
+        if (mouse.active) {
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const dist = Math.hypot(dx, dy);
 
-            if (dist < radiusLimit && dist > 0.001) {
-              const force = (1 - dist / radiusLimit) * p.z;
-              energy = force;
-              const nx = dx / dist;
-              const ny = dy / dist;
+          if (dist < radiusLimit && dist > 0.001) {
+            const force = (1 - dist / radiusLimit) * p.z;
+            energy = force;
+            const nx = dx / dist;
+            const ny = dy / dist;
 
-              // Antigravity radial parting + gentle counter-clockwise swirl + wake
-              p.vx += nx * force * 2.2 + -ny * force * 1.15 + mouse.vx * force * 0.22;
-              p.vy += ny * force * 2.2 + nx * force * 1.15 + mouse.vy * force * 0.22;
-            }
+            // Antigravity radial parting + gentle counter-clockwise swirl + wake
+            p.vx += nx * force * 2.2 + -ny * force * 1.15 + mouse.vx * force * 0.22;
+            p.vy += ny * force * 2.2 + nx * force * 1.15 + mouse.vy * force * 0.22;
           }
-
-          // Click shockwave impulse
-          for (let rIdx = 0; rIdx < ripples.length; rIdx++) {
-            const rp = ripples[rIdx];
-            const rx = p.x - rp.x;
-            const ry = p.y - rp.y;
-            const rDist = Math.hypot(rx, ry);
-            const band = Math.abs(rDist - rp.radius);
-            if (band < 48 && rDist > 0.001) {
-              const push = (1 - band / 48) * rp.alpha * 3.8 * p.z;
-              p.vx += (rx / rDist) * push;
-              p.vy += (ry / rDist) * push;
-              energy = Math.max(energy, (1 - band / 48) * 0.85);
-            }
-          }
-
-          p.vx *= 0.88;
-          p.vy *= 0.88;
-          p.x += p.vx;
-          p.y += p.vy;
-        } else {
-          p.x = tx;
-          p.y = ty;
         }
+
+        // Click shockwave impulse
+        for (let rIdx = 0; rIdx < ripples.length; rIdx++) {
+          const rp = ripples[rIdx];
+          const rx = p.x - rp.x;
+          const ry = p.y - rp.y;
+          const rDist = Math.hypot(rx, ry);
+          const band = Math.abs(rDist - rp.radius);
+          if (band < 48 && rDist > 0.001) {
+            const push = (1 - band / 48) * rp.alpha * 3.8 * p.z;
+            p.vx += (rx / rDist) * push;
+            p.vy += (ry / rDist) * push;
+            energy = Math.max(energy, (1 - band / 48) * 0.85);
+          }
+        }
+
+        p.vx *= 0.88;
+        p.vy *= 0.88;
+        p.x += p.vx;
+        p.y += p.vy;
 
         const speed = Math.hypot(p.vx, p.vy);
         const angle =
@@ -266,6 +274,30 @@ export function AntigravityField() {
         }
       }
 
+      // Subtle fading silk comet trail following fast mouse sweeps
+      for (let i = trail.length - 1; i >= 0; i--) {
+        trail[i].life -= 0.032;
+        if (trail[i].life <= 0) {
+          trail.splice(i, 1);
+        }
+      }
+
+      if (trail.length > 1) {
+        ctx.lineCap = "round";
+        for (let i = 1; i < trail.length; i++) {
+          const prev = trail[i - 1];
+          const curr = trail[i];
+          const ratio = i / trail.length;
+          ctx.beginPath();
+          ctx.moveTo(prev.x, prev.y);
+          ctx.lineTo(curr.x, curr.y);
+          ctx.lineWidth = Math.max(0.6, ratio * curr.life * 2.6);
+          ctx.strokeStyle = i % 2 === 0 ? "#34d399" : "#4f6fff";
+          ctx.globalAlpha = curr.life * ratio * 0.42;
+          ctx.stroke();
+        }
+      }
+
       // Render expanding click ripples cleanly
       for (let i = ripples.length - 1; i >= 0; i--) {
         const rp = ripples[i];
@@ -285,9 +317,7 @@ export function AntigravityField() {
       }
 
       ctx.globalAlpha = 1;
-      if (!prefersReducedMotion) {
-        rafId = requestAnimationFrame(renderFrame);
-      }
+      rafId = requestAnimationFrame(renderFrame);
     };
 
     renderFrame(performance.now());
