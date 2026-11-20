@@ -272,10 +272,17 @@ export function HeroInteractiveBackdrop() {
 
       {/* Subtle radial vignette softening the edges of the architectural grid */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 hidden dark:block"
         style={{
           background:
             "radial-gradient(ellipse 80% 60% at 50% 15%, transparent 45%, rgba(2, 6, 23, 0.85) 100%)",
+        }}
+      />
+      <div
+        className="absolute inset-0 block dark:hidden"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 60% at 50% 15%, transparent 45%, rgba(238, 242, 247, 0.85) 100%)",
         }}
       />
 
@@ -393,13 +400,13 @@ const MARQUEE_ROW_TWO = [
 
 export function MarqueeStrip() {
   return (
-    <div className="marquee-container relative overflow-hidden border-y border-white/10 bg-[#0b1120]/90 py-4 backdrop-blur-sm">
+    <div className="marquee-container relative overflow-hidden border-y border-slate-200/80 bg-[#e6ecf4]/85 py-4 backdrop-blur-sm transition-colors duration-300 dark:border-white/10 dark:bg-[#0b1120]/90">
       <div
-        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#070b14] to-transparent"
+        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#eef2f7] to-transparent dark:from-[#070b14]"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#070b14] to-transparent"
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#eef2f7] to-transparent dark:from-[#070b14]"
         aria-hidden="true"
       />
 
@@ -411,9 +418,9 @@ export function MarqueeStrip() {
               {MARQUEE_ROW_ONE.map((item) => (
                 <div
                   key={`r1-${trackIdx}-${item}`}
-                  className="inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-semibold tracking-wide text-slate-300 transition hover:border-blue-400/40 hover:bg-blue-500/10 hover:text-white"
+                  className="inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-full border border-slate-300/80 bg-white/80 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-slate-700 transition hover:border-blue-400/50 hover:bg-blue-50 hover:text-blue-950 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-300 dark:hover:border-blue-400/40 dark:hover:bg-blue-500/10 dark:hover:text-white"
                 >
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.65)] dark:bg-sky-400 dark:shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
                   <span>{item}</span>
                 </div>
               ))}
@@ -428,9 +435,9 @@ export function MarqueeStrip() {
               {MARQUEE_ROW_TWO.map((item) => (
                 <div
                   key={`r2-${trackIdx}-${item}`}
-                  className="inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-semibold tracking-wide text-slate-400 transition hover:border-blue-400/40 hover:bg-blue-500/10 hover:text-white"
+                  className="inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-full border border-slate-300/80 bg-white/70 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-slate-600 transition hover:border-blue-400/50 hover:bg-blue-50 hover:text-blue-950 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-400 dark:hover:border-blue-400/40 dark:hover:bg-blue-500/10 dark:hover:text-white"
                 >
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-400 shadow-[0_0_8px_rgba(79,111,255,0.85)]" />
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-600 shadow-[0_0_8px_rgba(37,99,235,0.65)] dark:bg-blue-400 dark:shadow-[0_0_8px_rgba(79,111,255,0.85)]" />
                   <span>{item}</span>
                 </div>
               ))}

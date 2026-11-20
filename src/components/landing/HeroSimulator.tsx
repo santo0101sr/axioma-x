@@ -176,26 +176,26 @@ export function HeroSimulator() {
         aria-hidden="true"
       />
 
-      <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-slate-900/90 shadow-2xl shadow-black/50 backdrop-blur-xl">
+      <div className="relative overflow-hidden rounded-2xl border border-slate-200/90 bg-white/95 shadow-2xl shadow-slate-900/10 backdrop-blur-xl dark:border-white/15 dark:bg-slate-900/90 dark:shadow-black/50">
         {/* Window top bar */}
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 bg-slate-950/70 px-4 py-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 bg-slate-100/90 px-4 py-3 dark:border-white/10 dark:bg-slate-950/70">
           <div className="flex items-center gap-2">
             <span className="h-2.5 w-2.5 rounded-full bg-rose-500/80" />
             <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
             <span className="h-2.5 w-2.5 rounded-full bg-blue-400/80" />
-            <span className="ml-2 font-mono text-[11px] font-medium text-slate-400">
+            <span className="ml-2 font-mono text-[11px] font-medium text-slate-500 dark:text-slate-400">
               axioma-x / live-sandbox
             </span>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/15 px-2.5 py-0.5 text-[11px] font-semibold text-sky-300 ring-1 ring-blue-400/30">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sky-400" />
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-blue-700 ring-1 ring-blue-500/30 dark:bg-blue-500/15 dark:text-sky-300 dark:ring-blue-400/30">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-500 dark:bg-sky-400" />
             Motor Activo ({elapsedMs} ms)
           </span>
         </div>
 
         {/* Industry selector pills */}
-        <div className="flex flex-wrap items-center gap-1.5 border-b border-white/10 bg-slate-900/60 px-4 py-2.5">
-          <span className="mr-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+        <div className="flex flex-wrap items-center gap-1.5 border-b border-slate-200/80 bg-slate-50/90 px-4 py-2.5 dark:border-white/10 dark:bg-slate-900/60">
+          <span className="mr-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Rubro:
           </span>
           {INDUSTRY_PRESETS.map((preset) => {
@@ -208,7 +208,7 @@ export function HeroSimulator() {
                 className={`relative rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                   isSelected
                     ? "text-white"
-                    : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+                    : "bg-slate-200/70 text-slate-700 hover:bg-slate-200 hover:text-slate-950 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white"
                 }`}
               >
                 {isSelected && (
@@ -227,20 +227,20 @@ export function HeroSimulator() {
         <div className="relative grid gap-0 lg:grid-cols-12">
           {/* Animated traveling pulse indicator between input & quote panels */}
           <div
-            className="pointer-events-none hidden lg:block lg:absolute lg:inset-y-4 lg:left-[41.666%] lg:z-10 lg:w-px lg:-translate-x-1/2 lg:bg-white/10"
+            className="pointer-events-none hidden lg:block lg:absolute lg:inset-y-4 lg:left-[41.666%] lg:z-10 lg:w-px lg:-translate-x-1/2 lg:bg-slate-200 dark:lg:bg-white/10"
             aria-hidden="true"
           >
             <div className="animate-beam-v h-20 w-full bg-gradient-to-b from-transparent via-blue-400 to-transparent" />
           </div>
           {/* Left: WhatsApp-style informal message input */}
-          <div className="flex flex-col justify-between border-b border-white/10 p-4 sm:p-5 lg:col-span-5 lg:border-b-0 lg:border-r">
+          <div className="flex flex-col justify-between border-b border-slate-200/80 p-4 dark:border-white/10 sm:p-5 lg:col-span-5 lg:border-b-0 lg:border-r">
             <div>
               <div className="flex items-center justify-between">
-                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-400">
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
                   <MessageSquare className="h-3.5 w-3.5" />
                   1. Solicitud del cliente
                 </div>
-                <span className="text-[11px] text-slate-400">Editable</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400">Editable</span>
               </div>
 
               <textarea
@@ -248,7 +248,7 @@ export function HeroSimulator() {
                 onChange={(e) => setMessage(e.target.value)}
                 rows={6}
                 placeholder="Pega un mensaje informal de WhatsApp..."
-                className="mt-2.5 w-full resize-none rounded-xl border border-white/10 bg-slate-950/80 p-3 text-xs leading-relaxed text-slate-100 placeholder-slate-500 outline-none transition focus:border-blue-400/60 focus:ring-2 focus:ring-blue-500/20"
+                className="mt-2.5 w-full resize-none rounded-xl border border-slate-300/90 bg-slate-50 p-3 text-xs leading-relaxed text-slate-900 placeholder-slate-400 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/10 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-blue-400/60"
               />
 
               {activePreset.sampleMessages.length > 1 && (
@@ -261,7 +261,7 @@ export function HeroSimulator() {
                         setMessage(sample.text);
                         void runExtraction(sample.text, activePreset.id);
                       }}
-                      className="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-[11px] font-medium text-slate-300 transition hover:border-blue-400/40 hover:bg-blue-500/10 hover:text-sky-200"
+                      className="rounded-md border border-slate-200 bg-slate-100 px-2 py-1 text-[11px] font-medium text-slate-700 transition hover:border-blue-400/50 hover:bg-blue-50 hover:text-blue-800 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:border-blue-400/40 dark:hover:bg-blue-500/10 dark:hover:text-sky-200"
                     >
                       Ejemplo: {sample.title}
                     </button>
@@ -270,7 +270,7 @@ export function HeroSimulator() {
               )}
 
               {error && (
-                <p className="mt-2 rounded-lg bg-rose-500/15 px-2.5 py-1.5 text-[11px] text-rose-300">
+                <p className="mt-2 rounded-lg bg-rose-500/15 px-2.5 py-1.5 text-[11px] text-rose-600 dark:text-rose-300">
                   {error}
                 </p>
               )}
@@ -297,9 +297,9 @@ export function HeroSimulator() {
                   </>
                 )}
               </button>
-              <p className="text-center text-[11px] text-slate-400">
+              <p className="text-center text-[11px] text-slate-500 dark:text-slate-400">
                 Catálogo activo:{" "}
-                <span className="font-medium text-slate-200">
+                <span className="font-medium text-slate-800 dark:text-slate-200">
                   {activePreset.business.name}
                 </span>{" "}
                 ({activePreset.catalog.length} servicios)
@@ -308,20 +308,20 @@ export function HeroSimulator() {
           </div>
 
           {/* Right: Live formal quote output */}
-          <div className="flex flex-col justify-between bg-slate-950/40 p-4 sm:p-5 lg:col-span-7">
+          <div className="flex flex-col justify-between bg-slate-50/70 p-4 dark:bg-slate-950/40 sm:p-5 lg:col-span-7">
             <div>
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-400">
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
                   <Sparkles className="h-3.5 w-3.5" />
                   2. Cotización estructurada
                 </div>
-                <span className="font-mono text-[11px] text-slate-400">
+                <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400">
                   {quote.quoteNumber}
                 </span>
               </div>
 
-              {/* Mini executive dark quote card */}
-              <div className="relative mt-2.5 overflow-hidden rounded-xl border border-white/10 bg-[#0b1120] p-4 text-slate-100 shadow-lg">
+              {/* Mini executive quote card */}
+              <div className="relative mt-2.5 overflow-hidden rounded-xl border border-slate-200/90 bg-white p-4 text-slate-900 shadow-sm dark:border-white/10 dark:bg-[#0b1120] dark:text-slate-100 dark:shadow-lg">
                 {loading && (
                   <div
                     className="animate-scan-beam pointer-events-none absolute inset-x-0 z-20 h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent shadow-[0_0_20px_rgba(59,130,246,0.9)]"
@@ -333,27 +333,27 @@ export function HeroSimulator() {
                     loading ? "opacity-60" : "opacity-100"
                   }`}
                 >
-                  <div className="flex items-start justify-between gap-2 border-b border-white/10 pb-2.5">
+                  <div className="flex items-start justify-between gap-2 border-b border-slate-200/80 pb-2.5 dark:border-white/10">
                     <div>
-                      <p className="text-xs font-extrabold text-white">
+                      <p className="text-xs font-extrabold text-slate-900 dark:text-white">
                         {activePreset.business.name}
                       </p>
-                      <p className="text-[11px] text-slate-400">
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400">
                         Para:{" "}
-                        <span className="font-semibold text-slate-200">
+                        <span className="font-semibold text-slate-800 dark:text-slate-200">
                           {quote.clientName}
                         </span>
                         {quote.clientPhone ? ` • ${quote.clientPhone}` : ""}
                       </p>
                     </div>
-                    <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/30 bg-blue-500/15 px-2 py-0.5 text-[10px] font-bold text-sky-300">
+                    <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/30 bg-blue-500/10 px-2 py-0.5 text-[10px] font-bold text-blue-700 dark:bg-blue-500/15 dark:text-sky-300">
                       <CheckCircle2 className="h-3 w-3" />
                       Lista para enviar
                     </span>
                   </div>
 
                   {/* Items */}
-                  <div key={quote.id} className="mt-2.5 divide-y divide-white/5">
+                  <div key={quote.id} className="mt-2.5 divide-y divide-slate-200/70 dark:divide-white/5">
                     {quote.items.slice(0, 4).map((item, idx) => (
                       <motion.div
                         key={item.id}
@@ -368,15 +368,15 @@ export function HeroSimulator() {
                         className="flex items-center justify-between gap-3 py-1.5 text-xs"
                       >
                         <div className="min-w-0">
-                          <p className="truncate font-semibold text-slate-200">
+                          <p className="truncate font-semibold text-slate-800 dark:text-slate-200">
                             {item.name}
                           </p>
-                          <p className="text-[11px] text-slate-400">
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400">
                             {item.quantity} {item.unit} ×{" "}
                             {formatMoney(item.unitPrice, quote.currency)}
                           </p>
                         </div>
-                        <span className="shrink-0 font-mono text-xs font-bold text-white">
+                        <span className="shrink-0 font-mono text-xs font-bold text-slate-900 dark:text-white">
                           {formatMoney(item.quantity * item.unitPrice, quote.currency)}
                         </span>
                       </motion.div>
@@ -389,23 +389,23 @@ export function HeroSimulator() {
                   </div>
 
                   {/* Totals */}
-                  <div className="mt-2.5 rounded-lg border border-white/10 bg-[#070b14] px-3 py-2">
-                    <div className="flex items-center justify-between text-[11px] text-slate-400">
+                  <div className="mt-2.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 dark:border-white/10 dark:bg-[#070b14]">
+                    <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
                       <span>
                         Subtotal + {activePreset.business.taxLabel} ({quote.taxPercent}%)
                       </span>
-                      <span className="font-mono text-slate-300">
+                      <span className="font-mono text-slate-700 dark:text-slate-300">
                         {formatMoney(totals.subtotal, quote.currency)} +{" "}
                         {formatMoney(totals.taxAmount, quote.currency)}
                       </span>
                     </div>
-                    <div className="mt-1 flex items-center justify-between border-t border-white/10 pt-1.5">
-                      <span className="text-xs font-bold text-slate-300">
+                    <div className="mt-1 flex items-center justify-between border-t border-slate-200 pt-1.5 dark:border-white/10">
+                      <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
                         Total Estimado
                       </span>
                       <span
                         key={`${quote.id}-${totals.total}`}
-                        className="animate-total-pop font-mono text-base font-extrabold text-sky-400"
+                        className="animate-total-pop font-mono text-base font-extrabold text-blue-600 dark:text-sky-400"
                       >
                         {formatMoney(totals.total, quote.currency)}
                       </span>
@@ -420,7 +420,7 @@ export function HeroSimulator() {
               <button
                 type="button"
                 onClick={() => downloadQuotePdf(quote, activePreset.business)}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-white px-3 py-2 text-xs font-bold text-slate-900 transition hover:bg-blue-50 hover:text-blue-800"
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 px-3 py-2 text-xs font-bold text-white transition hover:bg-blue-700 dark:bg-white dark:text-slate-900 dark:hover:bg-blue-50 dark:hover:text-blue-800"
               >
                 <FileDown className="h-3.5 w-3.5" />
                 Descargar PDF
@@ -429,14 +429,14 @@ export function HeroSimulator() {
                 href={shareUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-white transition hover:border-blue-400/50 hover:bg-blue-500/15"
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-800 transition hover:border-blue-500/50 hover:bg-blue-50 dark:border-white/15 dark:bg-white/5 dark:text-white dark:hover:border-blue-400/50 dark:hover:bg-blue-500/15"
               >
                 <ExternalLink className="h-3.5 w-3.5" />
                 Portal Cliente
               </a>
               <Link
                 href={`/app?preset=${activePreset.id}`}
-                className="col-span-2 inline-flex items-center justify-center gap-1.5 rounded-xl border border-blue-400/30 bg-blue-500/15 px-3 py-2 text-xs font-semibold text-sky-300 transition hover:bg-blue-500/25 sm:col-span-1"
+                className="col-span-2 inline-flex items-center justify-center gap-1.5 rounded-xl border border-blue-500/30 bg-blue-500/10 px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-500/20 dark:border-blue-400/30 dark:bg-blue-500/15 dark:text-sky-300 dark:hover:bg-blue-500/25 sm:col-span-1"
               >
                 Editar
                 <ArrowUpRight className="h-3.5 w-3.5" />

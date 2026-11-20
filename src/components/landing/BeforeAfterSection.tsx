@@ -86,41 +86,43 @@ export function BeforeAfterSection() {
   return (
     <section
       id="como-funciona"
-      className="overflow-hidden border-t border-white/10 bg-[#0b1120]/84 py-20 backdrop-blur-[1px] sm:py-24"
+      className="overflow-hidden border-t border-slate-200/80 bg-[#e6ecf4]/70 py-20 backdrop-blur-[1px] transition-colors duration-300 dark:border-white/10 dark:bg-[#0b1120]/84 sm:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <ScrollReveal>
           <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
             <div className="max-w-2xl">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-bold text-sky-300">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-bold text-blue-700 dark:text-sky-300">
                 <TrendingUp className="h-3.5 w-3.5" />
                 El problema real en PyMEs
               </span>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
                 El 78% de las ventas se las lleva quien cotiza primero y con claridad.
               </h2>
-              <p className="mt-3 text-base text-slate-400">
+              <p className="mt-3 text-base text-slate-600 dark:text-slate-400">
                 Compara el flujo tradicional frente a operar tu proceso comercial con Axioma-X.
               </p>
             </div>
 
             {/* Interactive Mode Switcher with spring morphing pill */}
-            <div className="inline-flex rounded-2xl border border-white/10 bg-[#070b14] p-1.5">
+            <div className="inline-flex rounded-2xl border border-slate-300/80 bg-white/80 p-1.5 shadow-sm dark:border-white/10 dark:bg-[#070b14] dark:shadow-none">
               <button
                 type="button"
                 onClick={() => setMode("manual")}
                 className={`relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
-                  !isAxioma ? "text-white" : "text-slate-400 hover:text-slate-200"
+                  !isAxioma
+                    ? "text-slate-900 dark:text-white"
+                    : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
                 }`}
               >
                 {!isAxioma && (
                   <motion.span
                     layoutId="mode-switch-pill"
                     transition={{ type: "spring", stiffness: 360, damping: 28 }}
-                    className="absolute inset-0 rounded-xl bg-white/10 shadow-sm ring-1 ring-white/15"
+                    className="absolute inset-0 rounded-xl bg-slate-200/80 shadow-sm ring-1 ring-slate-300 dark:bg-white/10 dark:ring-white/15"
                   />
                 )}
-                <Clock className="relative z-10 h-3.5 w-3.5 text-rose-400" />
+                <Clock className="relative z-10 h-3.5 w-3.5 text-rose-500 dark:text-rose-400" />
                 <span className="relative z-10">Proceso Manual (45 min)</span>
               </button>
 
@@ -128,7 +130,9 @@ export function BeforeAfterSection() {
                 type="button"
                 onClick={() => setMode("axioma")}
                 className={`relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
-                  isAxioma ? "text-white" : "text-slate-400 hover:text-slate-200"
+                  isAxioma
+                    ? "text-white"
+                    : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
                 }`}
               >
                 {isAxioma && (
@@ -189,8 +193,8 @@ export function BeforeAfterSection() {
                       }
                       className={`group flex h-full flex-col justify-between rounded-2xl border p-6 transition-colors duration-300 ${
                         isAxioma
-                          ? "border-blue-500/25 bg-gradient-to-b from-[#0f172a] to-blue-950/30 hover:border-blue-400/45"
-                          : "border-white/10 bg-[#0f172a]/70 hover:border-rose-500/35"
+                          ? "border-blue-500/25 bg-gradient-to-b from-white to-blue-50/70 shadow-sm hover:border-blue-400/50 dark:from-[#0f172a] dark:to-blue-950/30 dark:shadow-none dark:hover:border-blue-400/45"
+                          : "border-slate-200/90 bg-white/90 shadow-sm hover:border-rose-400/45 dark:border-white/10 dark:bg-[#0f172a]/70 dark:shadow-none dark:hover:border-rose-500/35"
                       }`}
                     >
                       <div>
@@ -198,8 +202,8 @@ export function BeforeAfterSection() {
                           <div
                             className={`flex h-10 w-10 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${
                               isAxioma
-                                ? "bg-blue-500/15 text-blue-400 ring-1 ring-blue-500/30"
-                                : "bg-white/5 text-slate-400 ring-1 ring-white/10"
+                                ? "bg-blue-500/10 text-blue-600 ring-1 ring-blue-500/30 dark:bg-blue-500/15 dark:text-blue-400"
+                                : "bg-slate-100 text-slate-500 ring-1 ring-slate-200 dark:bg-white/5 dark:text-slate-400 dark:ring-white/10"
                             }`}
                           >
                             <Icon className="h-5 w-5" />
@@ -207,8 +211,8 @@ export function BeforeAfterSection() {
                           <span
                             className={`rounded-full px-2.5 py-1 font-mono text-[11px] font-bold ${
                               isAxioma
-                                ? "border border-blue-500/30 bg-blue-500/10 text-sky-300"
-                                : "border border-rose-500/30 bg-rose-500/10 text-rose-300"
+                                ? "border border-blue-500/30 bg-blue-500/10 text-blue-700 dark:text-sky-300"
+                                : "border border-rose-500/30 bg-rose-500/10 text-rose-700 dark:text-rose-300"
                             }`}
                           >
                             {item.time}
@@ -218,10 +222,10 @@ export function BeforeAfterSection() {
                         <p className="mt-5 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-500">
                           Paso {item.step}
                         </p>
-                        <h3 className="mt-1 text-base font-bold text-white">
+                        <h3 className="mt-1 text-base font-bold text-slate-900 dark:text-white">
                           {item.title}
                         </h3>
-                        <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                           {item.desc}
                         </p>
                       </div>
@@ -238,15 +242,15 @@ export function BeforeAfterSection() {
           <div
             className={`mt-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border px-6 py-4 transition ${
               isAxioma
-                ? "border-blue-500/25 bg-blue-500/10 text-blue-100"
-                : "border-rose-500/25 bg-rose-500/10 text-rose-100"
+                ? "border-blue-500/25 bg-blue-500/10 text-blue-950 dark:text-blue-100"
+                : "border-rose-500/25 bg-rose-500/10 text-rose-950 dark:text-rose-100"
             }`}
           >
             <div className="flex items-center gap-3">
               {isAxioma ? (
-                <CheckCircle2 className="h-5 w-5 shrink-0 text-blue-400" />
+                <CheckCircle2 className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400" />
               ) : (
-                <AlertTriangle className="h-5 w-5 shrink-0 text-rose-400" />
+                <AlertTriangle className="h-5 w-5 shrink-0 text-rose-600 dark:text-rose-400" />
               )}
               <p className="text-sm font-medium">
                 {isAxioma
@@ -256,7 +260,7 @@ export function BeforeAfterSection() {
             </div>
             <span
               className={`font-mono text-xs font-extrabold uppercase tracking-wider ${
-                isAxioma ? "text-sky-400" : "text-rose-400"
+                isAxioma ? "text-blue-700 dark:text-sky-400" : "text-rose-700 dark:text-rose-400"
               }`}
             >
               {isAxioma ? "98% más rápido" : "Alto costo oculto"}

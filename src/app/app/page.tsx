@@ -35,6 +35,7 @@ import { BusinessSettings } from "@/components/BusinessSettings";
 import { ClientPreviewModal } from "@/components/ClientPreviewModal";
 import { AuthGate } from "@/components/AuthGate";
 import { AxiomaLogo } from "@/components/landing/AxiomaLogo";
+import { ThemeToggle } from "@/components/ThemeProvider";
 
 type TabId = "generator" | "dashboard" | "catalog" | "business";
 
@@ -294,9 +295,9 @@ function WorkspaceContent() {
 
   if (dataLoading) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#070b14] text-slate-300">
-        <Loader2 className="h-6 w-6 animate-spin text-blue-400" />
-        <p className="text-xs font-medium text-slate-400">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#eef2f7] text-slate-600 dark:bg-[#070b14] dark:text-slate-300">
+        <Loader2 className="h-6 w-6 animate-spin text-blue-600 dark:text-blue-400" />
+        <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
           Cargando tus datos desde Firestore...
         </p>
       </div>
@@ -306,18 +307,18 @@ function WorkspaceContent() {
   const currentMeta = TAB_META[activeTab];
 
   return (
-    <div className="flex min-h-screen bg-[#070b14] text-slate-100">
+    <div className="flex min-h-screen bg-[#eef2f7] text-slate-900 transition-colors duration-300 dark:bg-[#070b14] dark:text-slate-100">
       {/* Desktop Left Sidebar */}
-      <aside className="hidden w-64 shrink-0 flex-col justify-between border-r border-white/10 bg-[#0b1120] p-4 lg:flex">
+      <aside className="hidden w-64 shrink-0 flex-col justify-between border-r border-slate-200/90 bg-[#f8fafc] p-4 dark:border-white/10 dark:bg-[#0b1120] lg:flex">
         <div>
           {/* Brand + Home link */}
           <div className="flex items-center justify-between px-2 py-1.5">
             <Link href="/" aria-label="Volver al inicio">
-              <AxiomaLogo variant="dark" size="sm" />
+              <AxiomaLogo variant="auto" size="sm" />
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-[11px] font-medium text-slate-400 transition hover:bg-white/10 hover:text-white"
+              className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:border-white/10 dark:bg-white/5 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
               title="Volver a la página principal"
             >
               <ArrowLeft className="h-3 w-3" />
@@ -326,15 +327,15 @@ function WorkspaceContent() {
           </div>
 
           {/* Active Company Card */}
-          <div className="mt-5 rounded-xl border border-white/10 bg-white/[0.03] p-3">
-            <div className="flex items-center gap-2 text-[11px] font-medium text-slate-400">
-              <Building2 className="h-3.5 w-3.5 text-blue-400" />
+          <div className="mt-5 rounded-xl border border-slate-200/90 bg-white p-3 shadow-sm dark:border-white/10 dark:bg-white/[0.03] dark:shadow-none">
+            <div className="flex items-center gap-2 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+              <Building2 className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
               Tu empresa
             </div>
-            <p className="mt-1 truncate text-sm font-bold text-white">
+            <p className="mt-1 truncate text-sm font-bold text-slate-900 dark:text-white">
               {business.name || "Sin nombre"}
             </p>
-            <p className="truncate text-[11px] text-slate-400">
+            <p className="truncate text-[11px] text-slate-500 dark:text-slate-400">
               {business.currency} • {business.taxLabel} {business.taxPercent}%
             </p>
           </div>
@@ -359,14 +360,14 @@ function WorkspaceContent() {
                     onClick={() => setActiveTab(tabId)}
                     className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold transition ${
                       isActive
-                        ? "bg-blue-500/15 text-sky-300 ring-1 ring-blue-500/30"
-                        : "text-slate-400 hover:bg-white/5 hover:text-slate-100"
+                        ? "bg-blue-600/10 text-blue-700 ring-1 ring-blue-500/30 dark:bg-blue-500/15 dark:text-sky-300"
+                        : "text-slate-600 hover:bg-slate-200/60 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-slate-100"
                     }`}
                   >
                     <span className="flex items-center gap-2.5">
                       <Icon
                         className={`h-4 w-4 ${
-                          isActive ? "text-blue-400" : "text-slate-500"
+                          isActive ? "text-blue-600 dark:text-blue-400" : "text-slate-400 dark:text-slate-500"
                         }`}
                       />
                       {meta.label}
@@ -375,8 +376,8 @@ function WorkspaceContent() {
                       <span
                         className={`rounded-md px-1.5 py-0.5 font-mono text-[10px] font-bold ${
                           isActive
-                            ? "bg-blue-500/20 text-blue-200"
-                            : "bg-white/5 text-slate-400"
+                            ? "bg-blue-500/15 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200"
+                            : "bg-slate-200/80 text-slate-600 dark:bg-white/5 dark:text-slate-400"
                         }`}
                       >
                         {badge}
@@ -390,32 +391,32 @@ function WorkspaceContent() {
         </div>
 
         {/* Authenticated Google Account Footer */}
-        <div className="border-t border-white/10 pt-4">
+        <div className="border-t border-slate-200/90 pt-4 dark:border-white/10">
           <div className="flex items-center gap-2.5 px-1">
             {user.photoURL ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={user.photoURL}
                 alt={user.displayName || "Usuario"}
-                className="h-8 w-8 rounded-full border border-white/15 object-cover"
+                className="h-8 w-8 rounded-full border border-slate-300 object-cover dark:border-white/15"
               />
             ) : (
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/20 text-xs font-bold text-sky-300">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/15 text-xs font-bold text-blue-700 dark:bg-blue-500/20 dark:text-sky-300">
                 {(user.displayName || user.email || "U")[0].toUpperCase()}
               </div>
             )}
             <div className="min-w-0 flex-1">
-              <p className="truncate text-xs font-bold text-white">
+              <p className="truncate text-xs font-bold text-slate-900 dark:text-white">
                 {user.displayName || "Usuario"}
               </p>
-              <p className="truncate text-[10px] text-slate-400">{user.email}</p>
+              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">{user.email}</p>
             </div>
           </div>
 
           <button
             type="button"
             onClick={handleSignOut}
-            className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-300 transition hover:border-rose-500/30 hover:bg-rose-500/10 hover:text-rose-300"
+            className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:border-rose-400/50 hover:bg-rose-50 hover:text-rose-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:border-rose-500/30 dark:hover:bg-rose-500/10 dark:hover:text-rose-300"
           >
             <LogOut className="h-3.5 w-3.5" />
             Cerrar sesión
@@ -426,26 +427,29 @@ function WorkspaceContent() {
       {/* Main Content Area */}
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Mobile Top Bar */}
-        <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0b1120]/95 px-4 py-3 backdrop-blur-md lg:hidden">
+        <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-[#f8fafc]/95 px-4 py-3 backdrop-blur-md dark:border-white/10 dark:bg-[#0b1120]/95 lg:hidden">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5">
               <Link
                 href="/"
-                className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-xs font-medium text-slate-300"
+                className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
               </Link>
-              <AxiomaLogo variant="dark" size="sm" />
+              <AxiomaLogo variant="auto" size="sm" />
             </div>
 
-            <button
-              type="button"
-              onClick={handleSignOut}
-              className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs font-semibold text-slate-300"
-            >
-              <LogOut className="h-3.5 w-3.5" />
-              Salir
-            </button>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
+              >
+                <LogOut className="h-3.5 w-3.5" />
+                Salir
+              </button>
+            </div>
           </div>
 
           <nav className="mt-3 flex gap-1 overflow-x-auto pb-0.5">
@@ -461,7 +465,7 @@ function WorkspaceContent() {
                     className={`inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
                       isActive
                         ? "bg-blue-600 text-white"
-                        : "bg-white/5 text-slate-400"
+                        : "bg-slate-200/70 text-slate-600 dark:bg-white/5 dark:text-slate-400"
                     }`}
                   >
                     <Icon className="h-3.5 w-3.5" />
@@ -474,34 +478,37 @@ function WorkspaceContent() {
         </header>
 
         {/* Workspace Page Header */}
-        <div className="border-b border-white/10 bg-[#090e1a] px-5 py-5 sm:px-8">
+        <div className="border-b border-slate-200/80 bg-[#f8fafc] px-5 py-5 transition-colors duration-300 dark:border-white/10 dark:bg-[#090e1a] sm:px-8">
           <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
             <div>
-              <h1 className="text-xl font-extrabold tracking-tight text-white sm:text-2xl">
+              <h1 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
                 {currentMeta.title}
               </h1>
-              <p className="mt-0.5 text-xs text-slate-400 sm:text-sm">
+              <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
                 {currentMeta.subtitle}
               </p>
             </div>
 
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold">
+            <div className="flex items-center gap-2.5">
+              <ThemeToggle className="hidden lg:inline-flex" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold shadow-sm dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none">
               {syncState === "saving" ? (
                 <>
-                  <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-400" />
-                  <span className="text-slate-300">Guardando en Firestore...</span>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-600 dark:text-blue-400" />
+                  <span className="text-slate-600 dark:text-slate-300">Guardando en Firestore...</span>
                 </>
               ) : syncState === "error" ? (
                 <>
-                  <Cloud className="h-3.5 w-3.5 text-rose-400" />
-                  <span className="text-rose-300">Error de sincronización</span>
+                  <Cloud className="h-3.5 w-3.5 text-rose-600 dark:text-rose-400" />
+                  <span className="text-rose-700 dark:text-rose-300">Error de sincronización</span>
                 </>
               ) : (
                 <>
-                  <CheckCircle2 className="h-3.5 w-3.5 text-blue-400" />
-                  <span className="text-sky-300">Firestore sincronizado</span>
+                  <CheckCircle2 className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                  <span className="text-blue-700 dark:text-sky-300">Firestore sincronizado</span>
                 </>
               )}
+              </div>
             </div>
           </div>
         </div>

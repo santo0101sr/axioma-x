@@ -66,7 +66,7 @@ export function HeroSection() {
   return (
     <section
       ref={heroRef}
-      className="relative overflow-hidden bg-slate-950/45 pb-20 pt-14 text-white sm:pb-28 sm:pt-20"
+      className="relative overflow-hidden bg-transparent pb-20 pt-14 text-slate-900 transition-colors duration-300 dark:bg-slate-950/45 dark:text-white sm:pb-28 sm:pt-20"
     >
       <HeroInteractiveBackdrop />
 
@@ -79,24 +79,24 @@ export function HeroSection() {
           transition={{ type: "spring", stiffness: 120, damping: 18, delay: 0.15 }}
           className="pointer-events-auto absolute left-3 top-12 z-20 hidden w-[204px] xl:block"
         >
-          <div className="animate-float-gentle flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0b1328]/85 px-3.5 py-2.5 shadow-xl shadow-black/45 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-blue-400/45">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/15 text-blue-400">
+          <div className="animate-float-gentle flex items-center gap-3 rounded-2xl border border-slate-200/90 bg-white/85 px-3.5 py-2.5 shadow-xl shadow-slate-900/10 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-blue-400/45 dark:border-white/10 dark:bg-[#0b1328]/85 dark:shadow-black/45">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400">
               <Zap className="h-4 w-4" />
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-1.5">
-                <p className="truncate text-xs font-bold text-white">Extracción IA</p>
+                <p className="truncate text-xs font-bold text-slate-900 dark:text-white">Extracción IA</p>
                 <div className="flex h-3.5 items-end gap-[2px]" aria-hidden="true">
                   {EQ_DELAYS.map((delay, idx) => (
                     <span
                       key={idx}
                       style={{ animationDelay: delay }}
-                      className={`animate-eq w-[2.5px] rounded-full bg-blue-400 ${EQ_HEIGHTS[idx]}`}
+                      className={`animate-eq w-[2.5px] rounded-full bg-blue-500 dark:bg-blue-400 ${EQ_HEIGHTS[idx]}`}
                     />
                   ))}
                 </div>
               </div>
-              <p className="truncate text-[10px] text-slate-400">0.4 seg • Voz y Chat</p>
+              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">0.4 seg • Voz y Chat</p>
             </div>
           </div>
         </motion.div>
@@ -109,15 +109,15 @@ export function HeroSection() {
           transition={{ type: "spring", stiffness: 120, damping: 18, delay: 0.28 }}
           className="pointer-events-auto absolute left-3 top-64 z-20 hidden w-[204px] xl:block"
         >
-          <div className="animate-float-alt flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0b1328]/85 px-3.5 py-2.5 shadow-xl shadow-black/45 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-blue-400/45">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/15 text-blue-400">
+          <div className="animate-float-alt flex items-center gap-3 rounded-2xl border border-slate-200/90 bg-white/85 px-3.5 py-2.5 shadow-xl shadow-slate-900/10 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-blue-400/45 dark:border-white/10 dark:bg-[#0b1328]/85 dark:shadow-black/45">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400">
               <FileText className="h-4 w-4" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-xs font-bold text-white">PDF Corporativo</p>
-              <p className="truncate text-[10px] text-slate-400">Logo + IVA + Descuento</p>
-              <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-slate-800">
-                <div className="animate-pdf-progress h-full rounded-full bg-gradient-to-r from-blue-500 to-sky-300" />
+              <p className="truncate text-xs font-bold text-slate-900 dark:text-white">PDF Corporativo</p>
+              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">Logo + IVA + Descuento</p>
+              <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+                <div className="animate-pdf-progress h-full rounded-full bg-gradient-to-r from-blue-500 to-sky-400 dark:to-sky-300" />
               </div>
             </div>
           </div>
@@ -131,22 +131,22 @@ export function HeroSection() {
           transition={{ type: "spring", stiffness: 120, damping: 18, delay: 0.2 }}
           className="pointer-events-auto absolute right-3 top-14 z-20 hidden w-[204px] xl:block"
         >
-          <div className="animate-float-alt flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0b1328]/85 px-3.5 py-2.5 shadow-xl shadow-black/45 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-blue-400/45">
-            <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/15 text-blue-400">
+          <div className="animate-float-alt flex items-center gap-3 rounded-2xl border border-slate-200/90 bg-white/85 px-3.5 py-2.5 shadow-xl shadow-slate-900/10 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-blue-400/45 dark:border-white/10 dark:bg-[#0b1328]/85 dark:shadow-black/45">
+            <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400">
               <CheckCircle2 className="h-4 w-4" />
               <span className="absolute -right-0.5 -top-0.5 flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-sky-400" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-sky-500 dark:bg-sky-400" />
               </span>
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-1">
-                <p className="truncate text-xs font-bold text-white">Aprobado</p>
-                <span className="shrink-0 rounded bg-blue-500/15 px-1.5 py-0.5 font-mono text-[9px] font-bold text-sky-300">
+                <p className="truncate text-xs font-bold text-slate-900 dark:text-white">Aprobado</p>
+                <span className="shrink-0 rounded bg-blue-500/15 px-1.5 py-0.5 font-mono text-[9px] font-bold text-blue-700 dark:text-sky-300">
                   +$1,988
                 </span>
               </div>
-              <p className="truncate text-[10px] text-slate-400">Portal cliente /q</p>
+              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">Portal cliente /q</p>
             </div>
           </div>
         </motion.div>
@@ -159,17 +159,17 @@ export function HeroSection() {
           transition={{ type: "spring", stiffness: 120, damping: 18, delay: 0.34 }}
           className="pointer-events-auto absolute right-3 top-[17rem] z-20 hidden w-[204px] xl:block"
         >
-          <div className="animate-float-gentle flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0b1328]/85 px-3.5 py-2.5 shadow-xl shadow-black/45 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-blue-400/45">
-            <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/15 text-blue-400">
+          <div className="animate-float-gentle flex items-center gap-3 rounded-2xl border border-slate-200/90 bg-white/85 px-3.5 py-2.5 shadow-xl shadow-slate-900/10 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-blue-400/45 dark:border-white/10 dark:bg-[#0b1328]/85 dark:shadow-black/45">
+            <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400">
               <Database className="h-4 w-4" />
               <span className="absolute inset-0 animate-pulse rounded-xl ring-1 ring-blue-400/40" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sky-400" />
-                <p className="truncate text-xs font-bold text-white">Cloud Firestore</p>
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sky-500 dark:bg-sky-400" />
+                <p className="truncate text-xs font-bold text-slate-900 dark:text-white">Cloud Firestore</p>
               </div>
-              <p className="truncate text-[10px] text-slate-400">Sincronización en vivo</p>
+              <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">Sincronización en vivo</p>
             </div>
           </div>
         </motion.div>
@@ -198,7 +198,7 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 150, damping: 20, delay: 0.08 }}
           >
-            <div className="animate-float-gentle inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-500/10 px-3.5 py-1.5 text-xs font-semibold text-sky-300 shadow-[0_0_24px_rgba(59,130,246,0.2)]">
+            <div className="animate-float-gentle inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3.5 py-1.5 text-xs font-semibold text-blue-700 shadow-[0_0_24px_rgba(59,130,246,0.12)] dark:border-blue-400/30 dark:text-sky-300 dark:shadow-[0_0_24px_rgba(59,130,246,0.2)]">
               <Sparkles className="h-3.5 w-3.5" />
               Plataforma Inteligente de Cotizaciones para PyMEs
             </div>
@@ -208,7 +208,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 140, damping: 20, delay: 0.14 }}
-            className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl"
+            className="mt-6 text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl"
           >
             De mensaje de WhatsApp a{" "}
             <span className="inline-flex min-h-[1.2em] items-center justify-center align-bottom">
@@ -219,7 +219,7 @@ export function HeroSection() {
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   exit={{ opacity: 0, y: -18, filter: "blur(6px)" }}
                   transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                  className="animate-gradient-text inline-block bg-gradient-to-r from-blue-400 via-sky-200 to-blue-500 bg-clip-text text-transparent"
+                  className="animate-gradient-text inline-block bg-gradient-to-r from-blue-600 via-sky-500 to-blue-700 bg-clip-text text-transparent dark:from-blue-400 dark:via-sky-200 dark:to-blue-500"
                 >
                   {ROTATING_PHRASES[phraseIndex]}
                 </motion.span>
@@ -232,7 +232,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 140, damping: 20, delay: 0.22 }}
-            className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg"
+            className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg"
           >
             Axioma-X convierte solicitudes informales por texto, dictado de voz o
             imagen en cotizaciones corporativas exactas con tu catálogo de precios y
@@ -258,9 +258,9 @@ export function HeroSection() {
 
             <a
               href="#demo"
-              className="group inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white transition hover:border-blue-400/40 hover:bg-white/10 active:scale-[0.98]"
+              className="group inline-flex items-center gap-2 rounded-xl border border-slate-300/90 bg-white/85 px-6 py-3.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-blue-500/40 hover:bg-white active:scale-[0.98] dark:border-white/15 dark:bg-white/5 dark:text-white dark:shadow-none dark:hover:border-blue-400/40 dark:hover:bg-white/10"
             >
-              <Play className="h-4 w-4 text-blue-400 transition-transform duration-300 group-hover:scale-110" />
+              <Play className="h-4 w-4 text-blue-600 transition-transform duration-300 group-hover:scale-110 dark:text-blue-400" />
               Probar simulador en vivo
             </a>
           </motion.div>
@@ -270,19 +270,19 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 140, damping: 20, delay: 0.34 }}
-            className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs text-slate-400"
+            className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs text-slate-600 dark:text-slate-400"
           >
             <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4 text-blue-400" />
-              <strong className="text-white">&lt; 15 seg</strong> por cotización
+              <CheckCircle2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <strong className="text-slate-900 dark:text-white">&lt; 15 seg</strong> por cotización
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4 text-blue-400" />
-              <strong className="text-white">Multimodal:</strong> Texto, Voz y Foto
+              <CheckCircle2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <strong className="text-slate-900 dark:text-white">Multimodal:</strong> Texto, Voz y Foto
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4 text-blue-400" />
-              <strong className="text-white">PDF + Portal /q</strong> en 1 clic
+              <CheckCircle2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <strong className="text-slate-900 dark:text-white">PDF + Portal /q</strong> en 1 clic
             </span>
           </motion.div>
         </div>

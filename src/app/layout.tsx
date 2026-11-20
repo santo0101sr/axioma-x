@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { GroqChatbox } from "@/components/GroqChatbox";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -37,10 +38,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`scroll-smooth ${jakarta.variable} ${jetbrains.variable}`}>
-      <body className="min-h-screen font-sans selection:bg-blue-500/25 selection:text-sky-200">
-        {children}
-        <GroqChatbox />
+    <html
+      lang="es"
+      suppressHydrationWarning
+      className={`dark scroll-smooth ${jakarta.variable} ${jetbrains.variable}`}
+    >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('axioma-theme');if(t==='light'){document.documentElement.classList.remove('dark');document.documentElement.classList.add('light');document.documentElement.style.colorScheme='light';}else{document.documentElement.classList.add('dark');document.documentElement.classList.remove('light');document.documentElement.style.colorScheme='dark';}}catch(e){}})();`,
+          }}
+        />
+      </head>
+      <body className="min-h-screen font-sans transition-colors duration-300 selection:bg-blue-500/25 selection:text-blue-900 dark:selection:text-sky-200">
+        <ThemeProvider>
+          {children}
+          <GroqChatbox />
+        </ThemeProvider>
       </body>
     </html>
   );

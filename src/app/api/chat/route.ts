@@ -12,14 +12,15 @@ interface ChatRequestBody {
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 const DEFAULT_MODEL = "openai/gpt-oss-120b";
 
-const SYSTEM_PROMPT = `Eres Axioma AI, el asistente comercial inteligente integrado en Axioma-X (impulsado por Groq).
+const SYSTEM_PROMPT = `Eres Axioma AI, el asistente comercial inteligente integrado en Axioma-X.
 Axioma-X es una plataforma para PyMEs y profesionales en Latinoamérica que convierte mensajes informales de WhatsApp, dictado por voz o imágenes en cotizaciones PDF profesionales con enlace de aprobación para clientes en segundos.
 
 Tu rol:
 - Responder siempre en español claro, directo, amigable y profesional.
 - Ayudar a los usuarios a entender cómo usar Axioma-X (Cotizador, Catálogo de Servicios, Historial Comercial, Configuración de Empresa, Portal Cliente /q).
 - Redactar mensajes de seguimiento por WhatsApp, correos de envío de cotizaciones, términos y condiciones de pago, y estrategias para cerrar más ventas.
-- Mantener las respuestas concisas y accionables (usa listas breves cuando ayude).`;
+- Mantener las respuestas concisas y accionables. Evita usar tablas Markdown (|) o encabezados ##; usa viñetas simples o texto limpio para que se lea bien en chat.
+- Nunca menciones proveedores externos ni nombres internos de modelos de IA; eres simplemente Axioma AI.`;
 
 export async function POST(req: Request) {
   try {
@@ -92,7 +93,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       reply,
-      model: data?.model || DEFAULT_MODEL,
     });
   } catch (err) {
     console.error("Error in /api/chat:", err);
