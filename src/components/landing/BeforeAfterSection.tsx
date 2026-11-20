@@ -14,9 +14,10 @@ import {
   Sparkles,
   TrendingUp,
 } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import { ScrollReveal, SpotlightCard } from "@/components/landing/MotionPrimitives";
 
-const MANUAL_STEPS = [
+const MANUAL_STEPS_ES = [
   {
     step: "01",
     time: "10 min",
@@ -47,7 +48,38 @@ const MANUAL_STEPS = [
   },
 ];
 
-const AXIOMA_STEPS = [
+const MANUAL_STEPS_EN = [
+  {
+    step: "01",
+    time: "10 min",
+    title: "Read scattered chats & voice notes",
+    desc: "The client sends 3 WhatsApp messages with rough measurements and unorganized photos.",
+    icon: MessageSquare,
+  },
+  {
+    step: "02",
+    time: "15 min",
+    title: "Look up prices in old spreadsheets",
+    desc: "Open Excel or phone notes to remember updated rates and calculate taxes manually.",
+    icon: FileSpreadsheet,
+  },
+  {
+    step: "03",
+    time: "15 min",
+    title: "Build and format the document",
+    desc: "Duplicate an old Word/Canva quote, fix client details, and export without typos.",
+    icon: FileText,
+  },
+  {
+    step: "04",
+    time: "5+ hours",
+    title: "Follow-up lost in chat",
+    desc: "By replying late, the client already chose a competitor or forgets to confirm.",
+    icon: AlertTriangle,
+  },
+];
+
+const AXIOMA_STEPS_ES = [
   {
     step: "01",
     time: "3 seg",
@@ -78,10 +110,48 @@ const AXIOMA_STEPS = [
   },
 ];
 
+const AXIOMA_STEPS_EN = [
+  {
+    step: "01",
+    time: "3 sec",
+    title: "Paste chat, dictate, or upload photo",
+    desc: "Copy the WhatsApp message, use voice dictation, or attach a reference photo.",
+    icon: MessageSquare,
+  },
+  {
+    step: "02",
+    time: "2 sec",
+    title: "Smart matching with your catalog",
+    desc: "Axioma-X detects quantities, client info, and services with your real prices and tax.",
+    icon: Sparkles,
+  },
+  {
+    step: "03",
+    time: "5 sec",
+    title: "Branded PDF + Shareable Link",
+    desc: "Generate a PDF with your logo and a direct /q approval link ready for WhatsApp.",
+    icon: Link2,
+  },
+  {
+    step: "04",
+    time: "1 click",
+    title: "Instant approval & pipeline",
+    desc: "Your client approves from their phone and the quote is saved in your history.",
+    icon: CheckCircle2,
+  },
+];
+
 export function BeforeAfterSection() {
+  const { isEn } = useLanguage();
   const [mode, setMode] = useState<"axioma" | "manual">("axioma");
   const isAxioma = mode === "axioma";
-  const steps = isAxioma ? AXIOMA_STEPS : MANUAL_STEPS;
+  const steps = isAxioma
+    ? isEn
+      ? AXIOMA_STEPS_EN
+      : AXIOMA_STEPS_ES
+    : isEn
+    ? MANUAL_STEPS_EN
+    : MANUAL_STEPS_ES;
 
   return (
     <section
@@ -94,13 +164,17 @@ export function BeforeAfterSection() {
             <div className="max-w-2xl">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-bold text-blue-700 dark:text-sky-300">
                 <TrendingUp className="h-3.5 w-3.5" />
-                El problema real en PyMEs
+                {isEn ? "The real SMB bottleneck" : "El problema real en PyMEs"}
               </span>
               <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-                El 78% de las ventas se las lleva quien cotiza primero y con claridad.
+                {isEn
+                  ? "78% of deals go to the business that quotes first and clearest."
+                  : "El 78% de las ventas se las lleva quien cotiza primero y con claridad."}
               </h2>
               <p className="mt-3 text-base text-slate-600 dark:text-slate-400">
-                Compara el flujo tradicional frente a operar tu proceso comercial con Axioma-X.
+                {isEn
+                  ? "Compare the traditional manual workflow against running your sales process with Axioma-X."
+                  : "Compara el flujo tradicional frente a operar tu proceso comercial con Axioma-X."}
               </p>
             </div>
 
@@ -123,7 +197,9 @@ export function BeforeAfterSection() {
                   />
                 )}
                 <Clock className="relative z-10 h-3.5 w-3.5 text-rose-500 dark:text-rose-400" />
-                <span className="relative z-10">Proceso Manual (45 min)</span>
+                <span className="relative z-10">
+                  {isEn ? "Manual Process (45 min)" : "Proceso Manual (45 min)"}
+                </span>
               </button>
 
               <button
@@ -143,7 +219,9 @@ export function BeforeAfterSection() {
                   />
                 )}
                 <Send className="relative z-10 h-3.5 w-3.5" />
-                <span className="relative z-10">Con Axioma-X (15 seg)</span>
+                <span className="relative z-10">
+                  {isEn ? "With Axioma-X (15 sec)" : "Con Axioma-X (15 seg)"}
+                </span>
               </button>
             </div>
           </div>
@@ -220,7 +298,7 @@ export function BeforeAfterSection() {
                         </div>
 
                         <p className="mt-5 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                          Paso {item.step}
+                          {isEn ? `Step ${item.step}` : `Paso ${item.step}`}
                         </p>
                         <h3 className="mt-1 text-base font-bold text-slate-900 dark:text-white">
                           {item.title}
@@ -254,16 +332,26 @@ export function BeforeAfterSection() {
               )}
               <p className="text-sm font-medium">
                 {isAxioma
-                  ? "Resultado: Respuesta profesional en menos de 15 segundos, sin errores de cálculo y con trazabilidad completa."
+                  ? isEn
+                    ? "Result: Professional response in under 15 seconds, zero math errors, and full traceability."
+                    : "Resultado: Respuesta profesional en menos de 15 segundos, sin errores de cálculo y con trazabilidad completa."
+                  : isEn
+                  ? "Result: Wasted admin hours, manual calculation errors, and cold leads buying from competitors."
                   : "Resultado: Fugas de tiempo operativo, errores de cálculo manual y leads fríos que compran con la competencia."}
               </p>
             </div>
             <span
               className={`font-mono text-xs font-extrabold uppercase tracking-wider ${
-                isAxioma ? "text-blue-700 dark:text-sky-400" : "text-rose-700 dark:text-rose-400"
+                isAxioma ? "text-blue-700 dark:text-sky-400" : "text-rose-600 dark:text-rose-400"
               }`}
             >
-              {isAxioma ? "98% más rápido" : "Alto costo oculto"}
+              {isAxioma
+                ? isEn
+                  ? "98% faster"
+                  : "98% más rápido"
+                : isEn
+                ? "High hidden cost"
+                : "Alto costo oculto"}
             </span>
           </div>
         </ScrollReveal>

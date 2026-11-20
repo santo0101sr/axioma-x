@@ -35,11 +35,12 @@ import { BusinessSettings } from "@/components/BusinessSettings";
 import { ClientPreviewModal } from "@/components/ClientPreviewModal";
 import { AuthGate } from "@/components/AuthGate";
 import { AxiomaLogo } from "@/components/landing/AxiomaLogo";
+import { LanguageToggle, useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeProvider";
 
 type TabId = "generator" | "dashboard" | "catalog" | "business";
 
-const TAB_META: Record<
+const TAB_META_ES: Record<
   TabId,
   {
     title: string;
@@ -74,7 +75,44 @@ const TAB_META: Record<
   },
 };
 
+const TAB_META_EN: Record<
+  TabId,
+  {
+    title: string;
+    subtitle: string;
+    label: string;
+    icon: React.ComponentType<{ className?: string }>;
+  }
+> = {
+  generator: {
+    label: "Quote Builder",
+    title: "New Quote Builder",
+    subtitle: "Paste a message, dictate by voice, or build a quote in seconds.",
+    icon: FileText,
+  },
+  dashboard: {
+    label: "History",
+    title: "Commercial History",
+    subtitle: "Track quote statuses, edit proposals, and export reports.",
+    icon: LayoutDashboard,
+  },
+  catalog: {
+    label: "Catalog",
+    title: "Service Catalog",
+    subtitle: "Manage your real pricing to quote accurately and instantly.",
+    icon: Package,
+  },
+  business: {
+    label: "My Business",
+    title: "Business Settings",
+    subtitle: "Customize your logo, taxes, currency, and data backups.",
+    icon: Briefcase,
+  },
+};
+
 function WorkspaceContent() {
+  const { isEn } = useLanguage();
+  const TAB_META = isEn ? TAB_META_EN : TAB_META_ES;
   const searchParams = useSearchParams();
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
@@ -330,10 +368,10 @@ function WorkspaceContent() {
           <div className="mt-5 rounded-xl border border-slate-200/90 bg-white p-3 shadow-sm dark:border-white/10 dark:bg-white/[0.03] dark:shadow-none">
             <div className="flex items-center gap-2 text-[11px] font-medium text-slate-500 dark:text-slate-400">
               <Building2 className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
-              Tu empresa
+              {isEn ? "Your business" : "Tu empresa"}
             </div>
             <p className="mt-1 truncate text-sm font-bold text-slate-900 dark:text-white">
-              {business.name || "Sin nombre"}
+              {business.name || (isEn ? "Unnamed" : "Sin nombre")}
             </p>
             <p className="truncate text-[11px] text-slate-500 dark:text-slate-400">
               {business.currency} • {business.taxLabel} {business.taxPercent}%
@@ -397,7 +435,7 @@ function WorkspaceContent() {
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={user.photoURL}
-                alt={user.displayName || "Usuario"}
+                alt={user.displayName || (isEn ? "User" : "Usuario")}
                 className="h-8 w-8 rounded-full border border-slate-300 object-cover dark:border-white/15"
               />
             ) : (
@@ -407,7 +445,7 @@ function WorkspaceContent() {
             )}
             <div className="min-w-0 flex-1">
               <p className="truncate text-xs font-bold text-slate-900 dark:text-white">
-                {user.displayName || "Usuario"}
+                {user.displayName || (isEn ? "User" : "Usuario")}
               </p>
               <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">{user.email}</p>
             </div>
@@ -419,7 +457,7 @@ function WorkspaceContent() {
             className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:border-rose-400/50 hover:bg-rose-50 hover:text-rose-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:border-rose-500/30 dark:hover:bg-rose-500/10 dark:hover:text-rose-300"
           >
             <LogOut className="h-3.5 w-3.5" />
-            Cerrar sesión
+            {isEn ? "Sign out" : "Cerrar sesión"}
           </button>
         </div>
       </aside>
@@ -440,6 +478,7 @@ function WorkspaceContent() {
             </div>
 
             <div className="flex items-center gap-2">
+              <LanguageToggle />
               <ThemeToggle />
               <button
                 type="button"
@@ -447,7 +486,7 @@ function WorkspaceContent() {
                 className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
               >
                 <LogOut className="h-3.5 w-3.5" />
-                Salir
+                {isEn ? "Exit" : "Salir"}
               </button>
             </div>
           </div>
@@ -490,22 +529,29 @@ function WorkspaceContent() {
             </div>
 
             <div className="flex items-center gap-2.5">
+              <LanguageToggle className="hidden lg:inline-flex" />
               <ThemeToggle className="hidden lg:inline-flex" />
               <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold shadow-sm dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none">
               {syncState === "saving" ? (
                 <>
                   <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-600 dark:text-blue-400" />
-                  <span className="text-slate-600 dark:text-slate-300">Guardando en Firestore...</span>
+                  <span className="text-slate-600 dark:text-slate-300">
+                    {isEn ? "Saving to Firestore..." : "Guardando en Firestore..."}
+                  </span>
                 </>
               ) : syncState === "error" ? (
                 <>
                   <Cloud className="h-3.5 w-3.5 text-rose-600 dark:text-rose-400" />
-                  <span className="text-rose-700 dark:text-rose-300">Error de sincronización</span>
+                  <span className="text-rose-700 dark:text-rose-300">
+                    {isEn ? "Sync error" : "Error de sincronización"}
+                  </span>
                 </>
               ) : (
                 <>
                   <CheckCircle2 className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
-                  <span className="text-blue-700 dark:text-sky-300">Firestore sincronizado</span>
+                  <span className="text-blue-700 dark:text-sky-300">
+                    {isEn ? "Firestore synced" : "Firestore sincronizado"}
+                  </span>
                 </>
               )}
               </div>

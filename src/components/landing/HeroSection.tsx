@@ -18,33 +18,42 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import {
   HeroInteractiveBackdrop,
   MagneticButton,
-  TiltBannerCard,
 } from "@/components/landing/MotionPrimitives";
 import { HeroSimulator } from "@/components/landing/HeroSimulator";
 
-const ROTATING_PHRASES = [
+const ROTATING_PHRASES_ES = [
   "cotización PDF",
   "propuesta formal",
   "portal de aprobación",
   "venta cerrada",
 ];
 
+const ROTATING_PHRASES_EN = [
+  "branded PDF quote",
+  "formal proposal",
+  "approval portal",
+  "closed deal",
+];
+
 const EQ_DELAYS = ["0s", "0.15s", "0.3s", "0.45s", "0.6s"];
 const EQ_HEIGHTS = ["h-3", "h-4", "h-2.5", "h-4", "h-3"];
 
 export function HeroSection() {
+  const { isEn } = useLanguage();
+  const phrases = isEn ? ROTATING_PHRASES_EN : ROTATING_PHRASES_ES;
   const heroRef = useRef<HTMLElement | null>(null);
   const [phraseIndex, setPhraseIndex] = useState(0);
 
   useEffect(() => {
     const id = setInterval(() => {
-      setPhraseIndex((prev) => (prev + 1) % ROTATING_PHRASES.length);
+      setPhraseIndex((prev) => (prev + 1) % phrases.length);
     }, 2800);
     return () => clearInterval(id);
-  }, []);
+  }, [phrases.length]);
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -211,7 +220,9 @@ export function HeroSection() {
           >
             <div className="animate-float-gentle inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3.5 py-1.5 text-xs font-semibold text-blue-700 shadow-[0_0_24px_rgba(59,130,246,0.12)] dark:border-blue-400/30 dark:text-sky-300 dark:shadow-[0_0_24px_rgba(59,130,246,0.2)]">
               <Sparkles className="h-3.5 w-3.5" />
-              Plataforma Inteligente de Cotizaciones para PyMEs
+              {isEn
+                ? "Smart Quoting Platform for SMBs"
+                : "Plataforma Inteligente de Cotizaciones para PyMEs"}
             </div>
           </motion.div>
 
@@ -221,22 +232,22 @@ export function HeroSection() {
             transition={{ type: "spring", stiffness: 140, damping: 20, delay: 0.14 }}
             className="mt-6 text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl"
           >
-            De mensaje de WhatsApp a{" "}
+            {isEn ? "From WhatsApp message to " : "De mensaje de WhatsApp a "}
             <span className="inline-flex min-h-[1.2em] items-center justify-center align-bottom">
               <AnimatePresence mode="wait">
                 <motion.span
-                  key={ROTATING_PHRASES[phraseIndex]}
+                  key={phrases[phraseIndex]}
                   initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   exit={{ opacity: 0, y: -18, filter: "blur(6px)" }}
                   transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                   className="animate-gradient-text inline-block bg-gradient-to-r from-blue-600 via-sky-500 to-blue-700 bg-clip-text text-transparent dark:from-blue-400 dark:via-sky-200 dark:to-blue-500"
                 >
-                  {ROTATING_PHRASES[phraseIndex]}
+                  {phrases[phraseIndex]}
                 </motion.span>
               </AnimatePresence>
             </span>{" "}
-            en 15 segundos.
+            {isEn ? "in 15 seconds." : "en 15 segundos."}
           </motion.h1>
 
           <motion.p
@@ -245,9 +256,9 @@ export function HeroSection() {
             transition={{ type: "spring", stiffness: 140, damping: 20, delay: 0.22 }}
             className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg"
           >
-            Axioma-X convierte solicitudes informales por texto, dictado de voz o
-            imagen en cotizaciones corporativas exactas con tu catálogo de precios y
-            un enlace de aprobación inmediata para tu cliente.
+            {isEn
+              ? "Axioma-X turns informal text, voice, or photo requests into accurate corporate quotes with your real price catalog and an instant approval link for your client."
+              : "Axioma-X convierte solicitudes informales por texto, dictado de voz o imagen en cotizaciones corporativas exactas con tu catálogo de precios y un enlace de aprobación inmediata para tu cliente."}
           </motion.p>
 
           {/* Primary CTAs */}
@@ -262,7 +273,7 @@ export function HeroSection() {
                 href="/app"
                 className="btn-shimmer group inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-blue-500/25 transition hover:bg-blue-500 hover:shadow-blue-500/40 active:scale-[0.98]"
               >
-                Probar Workspace Completo
+                {isEn ? "Try Full Workspace" : "Probar Workspace Completo"}
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </MagneticButton>
@@ -272,7 +283,7 @@ export function HeroSection() {
               className="group inline-flex items-center gap-2 rounded-xl border border-slate-300/90 bg-white/85 px-6 py-3.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-blue-500/40 hover:bg-white active:scale-[0.98] dark:border-white/15 dark:bg-white/5 dark:text-white dark:shadow-none dark:hover:border-blue-400/40 dark:hover:bg-white/10"
             >
               <Play className="h-4 w-4 text-blue-600 transition-transform duration-300 group-hover:scale-110 dark:text-blue-400" />
-              Probar simulador en vivo
+              {isEn ? "Try live simulator" : "Probar simulador en vivo"}
             </a>
           </motion.div>
 
@@ -285,15 +296,18 @@ export function HeroSection() {
           >
             <span className="inline-flex items-center gap-1.5">
               <CheckCircle2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-              <strong className="text-slate-900 dark:text-white">&lt; 15 seg</strong> por cotización
+              <strong className="text-slate-900 dark:text-white">&lt; 15 sec</strong>{" "}
+              {isEn ? "per quote" : "por cotización"}
             </span>
             <span className="inline-flex items-center gap-1.5">
               <CheckCircle2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-              <strong className="text-slate-900 dark:text-white">Multimodal:</strong> Texto, Voz y Foto
+              <strong className="text-slate-900 dark:text-white">Multimodal:</strong>{" "}
+              {isEn ? "Text, Voice & Photo" : "Texto, Voz y Foto"}
             </span>
             <span className="inline-flex items-center gap-1.5">
               <CheckCircle2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-              <strong className="text-slate-900 dark:text-white">PDF + Portal /q</strong> en 1 clic
+              <strong className="text-slate-900 dark:text-white">PDF + Portal /q</strong>{" "}
+              {isEn ? "in 1 click" : "en 1 clic"}
             </span>
           </motion.div>
         </div>

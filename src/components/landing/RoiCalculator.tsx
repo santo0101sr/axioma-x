@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Calculator, Clock, DollarSign, TrendingUp } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import {
   AnimatedNumber,
   MagneticButton,
@@ -12,6 +13,7 @@ import {
 } from "@/components/landing/MotionPrimitives";
 
 export function RoiCalculator() {
+  const { isEn } = useLanguage();
   const [quotesPerWeek, setQuotesPerWeek] = useState(20);
   const [minutesPerQuote, setMinutesPerQuote] = useState(35);
   const [avgTicket, setAvgTicket] = useState(650);
@@ -49,13 +51,17 @@ export function RoiCalculator() {
         <ScrollReveal className="max-w-2xl">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-bold text-blue-700 dark:text-sky-300">
             <Calculator className="h-3.5 w-3.5" />
-            Calculadora de Impacto Comercial
+            {isEn ? "Commercial Impact Calculator" : "Calculadora de Impacto Comercial"}
           </span>
           <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-            Calcula cuánto tiempo y ventas recuperas cada mes
+            {isEn
+              ? "Calculate how much time and revenue you recover each month"
+              : "Calcula cuánto tiempo y ventas recuperas cada mes"}
           </h2>
           <p className="mt-3 text-base text-slate-600 dark:text-slate-400">
-            Ajusta el volumen de tu negocio o agencia y simula el retorno inmediato de responder en segundos.
+            {isEn
+              ? "Adjust your business or agency volume and simulate the instant ROI of replying in seconds."
+              : "Ajusta el volumen de tu negocio o agencia y simula el retorno inmediato de responder en segundos."}
           </p>
         </ScrollReveal>
 
@@ -64,7 +70,7 @@ export function RoiCalculator() {
           <ScrollReveal direction="left" delay={80} className="lg:col-span-5">
             <div className="h-full rounded-2xl border border-slate-200/90 bg-white/90 p-6 shadow-sm dark:border-white/10 dark:bg-[#0f172a]/90 dark:shadow-none sm:p-8">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                Parámetros de tu operación
+                {isEn ? "Your operation parameters" : "Parámetros de tu operación"}
               </h3>
 
               <div className="mt-6 space-y-7">
@@ -74,10 +80,10 @@ export function RoiCalculator() {
                       htmlFor="quotes-slider"
                       className="text-sm font-semibold text-slate-700 dark:text-slate-200"
                     >
-                      Cotizaciones por semana
+                      {isEn ? "Quotes per week" : "Cotizaciones por semana"}
                     </label>
                     <span className="rounded-lg border border-blue-500/30 bg-blue-500/10 px-2.5 py-1 font-mono text-sm font-bold text-blue-700 dark:text-sky-300">
-                      {quotesPerWeek} / sem
+                      {quotesPerWeek} / {isEn ? "wk" : "sem"}
                     </span>
                   </div>
                   <input
@@ -91,8 +97,8 @@ export function RoiCalculator() {
                     className="axioma-slider mt-3 w-full"
                   />
                   <div className="mt-1 flex justify-between text-[11px] text-slate-500">
-                    <span>5 / sem</span>
-                    <span>80 / sem</span>
+                    <span>{isEn ? "5 / wk" : "5 / sem"}</span>
+                    <span>{isEn ? "80 / wk" : "80 / sem"}</span>
                   </div>
                 </div>
 
@@ -102,7 +108,7 @@ export function RoiCalculator() {
                       htmlFor="minutes-slider"
                       className="text-sm font-semibold text-slate-700 dark:text-slate-200"
                     >
-                      Tiempo manual por cotización
+                      {isEn ? "Manual time per quote" : "Tiempo manual por cotización"}
                     </label>
                     <span className="rounded-lg border border-blue-500/30 bg-blue-500/10 px-2.5 py-1 font-mono text-sm font-bold text-blue-700 dark:text-sky-300">
                       {minutesPerQuote} min
@@ -130,7 +136,7 @@ export function RoiCalculator() {
                       htmlFor="ticket-slider"
                       className="text-sm font-semibold text-slate-700 dark:text-slate-200"
                     >
-                      Ticket promedio por proyecto
+                      {isEn ? "Average project deal size" : "Ticket promedio por proyecto"}
                     </label>
                     <span className="rounded-lg border border-blue-500/30 bg-blue-500/10 px-2.5 py-1 font-mono text-sm font-bold text-blue-700 dark:text-sky-300">
                       {formatUsd(avgTicket)}
@@ -162,18 +168,22 @@ export function RoiCalculator() {
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 pb-4 dark:border-white/10">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                      Proyección mensual con Axioma-X
+                      {isEn ? "Monthly projection with Axioma-X" : "Proyección mensual con Axioma-X"}
                     </p>
                     <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
-                      Basado en {monthlyQuotes} cotizaciones/mes y +8% de cierre por respuesta inmediata
+                      {isEn
+                        ? `Based on ${monthlyQuotes} quotes/mo and +8% close rate from instant response`
+                        : `Basado en ${monthlyQuotes} cotizaciones/mes y +8% de cierre por respuesta inmediata`}
                     </p>
                   </div>
 
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/25 bg-blue-500/10 px-3 py-1 font-mono text-[11px] font-bold text-blue-700 dark:border-blue-400/25 dark:text-sky-300">
-                    Ahorro anual:{" "}
+                    {isEn ? "Annual savings: " : "Ahorro anual: "}
                     <AnimatedNumber
                       value={hoursSavedPerMonth * 12}
-                      formatter={(n) => `${Math.round(n)} horas/año`}
+                      formatter={(n) =>
+                        isEn ? `${Math.round(n)} hrs/yr` : `${Math.round(n)} horas/año`
+                      }
                     />
                   </span>
                 </div>
@@ -182,7 +192,7 @@ export function RoiCalculator() {
                   <SpotlightCard className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 transition duration-300 hover:-translate-y-0.5 hover:border-slate-300 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-white/20">
                     <div className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400">
                       <Clock className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                      Tiempo recuperado
+                      {isEn ? "Time saved" : "Tiempo recuperado"}
                     </div>
                     <p className="mt-2 font-mono text-3xl font-extrabold text-slate-900 dark:text-white">
                       <AnimatedNumber
@@ -191,14 +201,14 @@ export function RoiCalculator() {
                       />
                     </p>
                     <p className="mt-1 text-[11px] text-slate-500">
-                      horas libres cada mes
+                      {isEn ? "hours freed every month" : "horas libres cada mes"}
                     </p>
                   </SpotlightCard>
 
                   <SpotlightCard className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 transition duration-300 hover:-translate-y-0.5 hover:border-slate-300 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-white/20">
                     <div className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400">
                       <DollarSign className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                      Ahorro operativo
+                      {isEn ? "Admin savings" : "Ahorro operativo"}
                     </div>
                     <p className="mt-2 font-mono text-3xl font-extrabold text-slate-900 dark:text-white">
                       <AnimatedNumber
@@ -207,7 +217,7 @@ export function RoiCalculator() {
                       />
                     </p>
                     <p className="mt-1 text-[11px] text-slate-500">
-                      en horas administrativas
+                      {isEn ? "in administrative hours" : "en horas administrativas"}
                     </p>
                   </SpotlightCard>
 
@@ -217,7 +227,7 @@ export function RoiCalculator() {
                   >
                     <div className="flex items-center gap-2 text-xs font-semibold text-blue-700 dark:text-sky-300">
                       <TrendingUp className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                      Potencial extra
+                      {isEn ? "Extra upside" : "Potencial extra"}
                     </div>
                     <p className="mt-2 font-mono text-3xl font-extrabold text-blue-700 dark:text-sky-400">
                       <AnimatedNumber
@@ -226,7 +236,9 @@ export function RoiCalculator() {
                       />
                     </p>
                     <p className="mt-1 text-[11px] text-blue-800/80 dark:text-blue-200/80">
-                      ~{projectedExtraDeals} cierres extra / mes
+                      {isEn
+                        ? `~${projectedExtraDeals} extra deals / mo`
+                        : `~${projectedExtraDeals} cierres extra / mes`}
                     </p>
                   </SpotlightCard>
                 </div>
@@ -235,9 +247,11 @@ export function RoiCalculator() {
                 <div className="mt-6 space-y-3 rounded-xl border border-slate-200 bg-slate-50/90 p-4 dark:border-white/10 dark:bg-[#070b14]">
                   <div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-slate-600 dark:text-slate-400">Esfuerzo manual mensual</span>
+                      <span className="text-slate-600 dark:text-slate-400">
+                        {isEn ? "Monthly manual effort" : "Esfuerzo manual mensual"}
+                      </span>
                       <span className="font-mono font-semibold text-slate-700 dark:text-slate-300">
-                        {manualHoursPerMonth.toFixed(1)} horas
+                        {manualHoursPerMonth.toFixed(1)} {isEn ? "hours" : "horas"}
                       </span>
                     </div>
                     <div className="mt-1.5 h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
@@ -248,10 +262,10 @@ export function RoiCalculator() {
                   <div>
                     <div className="flex justify-between text-xs">
                       <span className="font-semibold text-blue-700 dark:text-sky-300">
-                        Con Axioma-X
+                        {isEn ? "With Axioma-X" : "Con Axioma-X"}
                       </span>
                       <span className="font-mono font-bold text-blue-700 dark:text-sky-400">
-                        {axiomaHoursPerMonth.toFixed(1)} horas
+                        {axiomaHoursPerMonth.toFixed(1)} {isEn ? "hours" : "horas"}
                       </span>
                     </div>
                     <div className="mt-1.5 h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
@@ -267,14 +281,16 @@ export function RoiCalculator() {
 
               <div className="mt-6 flex flex-wrap items-center justify-between gap-3 pt-2">
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Sin configuraciones complejas ni fricción para empezar.
+                  {isEn
+                    ? "Zero complex setup or friction to get started."
+                    : "Sin configuraciones complejas ni fricción para empezar."}
                 </p>
                 <MagneticButton>
                   <Link
                     href="/app"
                     className="btn-shimmer group inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-extrabold text-white shadow-lg shadow-blue-500/25 transition hover:bg-blue-500"
                   >
-                    Probar con mis precios
+                    {isEn ? "Try with my prices" : "Probar con mis precios"}
                     <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </MagneticButton>

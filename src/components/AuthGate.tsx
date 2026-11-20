@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { auth, googleProvider, isFirebaseConfigured } from "@/lib/firebase";
 import { AxiomaLogo } from "@/components/landing/AxiomaLogo";
+import { LanguageToggle, useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeProvider";
 
 const ENV_TEMPLATE = `NEXT_PUBLIC_FIREBASE_API_KEY=tu_api_key
@@ -25,13 +26,18 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=tu_sender_id
 NEXT_PUBLIC_FIREBASE_APP_ID=tu_app_id`;
 
 export function AuthGate() {
+  const { isEn } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [copiedEnv, setCopiedEnv] = useState(false);
 
   async function handleGoogleSignIn() {
     if (!auth || !googleProvider) {
-      setError("Firebase aún no está configurado en .env.local.");
+      setError(
+        isEn
+          ? "Firebase is not configured yet in .env.local."
+          : "Firebase aún no está configurado en .env.local."
+      );
       return;
     }
 
@@ -45,15 +51,23 @@ export function AuthGate() {
           ? String((err as { code?: string }).code)
           : "";
       if (code === "auth/popup-closed-by-user") {
-        setError("Cerraste la ventana de Google antes de completar el acceso.");
+        setError(
+          isEn
+            ? "You closed the Google window before completing sign-in."
+            : "Cerraste la ventana de Google antes de completar el acceso."
+        );
       } else if (code === "auth/unauthorized-domain") {
         setError(
-          "Este dominio no está autorizado en Firebase Auth. Agrégalo en Authentication → Settings → Authorized domains."
+          isEn
+            ? "This domain is not authorized in Firebase Auth. Add it under Authentication → Settings → Authorized domains."
+            : "Este dominio no está autorizado en Firebase Auth. Agrégalo en Authentication → Settings → Authorized domains."
         );
       } else {
         setError(
           err instanceof Error
             ? err.message
+            : isEn
+            ? "Could not sign in with Google."
             : "No se pudo iniciar sesión con Google."
         );
       }
@@ -77,17 +91,18 @@ export function AuthGate() {
 
       <div className="relative w-full max-w-md">
         <div className="mb-6 flex items-center justify-between">
-          <Link href="/" aria-label="Volver al inicio">
+          <Link href="/" aria-label={isEn ? "Back to home" : "Volver al inicio"}>
             <AxiomaLogo variant="auto" size="md" />
           </Link>
           <div className="flex items-center gap-2">
+            <LanguageToggle />
             <ThemeToggle />
             <Link
               href="/"
               className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300/80 bg-white/80 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-white hover:text-slate-950 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
-              Inicio
+              {isEn ? "Home" : "Inicio"}
             </Link>
           </div>
         </div>
@@ -97,8 +112,8 @@ export function AuthGate() {
           <div className="border-b border-slate-200/80 bg-[#19253f] dark:border-white/10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/brand/axioma-banner.jpg"
-              alt="Axioma-X — Cotizador inteligente"
+              src="/brand/axioma-banner.png"
+              alt="Axioma-X"
               className="h-auto w-full object-cover"
             />
           </div>
@@ -110,11 +125,12 @@ export function AuthGate() {
           </div>
 
           <h1 className="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-            Accede a tu espacio de trabajo
+            {isEn ? "Sign in to your workspace" : "Accede a tu espacio de trabajo"}
           </h1>
           <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-            Inicia sesión con Google para guardar tu empresa, catálogo de servicios y
-            cotizaciones de forma privada y en tiempo real en la nube.
+            {isEn
+              ? "Sign in with Google to save your business profile, service catalog, and quotes privately in the cloud."
+              : "Inicia sesión con Google para guardar tu empresa, catálogo de servicios y cotizaciones de forma privada y en tiempo real en la nube."}
           </p>
 
           {isFirebaseConfigured ? (
@@ -128,7 +144,7 @@ export function AuthGate() {
                 {loading ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin text-slate-700" />
-                    Conectando con Google...
+                    {isEn ? "Connecting to Google..." : "Conectando con Google..."}
                   </>
                 ) : (
                   <>
@@ -150,7 +166,7 @@ export function AuthGate() {
                         d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"
                       />
                     </svg>
-                    Continuar con Google
+                    {isEn ? "Continue with Google" : "Continuar con Google"}
                   </>
                 )}
               </button>
@@ -165,11 +181,11 @@ export function AuthGate() {
               <div className="grid grid-cols-2 gap-2.5 pt-2 text-[11px] text-slate-600 dark:text-slate-400">
                 <div className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100/90 px-3 py-2 dark:border-white/10 dark:bg-[#070b14]">
                   <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-blue-600 dark:text-blue-400" />
-                  Datos aislados por usuario
+                  {isEn ? "Per-user isolated data" : "Datos aislados por usuario"}
                 </div>
                 <div className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100/90 px-3 py-2 dark:border-white/10 dark:bg-[#070b14]">
                   <Database className="h-3.5 w-3.5 shrink-0 text-blue-600 dark:text-blue-400" />
-                  Sincronización en Firestore
+                  {isEn ? "Firestore cloud sync" : "Sincronización en Firestore"}
                 </div>
               </div>
             </div>

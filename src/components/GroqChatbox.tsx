@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useLanguage } from "@/components/LanguageProvider";
 import {
   Check,
   Copy,
@@ -48,11 +49,18 @@ interface ChatMessage {
   content: string;
 }
 
-const QUICK_PROMPTS = [
+const QUICK_PROMPTS_ES = [
   "¿Cómo funciona Axioma-X?",
   "Redacta un seguimiento por WhatsApp para una cotización",
   "Sugiere notas y condiciones de pago profesionales",
   "Dame tips para cerrar más cotizaciones",
+];
+
+const QUICK_PROMPTS_EN = [
+  "How does Axioma-X work?",
+  "Draft a WhatsApp follow-up message for a quote",
+  "Suggest professional payment terms and notes",
+  "Give me tips to close more quotes",
 ];
 
 function renderFormattedText(text: string) {
@@ -70,6 +78,8 @@ function renderFormattedText(text: string) {
 }
 
 export function GroqChatbox() {
+  const { isEn } = useLanguage();
+  const quickPrompts = isEn ? QUICK_PROMPTS_EN : QUICK_PROMPTS_ES;
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -201,7 +211,7 @@ export function GroqChatbox() {
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                  Asistente comercial inteligente
+                  {isEn ? "Smart commercial assistant" : "Asistente comercial inteligente"}
                 </p>
               </div>
             </div>
@@ -211,7 +221,7 @@ export function GroqChatbox() {
                 <button
                   type="button"
                   onClick={handleClear}
-                  title="Limpiar conversación"
+                  title={isEn ? "Clear conversation" : "Limpiar conversación"}
                   className="rounded-lg p-1.5 text-slate-500 transition hover:bg-slate-200/70 hover:text-rose-600 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-rose-300"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -220,7 +230,7 @@ export function GroqChatbox() {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                title="Cerrar chat"
+                title={isEn ? "Close chat" : "Cerrar chat"}
                 className="rounded-lg p-1.5 text-slate-500 transition hover:bg-slate-200/70 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
               >
                 <X className="h-4 w-4" />
@@ -238,21 +248,21 @@ export function GroqChatbox() {
                       className="h-4 w-4 text-blue-600 dark:text-blue-400"
                       accentClassName="text-sky-500 dark:text-sky-200"
                     />
-                    ¡Hola! Soy Axioma AI
+                    {isEn ? "Hi! I'm Axioma AI" : "¡Hola! Soy Axioma AI"}
                   </div>
                   <p className="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
-                    Puedo ayudarte a redactar mensajes de WhatsApp para tus
-                    clientes, mejorar tus notas de cotización o resolver dudas
-                    sobre Axioma-X al instante.
+                    {isEn
+                      ? "I can help you draft WhatsApp messages for your clients, improve your quote notes, or answer questions about Axioma-X instantly."
+                      : "Puedo ayudarte a redactar mensajes de WhatsApp para tus clientes, mejorar tus notas de cotización o resolver dudas sobre Axioma-X al instante."}
                   </p>
                 </div>
 
                 <div>
                   <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                    Sugerencias rápidas
+                    {isEn ? "Quick suggestions" : "Sugerencias rápidas"}
                   </p>
                   <div className="flex flex-col gap-1.5">
-                    {QUICK_PROMPTS.map((prompt) => (
+                    {quickPrompts.map((prompt) => (
                       <button
                         key={prompt}
                         type="button"
@@ -294,12 +304,14 @@ export function GroqChatbox() {
                           {copiedId === msg.id ? (
                             <>
                               <Check className="h-3 w-3 text-blue-600 dark:text-sky-400" />
-                              <span className="text-blue-600 dark:text-sky-400">Copiado</span>
+                              <span className="text-blue-600 dark:text-sky-400">
+                                {isEn ? "Copied" : "Copiado"}
+                              </span>
                             </>
                           ) : (
                             <>
                               <Copy className="h-3 w-3" />
-                              <span>Copiar</span>
+                              <span>{isEn ? "Copy" : "Copiar"}</span>
                             </>
                           )}
                         </button>
@@ -314,7 +326,7 @@ export function GroqChatbox() {
               <div className="flex items-start">
                 <div className="inline-flex items-center gap-2 rounded-2xl rounded-bl-sm border border-slate-200/90 bg-white px-3.5 py-2.5 text-xs text-slate-600 shadow-sm dark:border-white/10 dark:bg-white/[0.05] dark:text-slate-300 dark:shadow-none">
                   <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-600 dark:text-sky-400" />
-                  <span>Analizando...</span>
+                  <span>{isEn ? "Thinking..." : "Analizando..."}</span>
                 </div>
               </div>
             )}
@@ -343,14 +355,14 @@ export function GroqChatbox() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Escribe tu consulta..."
+                placeholder={isEn ? "Type your question..." : "Escribe tu consulta..."}
                 disabled={isLoading}
                 className="max-h-28 min-h-[36px] flex-1 resize-none bg-transparent px-2 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none disabled:opacity-60 dark:text-white dark:placeholder-slate-500"
               />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                aria-label="Enviar mensaje"
+                aria-label={isEn ? "Send message" : "Enviar mensaje"}
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-600 text-white shadow-md shadow-blue-600/25 transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {isLoading ? (
@@ -361,7 +373,7 @@ export function GroqChatbox() {
               </button>
             </div>
             <p className="mt-1.5 text-center text-[10px] text-slate-500">
-              Enter para enviar · Shift+Enter nueva línea
+              {isEn ? "Enter to send · Shift+Enter new line" : "Enter para enviar · Shift+Enter nueva línea"}
             </p>
           </form>
         </div>

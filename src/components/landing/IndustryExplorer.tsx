@@ -12,9 +12,11 @@ import {
 } from "lucide-react";
 import { INDUSTRY_PRESETS } from "@/data/presets";
 import { formatMoney } from "@/lib/format";
+import { useLanguage } from "@/components/LanguageProvider";
 import { MagneticButton, ScrollReveal } from "@/components/landing/MotionPrimitives";
 
 export function IndustryExplorer() {
+  const { isEn } = useLanguage();
   const [selectedId, setSelectedId] = useState(INDUSTRY_PRESETS[0].id);
   const preset =
     INDUSTRY_PRESETS.find((p) => p.id === selectedId) ?? INDUSTRY_PRESETS[0];
@@ -30,13 +32,17 @@ export function IndustryExplorer() {
             <div className="max-w-2xl">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-bold text-blue-700 dark:text-sky-300">
                 <Layers className="h-3.5 w-3.5" />
-                Multi-industria desde el día 1
+                {isEn ? "Multi-industry from day 1" : "Multi-industria desde el día 1"}
               </span>
               <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-                Adaptable a cualquier negocio que cotice por servicios
+                {isEn
+                  ? "Built for any service-based business that quotes"
+                  : "Adaptable a cualquier negocio que cotice por servicios"}
               </h2>
               <p className="mt-3 text-base text-slate-600 dark:text-slate-400">
-                Explora nuestras plantillas precargadas o edita tu propio catálogo de precios, monedas e impuestos.
+                {isEn
+                  ? "Explore preloaded industry templates or customize your own price catalog, currency, and taxes."
+                  : "Explora nuestras plantillas precargadas o edita tu propio catálogo de precios, monedas e impuestos."}
               </p>
             </div>
 
@@ -93,13 +99,14 @@ export function IndustryExplorer() {
 
                   <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-semibold text-slate-700 dark:text-slate-300">
                     <span className="rounded-lg border border-slate-200 bg-slate-100/80 px-2.5 py-1 dark:border-white/10 dark:bg-white/5">
-                      Moneda: {preset.business.currency}
+                      {isEn ? "Currency:" : "Moneda:"} {preset.business.currency}
                     </span>
                     <span className="rounded-lg border border-slate-200 bg-slate-100/80 px-2.5 py-1 dark:border-white/10 dark:bg-white/5">
                       {preset.business.taxLabel}: {preset.business.taxPercent}%
                     </span>
                     <span className="rounded-lg border border-slate-200 bg-slate-100/80 px-2.5 py-1 dark:border-white/10 dark:bg-white/5">
-                      Validez: {preset.business.validityDays} días
+                      {isEn ? "Validity:" : "Validez:"} {preset.business.validityDays}{" "}
+                      {isEn ? "days" : "días"}
                     </span>
                   </div>
 
@@ -107,7 +114,7 @@ export function IndustryExplorer() {
                     <div className="mt-6 rounded-2xl border border-blue-500/25 bg-blue-50/70 p-4 dark:bg-[#070b14]">
                       <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
                         <MessageSquareQuote className="h-3.5 w-3.5" />
-                        Ejemplo de solicitud real
+                        {isEn ? "Sample client request" : "Ejemplo de solicitud real"}
                       </div>
                       <p className="mt-2 text-xs leading-relaxed text-slate-700 dark:text-slate-300">
                         &ldquo;{preset.sampleMessages[0].text}&rdquo;
@@ -122,7 +129,7 @@ export function IndustryExplorer() {
                       href={`/app?preset=${preset.id}`}
                       className="btn-shimmer group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-xs font-extrabold text-white shadow-lg shadow-blue-500/25 transition hover:bg-blue-500 sm:w-auto"
                     >
-                      Lanzar Workspace con {preset.label}
+                      {isEn ? `Launch Workspace with ${preset.label}` : `Lanzar Workspace con ${preset.label}`}
                       <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                   </MagneticButton>
@@ -134,9 +141,13 @@ export function IndustryExplorer() {
                 <div className="flex items-center justify-between border-b border-slate-200/90 pb-3 dark:border-white/10">
                   <div className="flex items-center gap-2 text-xs font-bold text-slate-900 dark:text-white">
                     <Tag className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                    Catálogo base cargado ({preset.catalog.length} ítems)
+                    {isEn
+                      ? `Base catalog loaded (${preset.catalog.length} items)`
+                      : `Catálogo base cargado (${preset.catalog.length} ítems)`}
                   </div>
-                  <span className="text-[11px] text-slate-500">100% editable</span>
+                  <span className="text-[11px] text-slate-500">
+                    {isEn ? "100% editable" : "100% editable"}
+                  </span>
                 </div>
 
                 <div className="mt-3 divide-y divide-slate-200/70 dark:divide-white/5">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { GroqChatbox } from "@/components/GroqChatbox";
+import { LanguageProvider } from "@/components/LanguageProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -51,10 +52,12 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen font-sans transition-colors duration-300 selection:bg-blue-500/25 selection:text-blue-900 dark:selection:text-sky-200">
-        <ThemeProvider>
-          {children}
-          <GroqChatbox />
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider>
+            {children}
+            <GroqChatbox />
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
