@@ -92,7 +92,7 @@ export function BeforeAfterSection() {
         <ScrollReveal>
           <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
             <div className="max-w-2xl">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-300">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-bold text-sky-300">
                 <TrendingUp className="h-3.5 w-3.5" />
                 El problema real en PyMEs
               </span>
@@ -128,14 +128,14 @@ export function BeforeAfterSection() {
                 type="button"
                 onClick={() => setMode("axioma")}
                 className={`relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
-                  isAxioma ? "text-slate-950" : "text-slate-400 hover:text-slate-200"
+                  isAxioma ? "text-white" : "text-slate-400 hover:text-slate-200"
                 }`}
               >
                 {isAxioma && (
                   <motion.span
                     layoutId="mode-switch-pill"
                     transition={{ type: "spring", stiffness: 360, damping: 28 }}
-                    className="absolute inset-0 rounded-xl bg-emerald-500 shadow-md shadow-emerald-500/20"
+                    className="absolute inset-0 rounded-xl bg-blue-600 shadow-md shadow-blue-500/25"
                   />
                 )}
                 <Send className="relative z-10 h-3.5 w-3.5" />
@@ -157,10 +157,10 @@ export function BeforeAfterSection() {
           >
             {isAxioma && (
               <div
-                className="pointer-events-none absolute left-10 right-10 top-1/2 hidden h-px -translate-y-1/2 overflow-hidden bg-emerald-500/15 lg:block"
+                className="pointer-events-none absolute left-10 right-10 top-1/2 hidden h-px -translate-y-1/2 overflow-hidden bg-blue-500/15 lg:block"
                 aria-hidden="true"
               >
-                <span className="animate-data-packet absolute top-1/2 h-2 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-transparent via-emerald-400 to-cyan-300 shadow-[0_0_12px_rgba(52,211,153,0.9)]" />
+                <span className="animate-data-packet absolute top-1/2 h-2 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-transparent via-blue-400 to-sky-300 shadow-[0_0_12px_rgba(96,165,250,0.9)]" />
               </div>
             )}
 
@@ -184,12 +184,12 @@ export function BeforeAfterSection() {
                     <SpotlightCard
                       spotlightColor={
                         isAxioma
-                          ? "rgba(52, 211, 153, 0.07)"
+                          ? "rgba(96, 165, 250, 0.08)"
                           : "rgba(244, 63, 94, 0.07)"
                       }
                       className={`group flex h-full flex-col justify-between rounded-2xl border p-6 transition-colors duration-300 ${
                         isAxioma
-                          ? "border-emerald-500/25 bg-gradient-to-b from-[#0f172a] to-emerald-950/20 hover:border-emerald-400/45"
+                          ? "border-blue-500/25 bg-gradient-to-b from-[#0f172a] to-blue-950/30 hover:border-blue-400/45"
                           : "border-white/10 bg-[#0f172a]/70 hover:border-rose-500/35"
                       }`}
                     >
@@ -198,7 +198,7 @@ export function BeforeAfterSection() {
                           <div
                             className={`flex h-10 w-10 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${
                               isAxioma
-                                ? "bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30"
+                                ? "bg-blue-500/15 text-blue-400 ring-1 ring-blue-500/30"
                                 : "bg-white/5 text-slate-400 ring-1 ring-white/10"
                             }`}
                           >
@@ -207,7 +207,7 @@ export function BeforeAfterSection() {
                           <span
                             className={`rounded-full px-2.5 py-1 font-mono text-[11px] font-bold ${
                               isAxioma
-                                ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                                ? "border border-blue-500/30 bg-blue-500/10 text-sky-300"
                                 : "border border-rose-500/30 bg-rose-500/10 text-rose-300"
                             }`}
                           >
@@ -238,13 +238,13 @@ export function BeforeAfterSection() {
           <div
             className={`mt-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border px-6 py-4 transition ${
               isAxioma
-                ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-100"
+                ? "border-blue-500/25 bg-blue-500/10 text-blue-100"
                 : "border-rose-500/25 bg-rose-500/10 text-rose-100"
             }`}
           >
             <div className="flex items-center gap-3">
               {isAxioma ? (
-                <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400" />
+                <CheckCircle2 className="h-5 w-5 shrink-0 text-blue-400" />
               ) : (
                 <AlertTriangle className="h-5 w-5 shrink-0 text-rose-400" />
               )}
@@ -256,7 +256,7 @@ export function BeforeAfterSection() {
             </div>
             <span
               className={`font-mono text-xs font-extrabold uppercase tracking-wider ${
-                isAxioma ? "text-emerald-400" : "text-rose-400"
+                isAxioma ? "text-sky-400" : "text-rose-400"
               }`}
             >
               {isAxioma ? "98% más rápido" : "Alto costo oculto"}

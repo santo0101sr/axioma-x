@@ -4,10 +4,7 @@ import { INDUSTRY_PRESETS, INITIAL_QUOTES } from "@/data/presets";
 import { encodeSharedQuote } from "@/lib/share-link";
 import { AxiomaLogo } from "@/components/landing/AxiomaLogo";
 import { AntigravityField } from "@/components/landing/AntigravityField";
-import {
-  MarqueeStrip,
-  ScrollProgressBar,
-} from "@/components/landing/MotionPrimitives";
+import { ScrollProgressBar } from "@/components/landing/MotionPrimitives";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { BeforeAfterSection } from "@/components/landing/BeforeAfterSection";
 import { RoiCalculator } from "@/components/landing/RoiCalculator";
@@ -66,7 +63,7 @@ export default function LandingPage() {
             </a>
             <Link
               href="/app"
-              className="btn-shimmer group inline-flex items-center gap-1.5 rounded-xl bg-emerald-500 px-4 py-2 text-xs font-bold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400 hover:shadow-emerald-500/40 active:scale-[0.98]"
+              className="btn-shimmer group inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow-lg shadow-blue-500/25 transition hover:bg-blue-500 hover:shadow-blue-500/40 active:scale-[0.98]"
             >
               Abrir Plataforma
               <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
@@ -77,9 +74,6 @@ export default function LandingPage() {
 
       {/* Kinetic Parallax Hero + Live Sandbox */}
       <HeroSection />
-
-      {/* Dual Counter-Scrolling Capabilities & Industries Marquee */}
-      <MarqueeStrip />
 
       {/* Interactive Before vs After Section */}
       <BeforeAfterSection />

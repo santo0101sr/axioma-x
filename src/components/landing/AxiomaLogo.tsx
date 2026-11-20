@@ -29,7 +29,7 @@ export function AxiomaLogo({ variant = "dark", size = "md" }: AxiomaLogoProps) {
         >
           Axioma
         </span>
-        <span className={`${textSize} font-extrabold text-emerald-400`}>-X</span>
+        <span className={`${textSize} font-extrabold text-blue-400`}>-X</span>
       </div>
     </div>
   );

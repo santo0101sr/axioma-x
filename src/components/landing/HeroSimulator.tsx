@@ -172,7 +172,7 @@ export function HeroSimulator() {
     <div id="demo" className="relative">
       {/* Subtle outer glow */}
       <div
-        className="animate-pulse-glow pointer-events-none absolute -inset-3 rounded-3xl bg-gradient-to-tr from-emerald-500/20 via-teal-400/10 to-blue-500/20 blur-2xl"
+        className="animate-pulse-glow pointer-events-none absolute -inset-3 rounded-3xl bg-gradient-to-tr from-blue-600/20 via-sky-400/10 to-blue-500/20 blur-2xl"
         aria-hidden="true"
       />
 
@@ -182,13 +182,13 @@ export function HeroSimulator() {
           <div className="flex items-center gap-2">
             <span className="h-2.5 w-2.5 rounded-full bg-rose-500/80" />
             <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
+            <span className="h-2.5 w-2.5 rounded-full bg-blue-400/80" />
             <span className="ml-2 font-mono text-[11px] font-medium text-slate-400">
               axioma-x / live-sandbox
             </span>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-300 ring-1 ring-emerald-400/30">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/15 px-2.5 py-0.5 text-[11px] font-semibold text-sky-300 ring-1 ring-blue-400/30">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sky-400" />
             Motor Activo ({elapsedMs} ms)
           </span>
         </div>
@@ -207,7 +207,7 @@ export function HeroSimulator() {
                 onClick={() => handlePresetChange(preset.id)}
                 className={`relative rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                   isSelected
-                    ? "text-slate-950"
+                    ? "text-white"
                     : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
                 }`}
               >
@@ -215,7 +215,7 @@ export function HeroSimulator() {
                   <motion.span
                     layoutId="hero-preset-pill"
                     transition={{ type: "spring", stiffness: 360, damping: 28 }}
-                    className="absolute inset-0 rounded-lg bg-emerald-500 shadow-sm shadow-emerald-500/30"
+                    className="absolute inset-0 rounded-lg bg-blue-600 shadow-sm shadow-blue-500/30"
                   />
                 )}
                 <span className="relative z-10">{preset.label}</span>
@@ -230,13 +230,13 @@ export function HeroSimulator() {
             className="pointer-events-none hidden lg:block lg:absolute lg:inset-y-4 lg:left-[41.666%] lg:z-10 lg:w-px lg:-translate-x-1/2 lg:bg-white/10"
             aria-hidden="true"
           >
-            <div className="animate-beam-v h-20 w-full bg-gradient-to-b from-transparent via-emerald-400 to-transparent" />
+            <div className="animate-beam-v h-20 w-full bg-gradient-to-b from-transparent via-blue-400 to-transparent" />
           </div>
           {/* Left: WhatsApp-style informal message input */}
           <div className="flex flex-col justify-between border-b border-white/10 p-4 sm:p-5 lg:col-span-5 lg:border-b-0 lg:border-r">
             <div>
               <div className="flex items-center justify-between">
-                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-400">
                   <MessageSquare className="h-3.5 w-3.5" />
                   1. Solicitud del cliente
                 </div>
@@ -248,7 +248,7 @@ export function HeroSimulator() {
                 onChange={(e) => setMessage(e.target.value)}
                 rows={6}
                 placeholder="Pega un mensaje informal de WhatsApp..."
-                className="mt-2.5 w-full resize-none rounded-xl border border-white/10 bg-slate-950/80 p-3 text-xs leading-relaxed text-slate-100 placeholder-slate-500 outline-none transition focus:border-emerald-400/60 focus:ring-2 focus:ring-emerald-500/20"
+                className="mt-2.5 w-full resize-none rounded-xl border border-white/10 bg-slate-950/80 p-3 text-xs leading-relaxed text-slate-100 placeholder-slate-500 outline-none transition focus:border-blue-400/60 focus:ring-2 focus:ring-blue-500/20"
               />
 
               {activePreset.sampleMessages.length > 1 && (
@@ -261,7 +261,7 @@ export function HeroSimulator() {
                         setMessage(sample.text);
                         void runExtraction(sample.text, activePreset.id);
                       }}
-                      className="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-[11px] font-medium text-slate-300 transition hover:border-emerald-400/40 hover:bg-emerald-500/10 hover:text-emerald-200"
+                      className="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-[11px] font-medium text-slate-300 transition hover:border-blue-400/40 hover:bg-blue-500/10 hover:text-sky-200"
                     >
                       Ejemplo: {sample.title}
                     </button>
@@ -281,7 +281,7 @@ export function HeroSimulator() {
                 type="button"
                 onClick={() => void runExtraction(message, activePreset.id)}
                 disabled={loading}
-                className="btn-shimmer inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-xs font-bold text-slate-950 shadow-lg shadow-emerald-500/25 transition hover:bg-emerald-400 disabled:opacity-60"
+                className="btn-shimmer inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-blue-500/25 transition hover:bg-blue-500 disabled:opacity-60"
               >
                 {loading ? (
                   <>
@@ -311,7 +311,7 @@ export function HeroSimulator() {
           <div className="flex flex-col justify-between bg-slate-950/40 p-4 sm:p-5 lg:col-span-7">
             <div>
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-400">
                   <Sparkles className="h-3.5 w-3.5" />
                   2. Cotización estructurada
                 </div>
@@ -324,7 +324,7 @@ export function HeroSimulator() {
               <div className="relative mt-2.5 overflow-hidden rounded-xl border border-white/10 bg-[#0b1120] p-4 text-slate-100 shadow-lg">
                 {loading && (
                   <div
-                    className="animate-scan-beam pointer-events-none absolute inset-x-0 z-20 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_20px_rgba(16,185,129,0.9)]"
+                    className="animate-scan-beam pointer-events-none absolute inset-x-0 z-20 h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent shadow-[0_0_20px_rgba(59,130,246,0.9)]"
                     aria-hidden="true"
                   />
                 )}
@@ -346,7 +346,7 @@ export function HeroSimulator() {
                         {quote.clientPhone ? ` • ${quote.clientPhone}` : ""}
                       </p>
                     </div>
-                    <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold text-emerald-300">
+                    <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/30 bg-blue-500/15 px-2 py-0.5 text-[10px] font-bold text-sky-300">
                       <CheckCircle2 className="h-3 w-3" />
                       Lista para enviar
                     </span>
@@ -405,7 +405,7 @@ export function HeroSimulator() {
                       </span>
                       <span
                         key={`${quote.id}-${totals.total}`}
-                        className="animate-total-pop font-mono text-base font-extrabold text-emerald-400"
+                        className="animate-total-pop font-mono text-base font-extrabold text-sky-400"
                       >
                         {formatMoney(totals.total, quote.currency)}
                       </span>
@@ -420,7 +420,7 @@ export function HeroSimulator() {
               <button
                 type="button"
                 onClick={() => downloadQuotePdf(quote, activePreset.business)}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-white px-3 py-2 text-xs font-bold text-slate-900 transition hover:bg-emerald-50 hover:text-emerald-800"
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-white px-3 py-2 text-xs font-bold text-slate-900 transition hover:bg-blue-50 hover:text-blue-800"
               >
                 <FileDown className="h-3.5 w-3.5" />
                 Descargar PDF
@@ -429,14 +429,14 @@ export function HeroSimulator() {
                 href={shareUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-white transition hover:border-emerald-400/50 hover:bg-emerald-500/15"
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-white transition hover:border-blue-400/50 hover:bg-blue-500/15"
               >
                 <ExternalLink className="h-3.5 w-3.5" />
                 Portal Cliente
               </a>
               <Link
                 href={`/app?preset=${activePreset.id}`}
-                className="col-span-2 inline-flex items-center justify-center gap-1.5 rounded-xl border border-emerald-400/30 bg-emerald-500/15 px-3 py-2 text-xs font-semibold text-emerald-300 transition hover:bg-emerald-500/25 sm:col-span-1"
+                className="col-span-2 inline-flex items-center justify-center gap-1.5 rounded-xl border border-blue-400/30 bg-blue-500/15 px-3 py-2 text-xs font-semibold text-sky-300 transition hover:bg-blue-500/25 sm:col-span-1"
               >
                 Editar
                 <ArrowUpRight className="h-3.5 w-3.5" />

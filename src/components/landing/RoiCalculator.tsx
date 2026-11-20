@@ -47,7 +47,7 @@ export function RoiCalculator() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <ScrollReveal className="max-w-2xl">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-300">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-bold text-sky-300">
             <Calculator className="h-3.5 w-3.5" />
             Calculadora de Impacto Comercial
           </span>
@@ -76,7 +76,7 @@ export function RoiCalculator() {
                     >
                       Cotizaciones por semana
                     </label>
-                    <span className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 font-mono text-sm font-bold text-emerald-300">
+                    <span className="rounded-lg border border-blue-500/30 bg-blue-500/10 px-2.5 py-1 font-mono text-sm font-bold text-sky-300">
                       {quotesPerWeek} / sem
                     </span>
                   </div>
@@ -104,7 +104,7 @@ export function RoiCalculator() {
                     >
                       Tiempo manual por cotización
                     </label>
-                    <span className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 font-mono text-sm font-bold text-emerald-300">
+                    <span className="rounded-lg border border-blue-500/30 bg-blue-500/10 px-2.5 py-1 font-mono text-sm font-bold text-sky-300">
                       {minutesPerQuote} min
                     </span>
                   </div>
@@ -132,7 +132,7 @@ export function RoiCalculator() {
                     >
                       Ticket promedio por proyecto
                     </label>
-                    <span className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 font-mono text-sm font-bold text-emerald-300">
+                    <span className="rounded-lg border border-blue-500/30 bg-blue-500/10 px-2.5 py-1 font-mono text-sm font-bold text-sky-300">
                       {formatUsd(avgTicket)}
                     </span>
                   </div>
@@ -161,7 +161,7 @@ export function RoiCalculator() {
               <div>
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-4">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-blue-400">
                       Proyección mensual con Axioma-X
                     </p>
                     <p className="mt-0.5 text-xs text-slate-400">
@@ -169,7 +169,7 @@ export function RoiCalculator() {
                     </p>
                   </div>
 
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-500/10 px-3 py-1 font-mono text-[11px] font-bold text-emerald-300">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/25 bg-blue-500/10 px-3 py-1 font-mono text-[11px] font-bold text-sky-300">
                     Ahorro anual:{" "}
                     <AnimatedNumber
                       value={hoursSavedPerMonth * 12}
@@ -181,7 +181,7 @@ export function RoiCalculator() {
                 <div className="mt-6 grid gap-4 sm:grid-cols-3">
                   <SpotlightCard className="rounded-xl border border-white/10 bg-white/[0.03] p-4 transition duration-300 hover:-translate-y-0.5 hover:border-white/20">
                     <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
-                      <Clock className="h-4 w-4 text-emerald-400" />
+                      <Clock className="h-4 w-4 text-blue-400" />
                       Tiempo recuperado
                     </div>
                     <p className="mt-2 font-mono text-3xl font-extrabold text-white">
@@ -197,7 +197,7 @@ export function RoiCalculator() {
 
                   <SpotlightCard className="rounded-xl border border-white/10 bg-white/[0.03] p-4 transition duration-300 hover:-translate-y-0.5 hover:border-white/20">
                     <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
-                      <DollarSign className="h-4 w-4 text-emerald-400" />
+                      <DollarSign className="h-4 w-4 text-blue-400" />
                       Ahorro operativo
                     </div>
                     <p className="mt-2 font-mono text-3xl font-extrabold text-white">
@@ -212,20 +212,20 @@ export function RoiCalculator() {
                   </SpotlightCard>
 
                   <SpotlightCard
-                    spotlightColor="rgba(52, 211, 153, 0.10)"
-                    className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 p-4 transition duration-300 hover:-translate-y-0.5 hover:border-emerald-400/50"
+                    spotlightColor="rgba(96, 165, 250, 0.12)"
+                    className="rounded-xl border border-blue-400/30 bg-blue-500/10 p-4 transition duration-300 hover:-translate-y-0.5 hover:border-blue-400/50"
                   >
-                    <div className="flex items-center gap-2 text-xs font-semibold text-emerald-300">
-                      <TrendingUp className="h-4 w-4 text-emerald-400" />
+                    <div className="flex items-center gap-2 text-xs font-semibold text-sky-300">
+                      <TrendingUp className="h-4 w-4 text-blue-400" />
                       Potencial extra
                     </div>
-                    <p className="mt-2 font-mono text-3xl font-extrabold text-emerald-400">
+                    <p className="mt-2 font-mono text-3xl font-extrabold text-sky-400">
                       <AnimatedNumber
                         value={projectedExtraRevenue}
                         formatter={(n) => `+${formatUsd(Math.round(n))}`}
                       />
                     </p>
-                    <p className="mt-1 text-[11px] text-emerald-200/80">
+                    <p className="mt-1 text-[11px] text-blue-200/80">
                       ~{projectedExtraDeals} cierres extra / mes
                     </p>
                   </SpotlightCard>
@@ -247,10 +247,10 @@ export function RoiCalculator() {
 
                   <div>
                     <div className="flex justify-between text-xs">
-                      <span className="font-semibold text-emerald-300">
+                      <span className="font-semibold text-sky-300">
                         Con Axioma-X
                       </span>
-                      <span className="font-mono font-bold text-emerald-400">
+                      <span className="font-mono font-bold text-sky-400">
                         {axiomaHoursPerMonth.toFixed(1)} horas
                       </span>
                     </div>
@@ -258,7 +258,7 @@ export function RoiCalculator() {
                       <motion.div
                         animate={{ width: `${axiomaWidthPercent}%` }}
                         transition={{ type: "spring", stiffness: 160, damping: 24 }}
-                        className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-300 shadow-[0_0_14px_rgba(16,185,129,0.45)]"
+                        className="h-full rounded-full bg-gradient-to-r from-blue-600 to-sky-400 shadow-[0_0_14px_rgba(59,130,246,0.45)]"
                       />
                     </div>
                   </div>
@@ -272,7 +272,7 @@ export function RoiCalculator() {
                 <MagneticButton>
                   <Link
                     href="/app"
-                    className="btn-shimmer group inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-xs font-extrabold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400"
+                    className="btn-shimmer group inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-extrabold text-white shadow-lg shadow-blue-500/25 transition hover:bg-blue-500"
                   >
                     Probar con mis precios
                     <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

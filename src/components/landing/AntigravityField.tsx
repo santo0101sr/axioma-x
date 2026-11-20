@@ -31,10 +31,10 @@ interface TrailPoint {
 }
 
 const COLORS = [
-  "#34d399", // mint emerald
+  "#60a5fa", // sky blue 400
   "#4f6fff", // cobalt blue
-  "#22d3ee", // cyan
-  "#6366f1", // electric indigo
+  "#38bdf8", // light sky blue
+  "#3b82f6", // royal blue
   "#94a3b8", // subtle starlight
 ];
 
@@ -266,7 +266,7 @@ export function AntigravityField() {
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = i % 2 === 0 ? "#34d399" : "#4f6fff";
+            ctx.strokeStyle = i % 2 === 0 ? "#60a5fa" : "#4f6fff";
             ctx.lineWidth = 0.75;
             ctx.globalAlpha = (1 - dist / 95) * 0.32;
             ctx.stroke();
@@ -292,7 +292,7 @@ export function AntigravityField() {
           ctx.moveTo(prev.x, prev.y);
           ctx.lineTo(curr.x, curr.y);
           ctx.lineWidth = Math.max(0.6, ratio * curr.life * 2.6);
-          ctx.strokeStyle = i % 2 === 0 ? "#34d399" : "#4f6fff";
+          ctx.strokeStyle = i % 2 === 0 ? "#60a5fa" : "#4f6fff";
           ctx.globalAlpha = curr.life * ratio * 0.42;
           ctx.stroke();
         }
@@ -306,7 +306,7 @@ export function AntigravityField() {
 
         ctx.beginPath();
         ctx.arc(rp.x, rp.y, rp.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = i % 2 === 0 ? "#34d399" : "#4f6fff";
+        ctx.strokeStyle = i % 2 === 0 ? "#60a5fa" : "#4f6fff";
         ctx.lineWidth = 1.4;
         ctx.globalAlpha = rp.alpha;
         ctx.stroke();

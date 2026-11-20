@@ -23,7 +23,7 @@ export function ScrollProgressBar() {
     >
       <motion.div
         style={{ scaleX }}
-        className="h-full origin-left bg-gradient-to-r from-emerald-400 via-teal-300 to-blue-500 shadow-[0_0_12px_rgba(16,185,129,0.75)]"
+        className="h-full origin-left bg-gradient-to-r from-blue-500 via-sky-400 to-blue-300 shadow-[0_0_12px_rgba(59,130,246,0.75)]"
       />
     </div>
   );
@@ -122,7 +122,7 @@ interface SpotlightCardProps {
 export function SpotlightCard({
   children,
   className = "",
-  spotlightColor = "rgba(52, 211, 153, 0.06)",
+  spotlightColor = "rgba(96, 165, 250, 0.07)",
 }: SpotlightCardProps) {
   const cardRef = useRef<HTMLDivElement | null>(null);
   const [cursor, setCursor] = useState({ x: 0, y: 0, active: false });
@@ -150,7 +150,7 @@ export function SpotlightCard({
         style={{
           opacity: cursor.active ? 1 : 0,
           padding: "1px",
-          background: `radial-gradient(220px circle at ${cursor.x}px ${cursor.y}px, rgba(52, 211, 153, 0.85), rgba(59, 91, 255, 0.45) 45%, transparent 75%)`,
+          background: `radial-gradient(220px circle at ${cursor.x}px ${cursor.y}px, rgba(96, 165, 250, 0.85), rgba(37, 99, 235, 0.45) 45%, transparent 75%)`,
           WebkitMask:
             "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           WebkitMaskComposite: "xor",
@@ -209,16 +209,16 @@ export function TiltBannerCard({ children, className = "" }: TiltBannerCardProps
       }}
       className={`animated-border-beam relative overflow-hidden rounded-2xl p-[1.5px] transition-transform duration-300 ease-out will-change-transform ${className}`}
     >
-      {/* Orbiting cobalt -> emerald -> cyan border beam */}
+      {/* Orbiting cobalt -> royal blue -> sky blue border beam */}
       <div
         className="animate-border-spin pointer-events-none absolute left-1/2 top-1/2 h-[220%] w-[220%] opacity-90"
         style={{
           background:
-            "conic-gradient(from 0deg, transparent 0deg, rgba(59, 91, 255, 0.92) 70deg, rgba(52, 211, 153, 0.98) 140deg, rgba(34, 211, 238, 0.8) 190deg, transparent 250deg, transparent 360deg)",
+            "conic-gradient(from 0deg, transparent 0deg, rgba(37, 99, 235, 0.92) 70deg, rgba(96, 165, 250, 0.98) 140deg, rgba(56, 189, 248, 0.85) 190deg, transparent 250deg, transparent 360deg)",
         }}
         aria-hidden="true"
       />
-      <div className="relative z-10 overflow-hidden rounded-[15px] bg-[#19253f]">
+      <div className="relative z-10 overflow-hidden rounded-[15px] bg-[#041238]">
         {children}
       </div>
     </div>
@@ -226,10 +226,10 @@ export function TiltBannerCard({ children, className = "" }: TiltBannerCardProps
 }
 
 const GRID_SPARKS = [
-  { top: "120px", left: "20%", color: "bg-emerald-400", delay: "0s" },
-  { top: "280px", left: "80%", color: "bg-blue-400", delay: "0.9s" },
-  { top: "480px", left: "24%", color: "bg-teal-300", delay: "1.6s" },
-  { top: "360px", left: "72%", color: "bg-emerald-300", delay: "2.2s" },
+  { top: "120px", left: "20%", color: "bg-blue-400", delay: "0s" },
+  { top: "280px", left: "80%", color: "bg-sky-400", delay: "0.9s" },
+  { top: "480px", left: "24%", color: "bg-blue-300", delay: "1.6s" },
+  { top: "360px", left: "72%", color: "bg-sky-300", delay: "2.2s" },
 ];
 
 export function HeroInteractiveBackdrop() {
@@ -280,12 +280,12 @@ export function HeroInteractiveBackdrop() {
       />
 
       {/* Seamless high-blur atmospheric aurora orbs */}
-      <div className="animate-aurora absolute -top-36 left-1/4 h-[460px] w-[560px] rounded-full bg-[#2546f0]/16 blur-[160px]" />
-      <div className="animate-aurora-reverse absolute -top-20 right-1/4 h-[420px] w-[540px] rounded-full bg-emerald-500/12 blur-[160px]" />
+      <div className="animate-aurora absolute -top-36 left-1/4 h-[460px] w-[560px] rounded-full bg-[#2546f0]/20 blur-[160px]" />
+      <div className="animate-aurora-reverse absolute -top-20 right-1/4 h-[420px] w-[540px] rounded-full bg-sky-500/14 blur-[160px]" />
 
       {/* 3 Horizontal shooting light beams gliding along 40px grid tracks */}
       <div
-        className="animate-beam-h absolute left-0 top-[120px] h-[1px] w-48 bg-gradient-to-r from-transparent via-emerald-400 to-transparent"
+        className="animate-beam-h absolute left-0 top-[120px] h-[1px] w-48 bg-gradient-to-r from-transparent via-blue-400 to-transparent"
         style={{ animationDelay: "0s" }}
       />
       <div
@@ -293,13 +293,13 @@ export function HeroInteractiveBackdrop() {
         style={{ animationDelay: "2.2s" }}
       />
       <div
-        className="animate-beam-h absolute left-0 top-[480px] h-[1px] w-44 bg-gradient-to-r from-transparent via-teal-300 to-transparent"
+        className="animate-beam-h absolute left-0 top-[480px] h-[1px] w-44 bg-gradient-to-r from-transparent via-sky-300 to-transparent"
         style={{ animationDelay: "4.5s" }}
       />
 
       {/* 3 Vertical shooting light beams gliding down grid columns */}
       <div
-        className="animate-beam-v absolute left-[16%] top-0 h-44 w-[1px] bg-gradient-to-b from-transparent via-emerald-400 to-transparent"
+        className="animate-beam-v absolute left-[16%] top-0 h-44 w-[1px] bg-gradient-to-b from-transparent via-blue-400 to-transparent"
         style={{ animationDelay: "1.4s" }}
       />
       <div
@@ -307,7 +307,7 @@ export function HeroInteractiveBackdrop() {
         style={{ animationDelay: "3.6s" }}
       />
       <div
-        className="animate-beam-v absolute left-[84%] top-0 h-44 w-[1px] bg-gradient-to-b from-transparent via-teal-300 to-transparent"
+        className="animate-beam-v absolute left-[84%] top-0 h-44 w-[1px] bg-gradient-to-b from-transparent via-sky-300 to-transparent"
         style={{ animationDelay: "5.8s" }}
       />
 
@@ -411,9 +411,9 @@ export function MarqueeStrip() {
               {MARQUEE_ROW_ONE.map((item) => (
                 <div
                   key={`r1-${trackIdx}-${item}`}
-                  className="inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-semibold tracking-wide text-slate-300 transition hover:border-emerald-400/40 hover:bg-emerald-500/10 hover:text-white"
+                  className="inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-semibold tracking-wide text-slate-300 transition hover:border-blue-400/40 hover:bg-blue-500/10 hover:text-white"
                 >
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
                   <span>{item}</span>
                 </div>
               ))}

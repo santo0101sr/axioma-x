@@ -79,7 +79,7 @@ export function ArchitectureBento() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <ScrollReveal className="max-w-2xl">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-300">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-bold text-sky-300">
             <ShieldCheck className="h-3.5 w-3.5" />
             Capacidades &amp; Arquitectura
           </span>
@@ -102,9 +102,9 @@ export function ArchitectureBento() {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   className="h-full"
                 >
-                  <SpotlightCard className="group h-full rounded-2xl border border-white/10 bg-[#0f172a]/85 p-6 transition-colors duration-300 hover:border-emerald-500/40">
+                  <SpotlightCard className="group h-full rounded-2xl border border-white/10 bg-[#0f172a]/85 p-6 transition-colors duration-300 hover:border-blue-500/40">
                     <div className="flex items-center justify-between">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-500/25 bg-emerald-500/10 text-emerald-400 transition duration-300 group-hover:scale-110 group-hover:border-emerald-400/60 group-hover:bg-emerald-500/25 group-hover:text-emerald-300 group-hover:shadow-[0_0_18px_rgba(16,185,129,0.3)]">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-500/25 bg-blue-500/10 text-blue-400 transition duration-300 group-hover:scale-110 group-hover:border-blue-400/60 group-hover:bg-blue-500/25 group-hover:text-sky-300 group-hover:shadow-[0_0_18px_rgba(59,130,246,0.3)]">
                         <Icon className="h-5 w-5" />
                       </div>
                       <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[10px] font-semibold text-slate-400">
@@ -129,7 +129,7 @@ export function ArchitectureBento() {
           <div className="mt-10 overflow-hidden rounded-2xl border border-white/10 bg-[#0b1120] p-6 text-white sm:p-8">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
               <div className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4 animate-pulse text-emerald-400" />
+                <Sparkles className="h-4 w-4 animate-pulse text-blue-400" />
                 <h3 className="text-sm font-bold tracking-tight">
                   Flujo Técnico End-to-End de Axioma-X
                 </h3>
@@ -145,7 +145,7 @@ export function ArchitectureBento() {
                 className="pointer-events-none absolute left-8 right-8 top-1/2 hidden h-px -translate-y-1/2 overflow-hidden bg-white/10 lg:block"
                 aria-hidden="true"
               >
-                <span className="animate-data-packet absolute top-1/2 h-1.5 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-transparent via-emerald-400 to-[#4f6fff] shadow-[0_0_12px_rgba(52,211,153,0.9)]" />
+                <span className="animate-data-packet absolute top-1/2 h-1.5 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-transparent via-sky-400 to-[#4f6fff] shadow-[0_0_12px_rgba(96,165,250,0.9)]" />
               </div>
 
               <div className="relative z-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -155,9 +155,9 @@ export function ArchitectureBento() {
                       <motion.div
                         whileHover={{ y: -3 }}
                         transition={{ type: "spring", stiffness: 280, damping: 20 }}
-                        className="h-full rounded-xl border border-white/10 bg-[#070b14]/95 p-4 transition-colors duration-300 hover:border-emerald-500/40"
+                        className="h-full rounded-xl border border-white/10 bg-[#070b14]/95 p-4 transition-colors duration-300 hover:border-blue-500/40"
                       >
-                        <span className="font-mono text-xs font-bold text-emerald-400">
+                        <span className="font-mono text-xs font-bold text-blue-400">
                           {node.label}
                         </span>
                         <p className="mt-1.5 text-sm font-semibold text-slate-100">
@@ -168,7 +168,7 @@ export function ArchitectureBento() {
                     {idx < PIPELINE.length - 1 && (
                       <span
                         style={{ animationDelay: `${idx * 250}ms` }}
-                        className="animate-flow-arrow pointer-events-none absolute -right-3 top-1/2 z-10 hidden font-mono text-sm font-bold text-emerald-400 lg:block"
+                        className="animate-flow-arrow pointer-events-none absolute -right-3 top-1/2 z-10 hidden font-mono text-sm font-bold text-blue-400 lg:block"
                         aria-hidden="true"
                       >
                         →

@@ -413,14 +413,14 @@ input[type="range"].axioma-slider::-webkit-slider-thumb {
   width: 20px;
   height: 20px;
   border-radius: 9999px;
-  background: #10b981;
+  background: #3b82f6;
   border: 3px solid #070b14;
-  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.5), 0 4px 12px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.5), 0 4px 12px rgba(59, 130, 246, 0.4);
   cursor: pointer;
   transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
 input[type="range"].axioma-slider::-webkit-slider-thumb:hover {
   transform: scale(1.12);
-  background: #34d399;
+  background: #60a5fa;
 }
