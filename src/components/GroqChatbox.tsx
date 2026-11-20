@@ -184,8 +184,13 @@ export function GroqChatbox() {
           {/* Header */}
           <div className="flex items-center justify-between border-b border-slate-200/80 bg-slate-100/80 px-4 py-3 dark:border-white/10 dark:bg-slate-950/70">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-sky-500 text-white shadow-md shadow-blue-600/20 ring-1 ring-blue-400/30">
-                <AxiomaMarkIcon className="h-5 w-5" accentClassName="text-sky-200" />
+              <div className="h-9 w-9 shrink-0 overflow-hidden rounded-xl shadow-md shadow-blue-600/20 ring-1 ring-blue-400/30">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/brand/axioma-ai-icon.png"
+                  alt="Axioma AI"
+                  className="h-full w-full scale-[1.04] object-cover"
+                />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
@@ -368,14 +373,20 @@ export function GroqChatbox() {
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={isOpen ? "Cerrar asistente Axioma AI" : "Abrir asistente Axioma AI"}
         title={isOpen ? "Cerrar asistente" : "Axioma AI"}
-        className="group relative flex h-14 w-14 items-center justify-center rounded-full border border-blue-400/35 bg-gradient-to-br from-blue-600 to-sky-500 text-white shadow-xl shadow-blue-600/35 transition hover:scale-105 hover:shadow-blue-500/55 active:scale-95"
+        className={`group relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl shadow-xl shadow-blue-950/40 transition hover:scale-105 hover:shadow-blue-500/45 active:scale-95 ${
+          isOpen
+            ? "border border-blue-400/35 bg-gradient-to-br from-blue-600 to-sky-500 text-white"
+            : "bg-[#020b2d] ring-1 ring-blue-400/40"
+        }`}
       >
         {isOpen ? (
           <X className="h-5 w-5" />
         ) : (
-          <AxiomaMarkIcon
-            className="h-7 w-7 text-white transition-transform duration-200 group-hover:scale-110"
-            accentClassName="text-sky-200"
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src="/brand/axioma-ai-icon.png"
+            alt="Axioma AI"
+            className="h-full w-full scale-[1.04] object-cover transition-transform duration-200 group-hover:scale-110"
           />
         )}
       </button>
