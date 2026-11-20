@@ -289,45 +289,6 @@ export function HeroInteractiveBackdrop() {
       {/* Seamless high-blur atmospheric aurora orbs */}
       <div className="animate-aurora absolute -top-36 left-1/4 h-[460px] w-[560px] rounded-full bg-[#2546f0]/20 blur-[160px]" />
       <div className="animate-aurora-reverse absolute -top-20 right-1/4 h-[420px] w-[540px] rounded-full bg-sky-500/14 blur-[160px]" />
-
-      <div className="hidden dark:block">
-        {/* 3 Horizontal shooting light beams gliding along 40px grid tracks */}
-        <div
-          className="animate-beam-h absolute left-0 top-[120px] h-[1px] w-48 bg-gradient-to-r from-transparent via-blue-400 to-transparent"
-          style={{ animationDelay: "0s" }}
-        />
-        <div
-          className="animate-beam-h absolute left-0 top-[280px] h-[1px] w-56 bg-gradient-to-r from-transparent via-[#4f6fff] to-transparent"
-          style={{ animationDelay: "2.2s" }}
-        />
-        <div
-          className="animate-beam-h absolute left-0 top-[480px] h-[1px] w-44 bg-gradient-to-r from-transparent via-sky-300 to-transparent"
-          style={{ animationDelay: "4.5s" }}
-        />
-
-        {/* 3 Vertical shooting light beams gliding down grid columns */}
-        <div
-          className="animate-beam-v absolute left-[16%] top-0 h-44 w-[1px] bg-gradient-to-b from-transparent via-blue-400 to-transparent"
-          style={{ animationDelay: "1.4s" }}
-        />
-        <div
-          className="animate-beam-v absolute left-1/2 top-0 h-52 w-[1px] bg-gradient-to-b from-transparent via-[#4f6fff] to-transparent"
-          style={{ animationDelay: "3.6s" }}
-        />
-        <div
-          className="animate-beam-v absolute left-[84%] top-0 h-44 w-[1px] bg-gradient-to-b from-transparent via-sky-300 to-transparent"
-          style={{ animationDelay: "5.8s" }}
-        />
-
-        {/* Pulsing coordinate sparks at grid intersections */}
-        {GRID_SPARKS.map((spark, idx) => (
-          <span
-            key={idx}
-            style={{ top: spark.top, left: spark.left, animationDelay: spark.delay }}
-            className={`absolute h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full ${spark.color} opacity-60 shadow-[0_0_12px_currentColor]`}
-          />
-        ))}
-      </div>
     </div>
   );
 }

@@ -3,7 +3,6 @@ import { ArrowRight, ExternalLink } from "lucide-react";
 import { INDUSTRY_PRESETS, INITIAL_QUOTES } from "@/data/presets";
 import { encodeSharedQuote } from "@/lib/share-link";
 import { AxiomaLogo } from "@/components/landing/AxiomaLogo";
-import { AntigravityField } from "@/components/landing/AntigravityField";
 import { ThemeToggle } from "@/components/ThemeProvider";
 import { ScrollProgressBar } from "@/components/landing/MotionPrimitives";
 import { HeroSection } from "@/components/landing/HeroSection";
@@ -22,7 +21,6 @@ export default function LandingPage() {
   return (
     <div className="relative min-h-screen bg-[#eef2f7] text-slate-900 transition-colors duration-300 dark:bg-[#070b14] dark:text-slate-100">
       <ScrollProgressBar />
-      <AntigravityField />
 
       <div className="relative z-10">
         {/* Sticky Glassmorphic Navbar */}
