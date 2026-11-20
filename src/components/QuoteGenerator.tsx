@@ -31,6 +31,7 @@ import {
 } from "@/lib/format";
 import { downloadQuotePdf } from "@/lib/pdf-generator";
 import { encodeSharedQuote } from "@/lib/share-link";
+import { useLanguage } from "@/components/LanguageProvider";
 
 interface QuoteGeneratorProps {
   business: BusinessProfile;
@@ -64,6 +65,7 @@ export function QuoteGenerator({
   onSaveQuote,
   onPreviewClient,
 }: QuoteGeneratorProps) {
+  const { isEn } = useLanguage();
   const [message, setMessage] = useState("");
   const [imageBase64, setImageBase64] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
@@ -107,7 +109,7 @@ export function QuoteGenerator({
   async function handleExtract() {
     setErrorMsg("");
     if (!message.trim() && !imageBase64) {
-      setErrorMsg("Pega un mensaje, dicta por voz o adjunta una imagen.");
+      setErrorMsg(isEn ? "Paste a message, dictate by voice, or attach an image." : "Pega un mensaje, dicta por voz o adjunta una imagen.");
       return;
     }
 
@@ -126,7 +128,7 @@ export function QuoteGenerator({
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "Error al procesar la solicitud");
+        throw new Error(data.error || (isEn ? "Error processing the request" : "Error al procesar la solicitud"));
       }
 
       onClearEditing?.();
@@ -135,11 +137,11 @@ export function QuoteGenerator({
         quoteNumber: generateQuoteNumber(),
         createdAt: new Date().toISOString().split("T")[0],
         validUntil: addDaysIso(business.validityDays),
-        clientName: data.clientName || "Cliente por confirmar",
+        clientName: data.clientName || (isEn ? "Client to confirm" : "Cliente por confirmar"),
         clientPhone: data.clientPhone || "",
         clientCompany: data.clientCompany || "",
         originalMessage: message,
-        summary: data.summary || "Cotización generada",
+        summary: data.summary || (isEn ? "Generated quote" : "Cotización generada"),
         items: data.items || [],
         discountPercent: 0,
         taxPercent: business.taxPercent,
@@ -151,7 +153,7 @@ export function QuoteGenerator({
       setExtractedToast(true);
       setTimeout(() => setExtractedToast(false), 2600);
     } catch (e) {
-      setErrorMsg(e instanceof Error ? e.message : "Error inesperado");
+      setErrorMsg(e instanceof Error ? e.message : (isEn ? "Unexpected error" : "Error inesperado"));
     } finally {
       setLoading(false);
     }
@@ -171,12 +173,12 @@ export function QuoteGenerator({
     const SpeechRec = win.SpeechRecognition || win.webkitSpeechRecognition;
 
     if (!SpeechRec) {
-      setErrorMsg("Tu navegador no soporta dictado por voz. Prueba en Chrome o Edge.");
+      setErrorMsg(isEn ? "Your browser does not support voice dictation. Try Chrome or Edge." : "Tu navegador no soporta dictado por voz. Prueba en Chrome o Edge.");
       return;
     }
 
     const rec = new SpeechRec();
-    rec.lang = "es-CR";
+    rec.lang = isEn ? "en-US" : "es-CR";
     rec.interimResults = false;
     rec.continuous = true;
 
@@ -241,10 +243,10 @@ export function QuoteGenerator({
         ...prev.items,
         {
           id: `manual-${Date.now()}`,
-          name: "Servicio adicional",
+          name: isEn ? "Additional service" : "Servicio adicional",
           description: "",
           quantity: 1,
-          unit: "servicio",
+          unit: isEn ? "service" : "servicio",
           unitPrice: 50,
         },
       ],
@@ -269,7 +271,9 @@ export function QuoteGenerator({
       )
       .join("\n");
 
-    const text = `Hola ${draft.clientName || ""}, aquí tienes tu cotización *${draft.quoteNumber}* de *${business.name}*:\n\n${lines}\n\n*Total: ${formatMoney(totals.total, draft.currency)}*\nVálida hasta: ${draft.validUntil}\n\n${draft.notes}`;
+    const text = isEn
+      ? `Hi ${draft.clientName || ""}, here is your quote *${draft.quoteNumber}* from *${business.name}*:\n\n${lines}\n\n*Total: ${formatMoney(totals.total, draft.currency)}*\nValid until: ${draft.validUntil}\n\n${draft.notes}`
+      : `Hola ${draft.clientName || ""}, aquí tienes tu cotización *${draft.quoteNumber}* de *${business.name}*:\n\n${lines}\n\n*Total: ${formatMoney(totals.total, draft.currency)}*\nVálida hasta: ${draft.validUntil}\n\n${draft.notes}`;
 
     navigator.clipboard.writeText(text);
     setCopiedWa(true);
@@ -299,8 +303,12 @@ export function QuoteGenerator({
             1
           </span>
           <div className="min-w-0">
-            <p className="text-xs font-bold text-white">Pega o dicta el pedido</p>
-            <p className="truncate text-[11px] text-slate-400">WhatsApp, voz o foto</p>
+            <p className="text-xs font-bold text-white">
+              {isEn ? "Paste or dictate request" : "Pega o dicta el pedido"}
+            </p>
+            <p className="truncate text-[11px] text-slate-400">
+              {isEn ? "WhatsApp, voice, or photo" : "WhatsApp, voz o foto"}
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-[#0f172a]/80 px-4 py-2.5">
@@ -308,8 +316,12 @@ export function QuoteGenerator({
             2
           </span>
           <div className="min-w-0">
-            <p className="text-xs font-bold text-slate-200">Revisa y ajusta</p>
-            <p className="truncate text-[11px] text-slate-400">Cantidades, precios e IVA</p>
+            <p className="text-xs font-bold text-slate-200">
+              {isEn ? "Review & adjust" : "Revisa y ajusta"}
+            </p>
+            <p className="truncate text-[11px] text-slate-400">
+              {isEn ? "Quantities, prices & tax" : "Cantidades, precios e IVA"}
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-[#0f172a]/80 px-4 py-2.5">
@@ -317,8 +329,12 @@ export function QuoteGenerator({
             3
           </span>
           <div className="min-w-0">
-            <p className="text-xs font-bold text-slate-200">Descarga o comparte</p>
-            <p className="truncate text-[11px] text-slate-400">PDF corporativo o link /q</p>
+            <p className="text-xs font-bold text-slate-200">
+              {isEn ? "Download or share" : "Descarga o comparte"}
+            </p>
+            <p className="truncate text-[11px] text-slate-400">
+              {isEn ? "Branded PDF or /q link" : "PDF corporativo o link /q"}
+            </p>
           </div>
         </div>
       </div>
@@ -329,10 +345,10 @@ export function QuoteGenerator({
           <div className="rounded-2xl border border-white/10 bg-[#0f172a]/90 p-5 shadow-xl shadow-black/20">
             <div className="flex items-center justify-between gap-2">
               <h2 className="text-sm font-bold text-white">
-                Solicitud del cliente
+                {isEn ? "Client request" : "Solicitud del cliente"}
               </h2>
               <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] font-semibold text-slate-300">
-                Texto • Voz • Foto
+                {isEn ? "Text • Voice • Photo" : "Texto • Voz • Foto"}
               </span>
             </div>
 
@@ -340,7 +356,11 @@ export function QuoteGenerator({
               rows={7}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="Pega aquí el mensaje de tu cliente, dicta por voz o adjunta una foto de referencia..."
+              placeholder={
+                isEn
+                  ? "Paste your client's message here, dictate by voice, or attach a reference photo..."
+                  : "Pega aquí el mensaje de tu cliente, dicta por voz o adjunta una foto de referencia..."
+              }
               className="mt-3.5 w-full resize-none rounded-xl border border-white/10 bg-[#070b14] p-3.5 text-sm leading-relaxed text-slate-100 placeholder-slate-500 transition focus:border-blue-500/60 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
 
@@ -361,12 +381,24 @@ export function QuoteGenerator({
                   ) : (
                     <Mic className="h-3.5 w-3.5 text-blue-400" />
                   )}
-                  {listening ? "Detener voz" : "Dictar"}
+                  {listening
+                    ? isEn
+                      ? "Stop voice"
+                      : "Detener voz"
+                    : isEn
+                    ? "Dictate"
+                    : "Dictar"}
                 </button>
 
                 <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white">
                   <ImagePlus className="h-3.5 w-3.5 text-blue-400" />
-                  {imageBase64 ? "Foto lista" : "Adjuntar foto"}
+                  {imageBase64
+                    ? isEn
+                      ? "Photo ready"
+                      : "Foto lista"
+                    : isEn
+                    ? "Attach photo"
+                    : "Adjuntar foto"}
                   <input
                     type="file"
                     accept="image/*"
@@ -382,7 +414,7 @@ export function QuoteGenerator({
                   onClick={() => setImageBase64(undefined)}
                   className="text-xs font-medium text-rose-400 hover:underline"
                 >
-                  Quitar foto
+                  {isEn ? "Remove photo" : "Quitar foto"}
                 </button>
               )}
             </div>
@@ -402,12 +434,12 @@ export function QuoteGenerator({
               {loading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Procesando con tu catálogo...
+                  {isEn ? "Matching with your catalog..." : "Procesando con tu catálogo..."}
                 </>
               ) : (
                 <>
                   <Zap className="h-4 w-4" />
-                  Generar cotización
+                  {isEn ? "Generate quote" : "Generar cotización"}
                 </>
               )}
             </button>
@@ -415,7 +447,7 @@ export function QuoteGenerator({
             {extractedToast && (
               <div className="mt-3 flex items-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/10 px-3 py-2 text-xs font-semibold text-sky-300">
                 <Sparkles className="h-3.5 w-3.5" />
-                Cotización actualizada con tu catálogo.
+                {isEn ? "Quote updated with your catalog." : "Cotización actualizada con tu catálogo."}
               </div>
             )}
           </div>
@@ -432,12 +464,14 @@ export function QuoteGenerator({
                 </span>
                 {editingQuote && (
                   <span className="rounded-lg border border-amber-500/30 bg-amber-500/15 px-2 py-0.5 text-[11px] font-semibold text-amber-300">
-                    Editando
+                    {isEn ? "Editing" : "Editando"}
                   </span>
                 )}
               </div>
               <div className="mt-1.5 flex items-baseline gap-2">
-                <span className="text-xs text-slate-400">Total actual:</span>
+                <span className="text-xs text-slate-400">
+                  {isEn ? "Current total:" : "Total actual:"}
+                </span>
                 <span className="font-mono text-2xl font-extrabold text-blue-400">
                   {formatMoney(totals.total, draft.currency)}
                 </span>
@@ -451,7 +485,7 @@ export function QuoteGenerator({
                 className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-extrabold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-500"
               >
                 <FileDown className="h-4 w-4" />
-                Descargar PDF
+                {isEn ? "Download PDF" : "Descargar PDF"}
               </button>
               <button
                 type="button"
@@ -461,12 +495,12 @@ export function QuoteGenerator({
                 {savedToast ? (
                   <>
                     <Check className="h-3.5 w-3.5" />
-                    Guardada
+                    {isEn ? "Saved" : "Guardada"}
                   </>
                 ) : (
                   <>
                     <Save className="h-3.5 w-3.5" />
-                    Guardar
+                    {isEn ? "Save" : "Guardar"}
                   </>
                 )}
               </button>
@@ -481,7 +515,7 @@ export function QuoteGenerator({
               className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
             >
               <Eye className="h-3.5 w-3.5 text-slate-400" />
-              Vista previa
+              {isEn ? "Preview" : "Vista previa"}
             </button>
             <button
               type="button"
@@ -491,12 +525,12 @@ export function QuoteGenerator({
               {copiedLink ? (
                 <>
                   <Check className="h-3.5 w-3.5 text-blue-400" />
-                  Link copiado
+                  {isEn ? "Link copied" : "Link copiado"}
                 </>
               ) : (
                 <>
                   <Link2 className="h-3.5 w-3.5 text-slate-400" />
-                  Copiar link cliente
+                  {isEn ? "Copy client link" : "Copiar link cliente"}
                 </>
               )}
             </button>
@@ -508,12 +542,12 @@ export function QuoteGenerator({
               {copiedWa ? (
                 <>
                   <Check className="h-3.5 w-3.5 text-blue-400" />
-                  Copiado
+                  {isEn ? "Copied" : "Copiado"}
                 </>
               ) : (
                 <>
                   <Copy className="h-3.5 w-3.5 text-slate-400" />
-                  Texto WhatsApp
+                  {isEn ? "WhatsApp text" : "Texto WhatsApp"}
                 </>
               )}
             </button>
@@ -523,37 +557,37 @@ export function QuoteGenerator({
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             <div>
               <label className="text-[11px] font-semibold text-slate-400">
-                Cliente
+                {isEn ? "Client" : "Cliente"}
               </label>
               <input
                 type="text"
                 value={draft.clientName}
                 onChange={(e) => setDraft({ ...draft, clientName: e.target.value })}
-                placeholder="Nombre del cliente"
+                placeholder={isEn ? "Client name" : "Nombre del cliente"}
                 className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm font-medium text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
               />
             </div>
             <div>
               <label className="text-[11px] font-semibold text-slate-400">
-                Teléfono
+                {isEn ? "Phone" : "Teléfono"}
               </label>
               <input
                 type="text"
                 value={draft.clientPhone}
                 onChange={(e) => setDraft({ ...draft, clientPhone: e.target.value })}
-                placeholder="Teléfono / WhatsApp"
+                placeholder={isEn ? "Phone / WhatsApp" : "Teléfono / WhatsApp"}
                 className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm font-medium text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
               />
             </div>
             <div>
               <label className="text-[11px] font-semibold text-slate-400">
-                Empresa (opcional)
+                {isEn ? "Company (optional)" : "Empresa (opcional)"}
               </label>
               <input
                 type="text"
                 value={draft.clientCompany}
                 onChange={(e) => setDraft({ ...draft, clientCompany: e.target.value })}
-                placeholder="Nombre de empresa"
+                placeholder={isEn ? "Company name" : "Nombre de empresa"}
                 className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm font-medium text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
               />
             </div>
@@ -563,7 +597,7 @@ export function QuoteGenerator({
           <div className="mt-6">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                Conceptos ({draft.items.length})
+                {isEn ? `Items (${draft.items.length})` : `Conceptos (${draft.items.length})`}
               </span>
 
               <div className="flex flex-wrap items-center gap-2">
@@ -578,7 +612,7 @@ export function QuoteGenerator({
                   className="rounded-lg border border-white/10 bg-[#070b14] px-2.5 py-1.5 text-xs font-medium text-slate-200 focus:border-blue-500 focus:outline-none"
                 >
                   <option value="" disabled>
-                    + Agregar del catálogo...
+                    {isEn ? "+ Add from catalog..." : "+ Agregar del catálogo..."}
                   </option>
                   {catalog.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -600,9 +634,9 @@ export function QuoteGenerator({
 
             {/* Column labels on desktop */}
             <div className="mt-3 hidden grid-cols-12 gap-3 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 sm:grid">
-              <span className="col-span-5">Servicio</span>
-              <span className="col-span-2">Cantidad</span>
-              <span className="col-span-2 text-right">Precio</span>
+              <span className="col-span-5">{isEn ? "Service" : "Servicio"}</span>
+              <span className="col-span-2">{isEn ? "Quantity" : "Cantidad"}</span>
+              <span className="col-span-2 text-right">{isEn ? "Price" : "Precio"}</span>
               <span className="col-span-3 text-right">Subtotal</span>
             </div>
 
@@ -610,11 +644,14 @@ export function QuoteGenerator({
               {draft.items.length === 0 && (
                 <div className="rounded-xl border border-dashed border-white/15 bg-[#070b14]/50 px-4 py-8 text-center">
                   <p className="text-xs font-semibold text-slate-300">
-                    Tu cotización está vacía
+                    {isEn ? "Your quote is empty" : "Tu cotización está vacía"}
                   </p>
                   <p className="mt-1 text-[11px] text-slate-500">
-                    Escribe la solicitud del cliente a la izquierda y presiona{" "}
-                    <strong className="text-blue-400">Generar cotización</strong>, o agrega conceptos manualmente arriba.
+                    {isEn ? "Write the client's request on the left and press " : "Escribe la solicitud del cliente a la izquierda y presiona "}
+                    <strong className="text-blue-400">
+                      {isEn ? "Generate quote" : "Generar cotización"}
+                    </strong>
+                    {isEn ? ", or add items manually above." : ", o agrega conceptos manualmente arriba."}
                   </p>
                 </div>
               )}
@@ -636,7 +673,7 @@ export function QuoteGenerator({
                       onChange={(e) =>
                         updateItem(item.id, { description: e.target.value })
                       }
-                      placeholder="Descripción breve..."
+                      placeholder={isEn ? "Short description..." : "Descripción breve..."}
                       className="mt-0.5 w-full rounded-md border border-transparent bg-transparent px-1.5 py-0.5 text-xs text-slate-400 placeholder-slate-600 focus:border-white/15 focus:bg-[#070b14] focus:outline-none"
                     />
                   </div>
@@ -680,7 +717,7 @@ export function QuoteGenerator({
                       type="button"
                       onClick={() => removeItem(item.id)}
                       className="rounded-lg p-1 text-slate-500 transition hover:bg-rose-500/15 hover:text-rose-400"
-                      title="Eliminar ítem"
+                      title={isEn ? "Delete item" : "Eliminar ítem"}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
@@ -694,7 +731,7 @@ export function QuoteGenerator({
           <div className="mt-6 grid gap-5 border-t border-white/10 pt-5 sm:grid-cols-12">
             <div className="sm:col-span-7">
               <label className="text-xs font-semibold text-slate-400">
-                Notas y condiciones
+                {isEn ? "Notes & terms" : "Notas y condiciones"}
               </label>
               <textarea
                 rows={3}
@@ -713,7 +750,7 @@ export function QuoteGenerator({
               </div>
 
               <div className="flex items-center justify-between text-slate-400">
-                <span>Descuento (%)</span>
+                <span>{isEn ? "Discount (%)" : "Descuento (%)"}</span>
                 <input
                   type="number"
                   min="0"

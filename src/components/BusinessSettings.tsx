@@ -9,6 +9,7 @@ import {
   Upload,
 } from "lucide-react";
 import { BusinessProfile, CatalogItem, CurrencyCode, Quote } from "@/types/quote";
+import { useLanguage } from "@/components/LanguageProvider";
 
 interface BusinessSettingsProps {
   business: BusinessProfile;
@@ -31,6 +32,7 @@ export function BusinessSettings({
   onImportBackup,
   onResetDefaults,
 }: BusinessSettingsProps) {
+  const { isEn } = useLanguage();
   function update<K extends keyof BusinessProfile>(key: K, value: BusinessProfile[K]) {
     onChange({ ...business, [key]: value });
   }
@@ -87,16 +89,20 @@ export function BusinessSettings({
       <div className="rounded-2xl border border-white/10 bg-[#0f172a]/90 p-6 lg:col-span-7">
         <div className="flex items-center gap-2">
           <Building2 className="h-5 w-5 text-blue-400" />
-          <h2 className="text-base font-bold text-white">Perfil de la Empresa</h2>
+          <h2 className="text-base font-bold text-white">
+            {isEn ? "Business Profile" : "Perfil de la Empresa"}
+          </h2>
         </div>
         <p className="mt-1 text-xs text-slate-400">
-          Estos datos y tu logotipo aparecen en cada PDF y en los enlaces compartidos.
+          {isEn
+            ? "These details and your logo appear on every PDF and shared link."
+            : "Estos datos y tu logotipo aparecen en cada PDF y en los enlaces compartidos."}
         </p>
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
             <label className="text-xs font-semibold text-slate-300">
-              Nombre comercial
+              {isEn ? "Business name" : "Nombre comercial"}
             </label>
             <input
               type="text"
@@ -108,7 +114,7 @@ export function BusinessSettings({
 
           <div className="sm:col-span-2">
             <label className="text-xs font-semibold text-slate-300">
-              Descripción / Giro
+              {isEn ? "Tagline / Industry" : "Descripción / Giro"}
             </label>
             <input
               type="text"
@@ -120,7 +126,7 @@ export function BusinessSettings({
 
           <div>
             <label className="text-xs font-semibold text-slate-300">
-              Teléfono / WhatsApp
+              {isEn ? "Phone / WhatsApp" : "Teléfono / WhatsApp"}
             </label>
             <input
               type="text"
@@ -132,7 +138,7 @@ export function BusinessSettings({
 
           <div>
             <label className="text-xs font-semibold text-slate-300">
-              Correo de contacto
+              {isEn ? "Contact email" : "Correo de contacto"}
             </label>
             <input
               type="email"
@@ -143,7 +149,9 @@ export function BusinessSettings({
           </div>
 
           <div className="sm:col-span-2">
-            <label className="text-xs font-semibold text-slate-300">Dirección</label>
+            <label className="text-xs font-semibold text-slate-300">
+              {isEn ? "Address" : "Dirección"}
+            </label>
             <input
               type="text"
               value={business.address}
@@ -153,7 +161,9 @@ export function BusinessSettings({
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-300">Moneda</label>
+            <label className="text-xs font-semibold text-slate-300">
+              {isEn ? "Currency" : "Moneda"}
+            </label>
             <select
               value={business.currency}
               onChange={(e) => update("currency", e.target.value as CurrencyCode)}
@@ -168,7 +178,9 @@ export function BusinessSettings({
 
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs font-semibold text-slate-300">Impuesto</label>
+              <label className="text-xs font-semibold text-slate-300">
+                {isEn ? "Tax label" : "Impuesto"}
+              </label>
               <input
                 type="text"
                 value={business.taxLabel}
@@ -177,7 +189,9 @@ export function BusinessSettings({
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-300">Tasa (%)</label>
+              <label className="text-xs font-semibold text-slate-300">
+                {isEn ? "Rate (%)" : "Tasa (%)"}
+              </label>
               <input
                 type="number"
                 min="0"
@@ -191,7 +205,7 @@ export function BusinessSettings({
 
           <div className="sm:col-span-2">
             <label className="text-xs font-semibold text-slate-300">
-              Condiciones por defecto
+              {isEn ? "Default terms & notes" : "Condiciones por defecto"}
             </label>
             <textarea
               rows={3}
@@ -206,9 +220,13 @@ export function BusinessSettings({
       {/* Logo & Backup */}
       <div className="space-y-6 lg:col-span-5">
         <div className="rounded-2xl border border-white/10 bg-[#0f172a]/90 p-6">
-          <h3 className="text-sm font-bold text-white">Logotipo para PDF</h3>
+          <h3 className="text-sm font-bold text-white">
+            {isEn ? "PDF Brand Logo" : "Logotipo para PDF"}
+          </h3>
           <p className="mt-1 text-xs text-slate-400">
-            Sube un PNG o JPG para personalizar tus documentos.
+            {isEn
+              ? "Upload a PNG or JPG to brand your documents."
+              : "Sube un PNG o JPG para personalizar tus documentos."}
           </p>
 
           <div className="mt-4 flex items-center gap-4">
@@ -228,7 +246,7 @@ export function BusinessSettings({
             <div className="flex flex-wrap gap-2">
               <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl bg-blue-600 px-3.5 py-2 text-xs font-extrabold text-white transition hover:bg-blue-500">
                 <Upload className="h-3.5 w-3.5" />
-                Subir logo
+                {isEn ? "Upload logo" : "Subir logo"}
                 <input
                   type="file"
                   accept="image/*"
@@ -243,7 +261,7 @@ export function BusinessSettings({
                   className="inline-flex items-center gap-1 rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-xs font-semibold text-rose-300 hover:bg-rose-500/20"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
-                  Quitar
+                  {isEn ? "Remove" : "Quitar"}
                 </button>
               )}
             </div>
@@ -251,10 +269,13 @@ export function BusinessSettings({
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-[#0f172a]/90 p-6">
-          <h3 className="text-sm font-bold text-white">Respaldo y Portabilidad</h3>
+          <h3 className="text-sm font-bold text-white">
+            {isEn ? "Backup & Portability" : "Respaldo y Portabilidad"}
+          </h3>
           <p className="mt-1 text-xs text-slate-400">
-            Exporta o restaura tu perfil, catálogo ({catalog.length}) e historial (
-            {quotes.length}) en JSON.
+            {isEn
+              ? `Export or restore your profile, catalog (${catalog.length}), and history (${quotes.length}) in JSON.`
+              : `Exporta o restaura tu perfil, catálogo (${catalog.length}) e historial (${quotes.length}) en JSON.`}
           </p>
 
           <div className="mt-4 flex flex-wrap gap-2.5">
@@ -264,12 +285,12 @@ export function BusinessSettings({
               className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-white/10"
             >
               <Download className="h-3.5 w-3.5 text-blue-400" />
-              Exportar JSON
+              {isEn ? "Export JSON" : "Exportar JSON"}
             </button>
 
             <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-white/10">
               <Upload className="h-3.5 w-3.5 text-blue-400" />
-              Importar JSON
+              {isEn ? "Import JSON" : "Importar JSON"}
               <input
                 type="file"
                 accept="application/json"
@@ -284,7 +305,7 @@ export function BusinessSettings({
               className="inline-flex items-center gap-1.5 rounded-xl border border-rose-500/30 bg-rose-500/10 px-3.5 py-2 text-xs font-semibold text-rose-300 transition hover:bg-rose-500/20"
             >
               <RotateCcw className="h-3.5 w-3.5" />
-              Restaurar valores
+              {isEn ? "Reset defaults" : "Restaurar valores"}
             </button>
           </div>
         </div>

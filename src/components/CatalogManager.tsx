@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Plus, Tag, Trash2 } from "lucide-react";
 import { CatalogItem, CurrencyCode } from "@/types/quote";
 import { formatMoney } from "@/lib/format";
+import { useLanguage } from "./LanguageProvider";
 
 interface CatalogManagerProps {
   catalog: CatalogItem[];
@@ -12,6 +13,7 @@ interface CatalogManagerProps {
 }
 
 export function CatalogManager({ catalog, currency, onChange }: CatalogManagerProps) {
+  const { isEn } = useLanguage();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [unit, setUnit] = useState("servicio");
@@ -65,53 +67,63 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
         onSubmit={handleAdd}
         className="rounded-2xl border border-white/10 bg-[#0f172a]/90 p-6 lg:col-span-4"
       >
-        <h2 className="text-base font-bold text-white">Agregar servicio o producto</h2>
+        <h2 className="text-base font-bold text-white">
+          {isEn ? "Add service or product" : "Agregar servicio o producto"}
+        </h2>
         <p className="mt-1 text-xs text-slate-400">
-          El motor usa este catálogo para calcular precios reales automáticamente.
+          {isEn
+            ? "The engine uses this catalog to calculate real prices automatically."
+            : "El motor usa este catálogo para calcular precios reales automáticamente."}
         </p>
 
         <div className="mt-4 space-y-3.5">
           <div>
             <label className="text-xs font-semibold text-slate-300">
-              Nombre del servicio *
+              {isEn ? "Service name *" : "Nombre del servicio *"}
             </label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Ej. Instalación de aire acondicionado"
+              placeholder={
+                isEn ? "e.g. Air conditioner installation" : "Ej. Instalación de aire acondicionado"
+              }
               className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
           <div>
             <label className="text-xs font-semibold text-slate-300">
-              Descripción breve
+              {isEn ? "Short description" : "Descripción breve"}
             </label>
             <input
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Incluye soporte y prueba de presión"
+              placeholder={
+                isEn ? "Includes bracket and pressure test" : "Incluye soporte y prueba de presión"
+              }
               className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-semibold text-slate-300">Unidad</label>
+              <label className="text-xs font-semibold text-slate-300">
+                {isEn ? "Unit" : "Unidad"}
+              </label>
               <input
                 type="text"
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
-                placeholder="m², hora, proyecto"
+                placeholder={isEn ? "sq ft, hour, project" : "m², hora, proyecto"}
                 className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
               />
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-300">
-                Precio ({currency})
+                {isEn ? `Price (${currency})` : `Precio (${currency})`}
               </label>
               <input
                 type="number"
@@ -125,25 +137,29 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-300">Categoría</label>
+            <label className="text-xs font-semibold text-slate-300">
+              {isEn ? "Category" : "Categoría"}
+            </label>
             <input
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              placeholder="Instalación, Diseño, Mantenimiento..."
+              placeholder={
+                isEn ? "Installation, Design, Maintenance..." : "Instalación, Diseño, Mantenimiento..."
+              }
               className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
           <div>
             <label className="text-xs font-semibold text-slate-300">
-              Palabras clave (separadas por coma)
+              {isEn ? "Keywords (comma-separated)" : "Palabras clave (separadas por coma)"}
             </label>
             <input
               type="text"
               value={keywordsText}
               onChange={(e) => setKeywordsText(e.target.value)}
-              placeholder="aire, clima, ac, minisplit"
+              placeholder={isEn ? "ac, cooling, hvac, split" : "aire, clima, ac, minisplit"}
               className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
             />
           </div>
@@ -153,7 +169,7 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
             className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-extrabold text-white transition hover:bg-blue-500"
           >
             <Plus className="h-4 w-4" />
-            Agregar al catálogo
+            {isEn ? "Add to catalog" : "Agregar al catálogo"}
           </button>
         </div>
       </form>
@@ -163,10 +179,12 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div>
             <h2 className="text-base font-bold text-white">
-              Catálogo Activo ({catalog.length})
+              {isEn ? `Active Catalog (${catalog.length})` : `Catálogo Activo (${catalog.length})`}
             </h2>
             <p className="text-xs text-slate-400">
-              Edita precios en línea en cualquier momento.
+              {isEn
+                ? "Edit prices inline anytime."
+                : "Edita precios en línea en cualquier momento."}
             </p>
           </div>
           <Tag className="h-5 w-5 text-blue-400" />
@@ -176,10 +194,12 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
           {catalog.length === 0 && (
             <div className="rounded-xl border border-dashed border-white/15 bg-[#070b14]/50 px-4 py-10 text-center">
               <p className="text-sm font-semibold text-slate-300">
-                Tu catálogo está vacío
+                {isEn ? "Your catalog is empty" : "Tu catálogo está vacío"}
               </p>
               <p className="mt-1 text-xs text-slate-500">
-                Agrega tus servicios o productos en el formulario de la izquierda para que Axioma-X use tus precios reales automáticamente.
+                {isEn
+                  ? "Add your services or products in the left form so Axioma-X uses your real prices automatically."
+                  : "Agrega tus servicios o productos en el formulario de la izquierda para que Axioma-X use tus precios reales automáticamente."}
               </p>
             </div>
           )}
@@ -236,7 +256,7 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
                   type="button"
                   onClick={() => handleDelete(item.id)}
                   className="rounded-lg p-2 text-slate-500 transition hover:bg-rose-500/15 hover:text-rose-400"
-                  title="Eliminar servicio"
+                  title={isEn ? "Delete service" : "Eliminar servicio"}
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>

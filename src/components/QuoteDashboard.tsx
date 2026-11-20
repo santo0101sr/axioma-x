@@ -17,6 +17,7 @@ import {
 import { BusinessProfile, Quote, QuoteStatus } from "@/types/quote";
 import { calculateQuoteTotals, formatMoney } from "@/lib/format";
 import { downloadQuotePdf } from "@/lib/pdf-generator";
+import { useLanguage } from "@/components/LanguageProvider";
 
 interface QuoteDashboardProps {
   quotes: Quote[];
@@ -27,7 +28,7 @@ interface QuoteDashboardProps {
   onPreviewClient: (quote: Quote) => void;
 }
 
-const STATUS_META: Record<
+const STATUS_META_ES: Record<
   QuoteStatus,
   { label: string; badge: string; icon: React.ComponentType<{ className?: string }> }
 > = {
@@ -53,6 +54,32 @@ const STATUS_META: Record<
   },
 };
 
+const STATUS_META_EN: Record<
+  QuoteStatus,
+  { label: string; badge: string; icon: React.ComponentType<{ className?: string }> }
+> = {
+  draft: {
+    label: "Draft",
+    badge: "bg-slate-800 text-slate-300 border-slate-700",
+    icon: Clock,
+  },
+  sent: {
+    label: "Sent",
+    badge: "bg-sky-500/15 text-sky-300 border-sky-500/30",
+    icon: Send,
+  },
+  approved: {
+    label: "Approved",
+    badge: "bg-blue-500/15 text-sky-300 border-blue-500/30",
+    icon: CheckCircle2,
+  },
+  rejected: {
+    label: "Rejected",
+    badge: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+    icon: XCircle,
+  },
+};
+
 export function QuoteDashboard({
   quotes,
   business,
@@ -61,6 +88,8 @@ export function QuoteDashboard({
   onDelete,
   onPreviewClient,
 }: QuoteDashboardProps) {
+  const { isEn } = useLanguage();
+  const STATUS_META = isEn ? STATUS_META_EN : STATUS_META_ES;
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<QuoteStatus | "all">("all");
 
@@ -127,38 +156,52 @@ export function QuoteDashboard({
       {/* KPI Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-2xl border border-white/10 bg-[#0f172a]/90 p-5">
-          <p className="text-xs font-medium text-slate-400">Total Cotizado</p>
+          <p className="text-xs font-medium text-slate-400">
+            {isEn ? "Total Quoted" : "Total Cotizado"}
+          </p>
           <p className="mt-2 font-mono text-2xl font-extrabold text-white">
             {formatMoney(totalQuoted, business.currency)}
           </p>
-          <p className="mt-1 text-xs text-slate-500">{quotes.length} cotizaciones</p>
+          <p className="mt-1 text-xs text-slate-500">
+            {quotes.length} {isEn ? "quotes" : "cotizaciones"}
+          </p>
         </div>
 
         <div className="rounded-2xl border border-blue-500/30 bg-blue-500/10 p-5">
-          <p className="text-xs font-semibold text-sky-300">Ventas Aprobadas</p>
+          <p className="text-xs font-semibold text-sky-300">
+            {isEn ? "Approved Sales" : "Ventas Aprobadas"}
+          </p>
           <p className="mt-2 font-mono text-2xl font-extrabold text-blue-400">
             {formatMoney(totalApproved, business.currency)}
           </p>
           <p className="mt-1 text-xs text-blue-200/70">
-            {approvedQuotes.length} cerradas con éxito
+            {approvedQuotes.length} {isEn ? "closed deals" : "cerradas con éxito"}
           </p>
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-[#0f172a]/90 p-5">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-medium text-slate-400">Tasa de Cierre</p>
+            <p className="text-xs font-medium text-slate-400">
+              {isEn ? "Close Rate" : "Tasa de Cierre"}
+            </p>
             <TrendingUp className="h-4 w-4 text-blue-400" />
           </div>
           <p className="mt-2 font-mono text-2xl font-extrabold text-white">{closeRate}%</p>
-          <p className="mt-1 text-xs text-slate-500">Sobre total emitido</p>
+          <p className="mt-1 text-xs text-slate-500">
+            {isEn ? "Of total issued" : "Sobre total emitido"}
+          </p>
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-[#0f172a]/90 p-5">
-          <p className="text-xs font-medium text-slate-400">Pendientes</p>
+          <p className="text-xs font-medium text-slate-400">
+            {isEn ? "Pending" : "Pendientes"}
+          </p>
           <p className="mt-2 font-mono text-2xl font-extrabold text-white">
             {quotes.filter((q) => q.status === "sent").length}
           </p>
-          <p className="mt-1 text-xs text-slate-500">Listas para seguimiento</p>
+          <p className="mt-1 text-xs text-slate-500">
+            {isEn ? "Ready for follow-up" : "Listas para seguimiento"}
+          </p>
         </div>
       </div>
 
@@ -171,7 +214,7 @@ export function QuoteDashboard({
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Buscar cliente, empresa o número..."
+              placeholder={isEn ? "Search client, company or number..." : "Buscar cliente, empresa o número..."}
               className="w-full rounded-xl border border-white/10 bg-[#070b14] py-2 pl-9 pr-3 text-sm text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
             />
           </div>
@@ -188,7 +231,7 @@ export function QuoteDashboard({
                       : "border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
                   }`}
                 >
-                  {st === "all" ? "Todas" : STATUS_META[st].label}
+                  {st === "all" ? (isEn ? "All" : "Todas") : STATUS_META[st].label}
                 </button>
               ))}
             </div>
@@ -199,26 +242,28 @@ export function QuoteDashboard({
               className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:bg-white/10"
             >
               <Download className="h-3.5 w-3.5 text-blue-400" />
-              Exportar CSV
+              {isEn ? "Export CSV" : "Exportar CSV"}
             </button>
           </div>
         </div>
 
         {filtered.length === 0 ? (
           <div className="py-12 text-center text-sm text-slate-400">
-            No hay cotizaciones que coincidan con tu búsqueda.
+            {isEn
+              ? "No quotes match your search."
+              : "No hay cotizaciones que coincidan con tu búsqueda."}
           </div>
         ) : (
           <div className="mt-5 overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead className="border-b border-white/10 text-[11px] uppercase tracking-wider text-slate-500">
                 <tr>
-                  <th className="pb-3 pr-4">N.º / Fecha</th>
-                  <th className="pb-3 pr-4">Cliente</th>
-                  <th className="pb-3 pr-4">Resumen</th>
+                  <th className="pb-3 pr-4">{isEn ? "No. / Date" : "N.º / Fecha"}</th>
+                  <th className="pb-3 pr-4">{isEn ? "Client" : "Cliente"}</th>
+                  <th className="pb-3 pr-4">{isEn ? "Summary" : "Resumen"}</th>
                   <th className="pb-3 pr-4 text-right">Total</th>
-                  <th className="pb-3 pr-4">Estado</th>
-                  <th className="pb-3 text-right">Acciones</th>
+                  <th className="pb-3 pr-4">{isEn ? "Status" : "Estado"}</th>
+                  <th className="pb-3 text-right">{isEn ? "Actions" : "Acciones"}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -241,7 +286,9 @@ export function QuoteDashboard({
                       </td>
                       <td className="max-w-xs py-3.5 pr-4">
                         <p className="truncate text-slate-300">{q.summary}</p>
-                        <p className="text-xs text-slate-500">{q.items.length} ítems</p>
+                        <p className="text-xs text-slate-500">
+                          {q.items.length} {isEn ? "items" : "ítems"}
+                        </p>
                       </td>
                       <td className="py-3.5 pr-4 text-right font-mono font-bold text-blue-400">
                         {formatMoney(totals.total, q.currency)}
@@ -255,16 +302,16 @@ export function QuoteDashboard({
                           className={`rounded-lg border px-2.5 py-1 text-xs font-semibold focus:outline-none ${meta.badge}`}
                         >
                           <option value="draft" className="bg-slate-900 text-slate-200">
-                            Borrador
+                            {isEn ? "Draft" : "Borrador"}
                           </option>
                           <option value="sent" className="bg-slate-900 text-slate-200">
-                            Enviada
+                            {isEn ? "Sent" : "Enviada"}
                           </option>
                           <option value="approved" className="bg-slate-900 text-slate-200">
-                            Aprobada
+                            {isEn ? "Approved" : "Aprobada"}
                           </option>
                           <option value="rejected" className="bg-slate-900 text-slate-200">
-                            Rechazada
+                            {isEn ? "Rejected" : "Rechazada"}
                           </option>
                         </select>
                       </td>
@@ -274,7 +321,7 @@ export function QuoteDashboard({
                             type="button"
                             onClick={() => onEditQuote(q)}
                             className="rounded-lg p-1.5 text-slate-400 transition hover:bg-white/10 hover:text-white"
-                            title="Editar en Cotizador"
+                            title={isEn ? "Edit in Quote Builder" : "Editar en Cotizador"}
                           >
                             <Pencil className="h-4 w-4" />
                           </button>
@@ -282,7 +329,7 @@ export function QuoteDashboard({
                             type="button"
                             onClick={() => onPreviewClient(q)}
                             className="rounded-lg p-1.5 text-slate-400 transition hover:bg-white/10 hover:text-white"
-                            title="Vista previa del cliente"
+                            title={isEn ? "Client preview" : "Vista previa del cliente"}
                           >
                             <Eye className="h-4 w-4" />
                           </button>
@@ -290,7 +337,7 @@ export function QuoteDashboard({
                             type="button"
                             onClick={() => downloadQuotePdf(q, business)}
                             className="rounded-lg p-1.5 text-slate-400 transition hover:bg-blue-500/15 hover:text-blue-400"
-                            title="Descargar PDF"
+                            title={isEn ? "Download PDF" : "Descargar PDF"}
                           >
                             <FileDown className="h-4 w-4" />
                           </button>
@@ -298,7 +345,7 @@ export function QuoteDashboard({
                             type="button"
                             onClick={() => onDelete(q.id)}
                             className="rounded-lg p-1.5 text-slate-500 transition hover:bg-rose-500/15 hover:text-rose-400"
-                            title="Eliminar"
+                            title={isEn ? "Delete" : "Eliminar"}
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
