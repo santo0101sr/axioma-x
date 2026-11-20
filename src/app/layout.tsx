@@ -37,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`scroll-smooth ${jakarta.variable} ${jetbrains.variable}`}>
-      <body className="min-h-screen font-sans selection:bg-emerald-500/20 selection:text-emerald-900">
+      <body className="min-h-screen font-sans selection:bg-blue-500/25 selection:text-sky-200">
         {children}
       </body>
     </html>
