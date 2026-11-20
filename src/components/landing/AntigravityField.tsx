@@ -334,7 +334,7 @@ export function AntigravityField() {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-0 h-full w-full"
+      className="pointer-events-none fixed inset-0 z-0 hidden h-full w-full dark:block"
       aria-hidden="true"
     />
   );
