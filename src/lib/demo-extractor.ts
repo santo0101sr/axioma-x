@@ -71,7 +71,7 @@ export function extractQuoteDemo(
   const matchedItems: QuoteLineItem[] = [];
 
   for (const catItem of catalog) {
-    const normalizedKeywords = catItem.keywords.map(normalize);
+    const normalizedKeywords = (catItem.keywords || []).map(normalize);
     const hitKeyword = normalizedKeywords.find((kw) => norm.includes(kw));
 
     if (hitKeyword) {

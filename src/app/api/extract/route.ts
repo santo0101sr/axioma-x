@@ -88,8 +88,8 @@ ${message || "Analiza la imagen adjunta y genera una cotización basada en el ca
     if (groqKey) {
       const hasImage = Boolean(body.imageBase64);
       const groqModel = hasImage
-        ? "meta-llama/llama-4-scout-17b-16e-instruct"
-        : "llama-3.3-70b-versatile";
+        ? "qwen/qwen3.8-27b"
+        : "openai/gpt-oss-120b";
 
       const userContent = hasImage
         ? [
