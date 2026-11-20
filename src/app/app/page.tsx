@@ -280,7 +280,7 @@ function WorkspaceContent() {
   if (authLoading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#070b14] text-slate-300">
-        <Loader2 className="h-6 w-6 animate-spin text-emerald-400" />
+        <Loader2 className="h-6 w-6 animate-spin text-blue-400" />
         <p className="text-xs font-medium text-slate-400">
           Verificando sesión...
         </p>
@@ -295,7 +295,7 @@ function WorkspaceContent() {
   if (dataLoading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#070b14] text-slate-300">
-        <Loader2 className="h-6 w-6 animate-spin text-emerald-400" />
+        <Loader2 className="h-6 w-6 animate-spin text-blue-400" />
         <p className="text-xs font-medium text-slate-400">
           Cargando tus datos desde Firestore...
         </p>
@@ -328,7 +328,7 @@ function WorkspaceContent() {
           {/* Active Company Card */}
           <div className="mt-5 rounded-xl border border-white/10 bg-white/[0.03] p-3">
             <div className="flex items-center gap-2 text-[11px] font-medium text-slate-400">
-              <Building2 className="h-3.5 w-3.5 text-emerald-400" />
+              <Building2 className="h-3.5 w-3.5 text-blue-400" />
               Tu empresa
             </div>
             <p className="mt-1 truncate text-sm font-bold text-white">
@@ -359,14 +359,14 @@ function WorkspaceContent() {
                     onClick={() => setActiveTab(tabId)}
                     className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold transition ${
                       isActive
-                        ? "bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30"
+                        ? "bg-blue-500/15 text-sky-300 ring-1 ring-blue-500/30"
                         : "text-slate-400 hover:bg-white/5 hover:text-slate-100"
                     }`}
                   >
                     <span className="flex items-center gap-2.5">
                       <Icon
                         className={`h-4 w-4 ${
-                          isActive ? "text-emerald-400" : "text-slate-500"
+                          isActive ? "text-blue-400" : "text-slate-500"
                         }`}
                       />
                       {meta.label}
@@ -375,7 +375,7 @@ function WorkspaceContent() {
                       <span
                         className={`rounded-md px-1.5 py-0.5 font-mono text-[10px] font-bold ${
                           isActive
-                            ? "bg-emerald-500/20 text-emerald-200"
+                            ? "bg-blue-500/20 text-blue-200"
                             : "bg-white/5 text-slate-400"
                         }`}
                       >
@@ -400,7 +400,7 @@ function WorkspaceContent() {
                 className="h-8 w-8 rounded-full border border-white/15 object-cover"
               />
             ) : (
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-300">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/20 text-xs font-bold text-sky-300">
                 {(user.displayName || user.email || "U")[0].toUpperCase()}
               </div>
             )}
@@ -460,7 +460,7 @@ function WorkspaceContent() {
                     onClick={() => setActiveTab(tabId)}
                     className={`inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
                       isActive
-                        ? "bg-emerald-500 text-slate-950"
+                        ? "bg-blue-600 text-white"
                         : "bg-white/5 text-slate-400"
                     }`}
                   >
@@ -488,7 +488,7 @@ function WorkspaceContent() {
             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold">
               {syncState === "saving" ? (
                 <>
-                  <Loader2 className="h-3.5 w-3.5 animate-spin text-emerald-400" />
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-400" />
                   <span className="text-slate-300">Guardando en Firestore...</span>
                 </>
               ) : syncState === "error" ? (
@@ -498,8 +498,8 @@ function WorkspaceContent() {
                 </>
               ) : (
                 <>
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                  <span className="text-emerald-300">Firestore sincronizado</span>
+                  <CheckCircle2 className="h-3.5 w-3.5 text-blue-400" />
+                  <span className="text-sky-300">Firestore sincronizado</span>
                 </>
               )}
             </div>

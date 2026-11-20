@@ -26,7 +26,7 @@ export function ClientPreviewModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
       <div className="relative max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/15 bg-[#0f172a] text-slate-100 shadow-2xl">
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-[#0b1120] px-6 py-3.5">
-          <div className="text-xs font-semibold text-emerald-400">
+          <div className="text-xs font-semibold text-blue-400">
             Vista pública del cliente • Link compartible
           </div>
           <button
@@ -49,7 +49,7 @@ export function ClientPreviewModal({
               </p>
             </div>
             <div className="text-right">
-              <span className="inline-block rounded-full border border-emerald-500/30 bg-emerald-500/15 px-3 py-1 font-mono text-xs font-bold text-emerald-300">
+              <span className="inline-block rounded-full border border-blue-500/30 bg-blue-500/15 px-3 py-1 font-mono text-xs font-bold text-sky-300">
                 {quote.quoteNumber}
               </span>
               <p className="mt-2 text-xs text-slate-400">Fecha: {quote.createdAt}</p>
@@ -119,7 +119,7 @@ export function ClientPreviewModal({
               </span>
             </div>
             {quote.discountPercent > 0 && (
-              <div className="flex justify-between text-emerald-400">
+              <div className="flex justify-between text-blue-400">
                 <span>Descuento ({quote.discountPercent}%)</span>
                 <span className="font-mono">
                   -{formatMoney(totals.discountAmount, quote.currency)}
@@ -136,7 +136,7 @@ export function ClientPreviewModal({
             </div>
             <div className="flex justify-between border-t border-white/10 pt-2 text-lg font-extrabold text-white">
               <span>Total</span>
-              <span className="font-mono text-emerald-400">
+              <span className="font-mono text-blue-400">
                 {formatMoney(totals.total, quote.currency)}
               </span>
             </div>
@@ -155,7 +155,7 @@ export function ClientPreviewModal({
               onClick={() => downloadQuotePdf(quote, business)}
               className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-white/10"
             >
-              <FileDown className="h-4 w-4 text-emerald-400" />
+              <FileDown className="h-4 w-4 text-blue-400" />
               Descargar PDF
             </button>
 
@@ -171,7 +171,7 @@ export function ClientPreviewModal({
               <button
                 type="button"
                 onClick={() => onApprove(quote.id)}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-500 px-5 py-2.5 text-xs font-extrabold text-slate-950 transition hover:bg-emerald-400"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-5 py-2.5 text-xs font-extrabold text-white transition hover:bg-blue-500"
               >
                 <CheckCircle2 className="h-4 w-4" />
                 Aprobar cotización

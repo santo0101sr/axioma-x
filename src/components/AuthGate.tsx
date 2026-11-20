@@ -70,7 +70,7 @@ export function AuthGate() {
   return (
     <div className="bg-hero-grid relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#070b14] px-4 py-12 text-slate-100">
       <div
-        className="pointer-events-none absolute -top-24 left-1/2 h-80 w-[640px] -translate-x-1/2 rounded-full bg-emerald-500/15 blur-[120px]"
+        className="pointer-events-none absolute -top-24 left-1/2 h-80 w-[640px] -translate-x-1/2 rounded-full bg-blue-500/15 blur-[120px]"
         aria-hidden="true"
       />
 
@@ -100,7 +100,7 @@ export function AuthGate() {
           </div>
 
           <div className="p-6 sm:p-8">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-bold text-emerald-300">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-[11px] font-bold text-sky-300">
             <Cloud className="h-3.5 w-3.5" />
             Firebase Auth + Cloud Firestore
           </div>
@@ -160,11 +160,11 @@ export function AuthGate() {
 
               <div className="grid grid-cols-2 gap-2.5 pt-2 text-[11px] text-slate-400">
                 <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#070b14] px-3 py-2">
-                  <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
+                  <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-blue-400" />
                   Datos aislados por usuario
                 </div>
                 <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#070b14] px-3 py-2">
-                  <Database className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
+                  <Database className="h-3.5 w-3.5 shrink-0 text-blue-400" />
                   Sincronización en Firestore
                 </div>
               </div>
@@ -202,7 +202,7 @@ export function AuthGate() {
                 >
                   {copiedEnv ? (
                     <>
-                      <Check className="h-3 w-3 text-emerald-400" />
+                      <Check className="h-3 w-3 text-blue-400" />
                       Copiado
                     </>
                   ) : (
@@ -212,7 +212,7 @@ export function AuthGate() {
                     </>
                   )}
                 </button>
-                <pre className="overflow-x-auto pr-16 font-mono text-[11px] leading-relaxed text-emerald-300">
+                <pre className="overflow-x-auto pr-16 font-mono text-[11px] leading-relaxed text-sky-300">
                   {ENV_TEMPLATE}
                 </pre>
               </div>

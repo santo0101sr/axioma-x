@@ -294,8 +294,8 @@ export function QuoteGenerator({
     <div className="space-y-5">
       {/* Guided 3-Step Visual Bar */}
       <div className="grid gap-2.5 sm:grid-cols-3">
-        <div className="flex items-center gap-3 rounded-xl border border-emerald-500/25 bg-emerald-500/[0.06] px-4 py-2.5">
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-xs font-extrabold text-slate-950">
+        <div className="flex items-center gap-3 rounded-xl border border-blue-500/25 bg-blue-500/[0.06] px-4 py-2.5">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600 text-xs font-extrabold text-white">
             1
           </span>
           <div className="min-w-0">
@@ -341,7 +341,7 @@ export function QuoteGenerator({
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Pega aquí el mensaje de tu cliente, dicta por voz o adjunta una foto de referencia..."
-              className="mt-3.5 w-full resize-none rounded-xl border border-white/10 bg-[#070b14] p-3.5 text-sm leading-relaxed text-slate-100 placeholder-slate-500 transition focus:border-emerald-500/60 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="mt-3.5 w-full resize-none rounded-xl border border-white/10 bg-[#070b14] p-3.5 text-sm leading-relaxed text-slate-100 placeholder-slate-500 transition focus:border-blue-500/60 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
 
             {/* Voice + Photo controls */}
@@ -359,13 +359,13 @@ export function QuoteGenerator({
                   {listening ? (
                     <MicOff className="h-3.5 w-3.5" />
                   ) : (
-                    <Mic className="h-3.5 w-3.5 text-emerald-400" />
+                    <Mic className="h-3.5 w-3.5 text-blue-400" />
                   )}
                   {listening ? "Detener voz" : "Dictar"}
                 </button>
 
                 <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white">
-                  <ImagePlus className="h-3.5 w-3.5 text-emerald-400" />
+                  <ImagePlus className="h-3.5 w-3.5 text-blue-400" />
                   {imageBase64 ? "Foto lista" : "Adjuntar foto"}
                   <input
                     type="file"
@@ -397,7 +397,7 @@ export function QuoteGenerator({
               type="button"
               onClick={handleExtract}
               disabled={loading}
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-extrabold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400 disabled:opacity-60"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-500/25 transition hover:bg-blue-500 disabled:opacity-60"
             >
               {loading ? (
                 <>
@@ -413,7 +413,7 @@ export function QuoteGenerator({
             </button>
 
             {extractedToast && (
-              <div className="mt-3 flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-300">
+              <div className="mt-3 flex items-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/10 px-3 py-2 text-xs font-semibold text-sky-300">
                 <Sparkles className="h-3.5 w-3.5" />
                 Cotización actualizada con tu catálogo.
               </div>
@@ -438,7 +438,7 @@ export function QuoteGenerator({
               </div>
               <div className="mt-1.5 flex items-baseline gap-2">
                 <span className="text-xs text-slate-400">Total actual:</span>
-                <span className="font-mono text-2xl font-extrabold text-emerald-400">
+                <span className="font-mono text-2xl font-extrabold text-blue-400">
                   {formatMoney(totals.total, draft.currency)}
                 </span>
               </div>
@@ -448,7 +448,7 @@ export function QuoteGenerator({
               <button
                 type="button"
                 onClick={() => downloadQuotePdf(draft, business)}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-500 px-4 py-2.5 text-xs font-extrabold text-slate-950 shadow-md shadow-emerald-500/20 transition hover:bg-emerald-400"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-extrabold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-500"
               >
                 <FileDown className="h-4 w-4" />
                 Descargar PDF
@@ -456,7 +456,7 @@ export function QuoteGenerator({
               <button
                 type="button"
                 onClick={() => handleSave("sent")}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2.5 text-xs font-bold text-emerald-300 transition hover:bg-emerald-500/20"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-blue-500/30 bg-blue-500/10 px-3.5 py-2.5 text-xs font-bold text-sky-300 transition hover:bg-blue-500/20"
               >
                 {savedToast ? (
                   <>
@@ -490,7 +490,7 @@ export function QuoteGenerator({
             >
               {copiedLink ? (
                 <>
-                  <Check className="h-3.5 w-3.5 text-emerald-400" />
+                  <Check className="h-3.5 w-3.5 text-blue-400" />
                   Link copiado
                 </>
               ) : (
@@ -507,7 +507,7 @@ export function QuoteGenerator({
             >
               {copiedWa ? (
                 <>
-                  <Check className="h-3.5 w-3.5 text-emerald-400" />
+                  <Check className="h-3.5 w-3.5 text-blue-400" />
                   Copiado
                 </>
               ) : (
@@ -530,7 +530,7 @@ export function QuoteGenerator({
                 value={draft.clientName}
                 onChange={(e) => setDraft({ ...draft, clientName: e.target.value })}
                 placeholder="Nombre del cliente"
-                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm font-medium text-white placeholder-slate-500 focus:border-emerald-500/60 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm font-medium text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
               />
             </div>
             <div>
@@ -542,7 +542,7 @@ export function QuoteGenerator({
                 value={draft.clientPhone}
                 onChange={(e) => setDraft({ ...draft, clientPhone: e.target.value })}
                 placeholder="Teléfono / WhatsApp"
-                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm font-medium text-white placeholder-slate-500 focus:border-emerald-500/60 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm font-medium text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
               />
             </div>
             <div>
@@ -554,7 +554,7 @@ export function QuoteGenerator({
                 value={draft.clientCompany}
                 onChange={(e) => setDraft({ ...draft, clientCompany: e.target.value })}
                 placeholder="Nombre de empresa"
-                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm font-medium text-white placeholder-slate-500 focus:border-emerald-500/60 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm font-medium text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
               />
             </div>
           </div>
@@ -575,7 +575,7 @@ export function QuoteGenerator({
                       e.target.value = "";
                     }
                   }}
-                  className="rounded-lg border border-white/10 bg-[#070b14] px-2.5 py-1.5 text-xs font-medium text-slate-200 focus:border-emerald-500 focus:outline-none"
+                  className="rounded-lg border border-white/10 bg-[#070b14] px-2.5 py-1.5 text-xs font-medium text-slate-200 focus:border-blue-500 focus:outline-none"
                 >
                   <option value="" disabled>
                     + Agregar del catálogo...
@@ -592,7 +592,7 @@ export function QuoteGenerator({
                   onClick={addEmptyItem}
                   className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs font-semibold text-slate-200 transition hover:bg-white/10"
                 >
-                  <Plus className="h-3.5 w-3.5 text-emerald-400" />
+                  <Plus className="h-3.5 w-3.5 text-blue-400" />
                   Manual
                 </button>
               </div>
@@ -614,7 +614,7 @@ export function QuoteGenerator({
                   </p>
                   <p className="mt-1 text-[11px] text-slate-500">
                     Escribe la solicitud del cliente a la izquierda y presiona{" "}
-                    <strong className="text-emerald-400">Generar cotización</strong>, o agrega conceptos manualmente arriba.
+                    <strong className="text-blue-400">Generar cotización</strong>, o agrega conceptos manualmente arriba.
                   </p>
                 </div>
               )}
@@ -652,7 +652,7 @@ export function QuoteGenerator({
                           quantity: parseFloat(e.target.value) || 0,
                         })
                       }
-                      className="w-16 rounded-lg border border-white/10 bg-[#070b14] px-2 py-1 text-center font-mono text-xs font-semibold text-white focus:border-emerald-500 focus:outline-none"
+                      className="w-16 rounded-lg border border-white/10 bg-[#070b14] px-2 py-1 text-center font-mono text-xs font-semibold text-white focus:border-blue-500 focus:outline-none"
                     />
                     <span className="text-[11px] text-slate-400">{item.unit}</span>
                   </div>
@@ -668,7 +668,7 @@ export function QuoteGenerator({
                           unitPrice: parseFloat(e.target.value) || 0,
                         })
                       }
-                      className="w-full rounded-lg border border-white/10 bg-[#070b14] px-2 py-1 text-right font-mono text-xs font-semibold text-white focus:border-emerald-500 focus:outline-none"
+                      className="w-full rounded-lg border border-white/10 bg-[#070b14] px-2 py-1 text-right font-mono text-xs font-semibold text-white focus:border-blue-500 focus:outline-none"
                     />
                   </div>
 
@@ -700,7 +700,7 @@ export function QuoteGenerator({
                 rows={3}
                 value={draft.notes}
                 onChange={(e) => setDraft({ ...draft, notes: e.target.value })}
-                className="mt-1.5 w-full resize-none rounded-xl border border-white/10 bg-[#070b14] p-3 text-xs leading-relaxed text-slate-300 focus:border-emerald-500/60 focus:outline-none"
+                className="mt-1.5 w-full resize-none rounded-xl border border-white/10 bg-[#070b14] p-3 text-xs leading-relaxed text-slate-300 focus:border-blue-500/60 focus:outline-none"
               />
             </div>
 
@@ -725,7 +725,7 @@ export function QuoteGenerator({
                       discountPercent: Number(e.target.value) || 0,
                     })
                   }
-                  className="w-16 rounded-lg border border-white/10 bg-[#0f172a] px-2 py-0.5 text-right font-mono text-xs text-white focus:border-emerald-500 focus:outline-none"
+                  className="w-16 rounded-lg border border-white/10 bg-[#0f172a] px-2 py-0.5 text-right font-mono text-xs text-white focus:border-blue-500 focus:outline-none"
                 />
               </div>
 
@@ -740,7 +740,7 @@ export function QuoteGenerator({
 
               <div className="flex justify-between border-t border-white/10 pt-2.5 text-base font-extrabold text-white">
                 <span>Total</span>
-                <span className="font-mono text-emerald-400">
+                <span className="font-mono text-blue-400">
                   {formatMoney(totals.total, draft.currency)}
                 </span>
               </div>

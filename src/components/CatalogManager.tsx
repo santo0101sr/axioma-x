@@ -81,7 +81,7 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Ej. Instalación de aire acondicionado"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-emerald-500/60 focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
@@ -94,7 +94,7 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Incluye soporte y prueba de presión"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-emerald-500/60 focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
@@ -106,7 +106,7 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
                 placeholder="m², hora, proyecto"
-                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-emerald-500/60 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
               />
             </div>
             <div>
@@ -119,7 +119,7 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
                 min="0"
                 value={unitPrice}
                 onChange={(e) => setUnitPrice(e.target.value)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 font-mono text-sm text-white focus:border-emerald-500/60 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 font-mono text-sm text-white focus:border-blue-500/60 focus:outline-none"
               />
             </div>
           </div>
@@ -131,7 +131,7 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               placeholder="Instalación, Diseño, Mantenimiento..."
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-emerald-500/60 focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
@@ -144,13 +144,13 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
               value={keywordsText}
               onChange={(e) => setKeywordsText(e.target.value)}
               placeholder="aire, clima, ac, minisplit"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-emerald-500/60 focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
           <button
             type="submit"
-            className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-extrabold text-slate-950 transition hover:bg-emerald-400"
+            className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-extrabold text-white transition hover:bg-blue-500"
           >
             <Plus className="h-4 w-4" />
             Agregar al catálogo
@@ -169,7 +169,7 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
               Edita precios en línea en cualquier momento.
             </p>
           </div>
-          <Tag className="h-5 w-5 text-emerald-400" />
+          <Tag className="h-5 w-5 text-blue-400" />
         </div>
 
         <div className="mt-4 divide-y divide-white/5">
@@ -203,7 +203,7 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
                     {item.keywords.slice(0, 6).map((kw) => (
                       <span
                         key={kw}
-                        className="rounded-md bg-emerald-500/10 px-1.5 py-0.5 font-mono text-[10px] text-emerald-300"
+                        className="rounded-md bg-blue-500/10 px-1.5 py-0.5 font-mono text-[10px] text-sky-300"
                       >
                         #{kw}
                       </span>
@@ -223,7 +223,7 @@ export function CatalogManager({ catalog, currency, onChange }: CatalogManagerPr
                       onChange={(e) =>
                         handlePriceChange(item.id, parseFloat(e.target.value) || 0)
                       }
-                      className="w-24 rounded-lg border border-white/10 bg-[#070b14] px-2.5 py-1.5 text-right font-mono text-xs font-bold text-emerald-400 focus:border-emerald-500 focus:outline-none"
+                      className="w-24 rounded-lg border border-white/10 bg-[#070b14] px-2.5 py-1.5 text-right font-mono text-xs font-bold text-blue-400 focus:border-blue-500 focus:outline-none"
                     />
                     <span className="text-xs text-slate-400">/ {item.unit}</span>
                   </div>

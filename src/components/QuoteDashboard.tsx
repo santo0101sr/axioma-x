@@ -43,7 +43,7 @@ const STATUS_META: Record<
   },
   approved: {
     label: "Aprobada",
-    badge: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
+    badge: "bg-blue-500/15 text-sky-300 border-blue-500/30",
     icon: CheckCircle2,
   },
   rejected: {
@@ -134,12 +134,12 @@ export function QuoteDashboard({
           <p className="mt-1 text-xs text-slate-500">{quotes.length} cotizaciones</p>
         </div>
 
-        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-5">
-          <p className="text-xs font-semibold text-emerald-300">Ventas Aprobadas</p>
-          <p className="mt-2 font-mono text-2xl font-extrabold text-emerald-400">
+        <div className="rounded-2xl border border-blue-500/30 bg-blue-500/10 p-5">
+          <p className="text-xs font-semibold text-sky-300">Ventas Aprobadas</p>
+          <p className="mt-2 font-mono text-2xl font-extrabold text-blue-400">
             {formatMoney(totalApproved, business.currency)}
           </p>
-          <p className="mt-1 text-xs text-emerald-200/70">
+          <p className="mt-1 text-xs text-blue-200/70">
             {approvedQuotes.length} cerradas con éxito
           </p>
         </div>
@@ -147,7 +147,7 @@ export function QuoteDashboard({
         <div className="rounded-2xl border border-white/10 bg-[#0f172a]/90 p-5">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-slate-400">Tasa de Cierre</p>
-            <TrendingUp className="h-4 w-4 text-emerald-400" />
+            <TrendingUp className="h-4 w-4 text-blue-400" />
           </div>
           <p className="mt-2 font-mono text-2xl font-extrabold text-white">{closeRate}%</p>
           <p className="mt-1 text-xs text-slate-500">Sobre total emitido</p>
@@ -172,7 +172,7 @@ export function QuoteDashboard({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Buscar cliente, empresa o número..."
-              className="w-full rounded-xl border border-white/10 bg-[#070b14] py-2 pl-9 pr-3 text-sm text-white placeholder-slate-500 focus:border-emerald-500/60 focus:outline-none"
+              className="w-full rounded-xl border border-white/10 bg-[#070b14] py-2 pl-9 pr-3 text-sm text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
@@ -184,7 +184,7 @@ export function QuoteDashboard({
                   onClick={() => setFilter(st)}
                   className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
                     filter === st
-                      ? "bg-emerald-500 text-slate-950"
+                      ? "bg-blue-600 text-white"
                       : "border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
                   }`}
                 >
@@ -198,7 +198,7 @@ export function QuoteDashboard({
               onClick={handleExportCsv}
               className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:bg-white/10"
             >
-              <Download className="h-3.5 w-3.5 text-emerald-400" />
+              <Download className="h-3.5 w-3.5 text-blue-400" />
               Exportar CSV
             </button>
           </div>
@@ -243,7 +243,7 @@ export function QuoteDashboard({
                         <p className="truncate text-slate-300">{q.summary}</p>
                         <p className="text-xs text-slate-500">{q.items.length} ítems</p>
                       </td>
-                      <td className="py-3.5 pr-4 text-right font-mono font-bold text-emerald-400">
+                      <td className="py-3.5 pr-4 text-right font-mono font-bold text-blue-400">
                         {formatMoney(totals.total, q.currency)}
                       </td>
                       <td className="py-3.5 pr-4">
@@ -289,7 +289,7 @@ export function QuoteDashboard({
                           <button
                             type="button"
                             onClick={() => downloadQuotePdf(q, business)}
-                            className="rounded-lg p-1.5 text-slate-400 transition hover:bg-emerald-500/15 hover:text-emerald-400"
+                            className="rounded-lg p-1.5 text-slate-400 transition hover:bg-blue-500/15 hover:text-blue-400"
                             title="Descargar PDF"
                           >
                             <FileDown className="h-4 w-4" />

@@ -134,7 +134,7 @@ function SharedQuoteContent() {
                 <span>{formatMoney(totals.subtotal, quote.currency)}</span>
               </div>
               {quote.discountPercent > 0 && (
-                <div className="flex justify-between text-emerald-700">
+                <div className="flex justify-between text-blue-700">
                   <span>Descuento ({quote.discountPercent}%)</span>
                   <span>-{formatMoney(totals.discountAmount, quote.currency)}</span>
                 </div>
@@ -149,7 +149,7 @@ function SharedQuoteContent() {
               )}
               <div className="flex justify-between border-t border-slate-200 pt-2 text-lg font-bold text-slate-900">
                 <span>Total</span>
-                <span className="text-emerald-600">
+                <span className="text-blue-600">
                   {formatMoney(totals.total, quote.currency)}
                 </span>
               </div>
@@ -167,7 +167,7 @@ function SharedQuoteContent() {
             <div
               className={`mt-6 rounded-xl border p-4 text-sm font-medium ${
                 decision === "approved"
-                  ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                  ? "border-blue-200 bg-blue-50 text-blue-800"
                   : "border-amber-200 bg-amber-50 text-amber-800"
               }`}
             >
@@ -202,7 +202,7 @@ function SharedQuoteContent() {
                   setDecision("approved");
                   syncLocalStatus("approved");
                 }}
-                className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700"
+                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
               >
                 <CheckCircle2 className="h-4 w-4" />
                 Aprobar cotización

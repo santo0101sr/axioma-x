@@ -86,7 +86,7 @@ export function BusinessSettings({
       {/* Business Profile Form */}
       <div className="rounded-2xl border border-white/10 bg-[#0f172a]/90 p-6 lg:col-span-7">
         <div className="flex items-center gap-2">
-          <Building2 className="h-5 w-5 text-emerald-400" />
+          <Building2 className="h-5 w-5 text-blue-400" />
           <h2 className="text-base font-bold text-white">Perfil de la Empresa</h2>
         </div>
         <p className="mt-1 text-xs text-slate-400">
@@ -102,7 +102,7 @@ export function BusinessSettings({
               type="text"
               value={business.name}
               onChange={(e) => update("name", e.target.value)}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-emerald-500/60 focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
@@ -114,7 +114,7 @@ export function BusinessSettings({
               type="text"
               value={business.tagline}
               onChange={(e) => update("tagline", e.target.value)}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-emerald-500/60 focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
@@ -126,7 +126,7 @@ export function BusinessSettings({
               type="text"
               value={business.phone}
               onChange={(e) => update("phone", e.target.value)}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-emerald-500/60 focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
@@ -138,7 +138,7 @@ export function BusinessSettings({
               type="email"
               value={business.email}
               onChange={(e) => update("email", e.target.value)}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-emerald-500/60 focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
@@ -148,7 +148,7 @@ export function BusinessSettings({
               type="text"
               value={business.address}
               onChange={(e) => update("address", e.target.value)}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-emerald-500/60 focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-blue-500/60 focus:outline-none"
             />
           </div>
 
@@ -157,7 +157,7 @@ export function BusinessSettings({
             <select
               value={business.currency}
               onChange={(e) => update("currency", e.target.value as CurrencyCode)}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-emerald-500/60 focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-blue-500/60 focus:outline-none"
             >
               <option value="USD">USD ($)</option>
               <option value="CRC">CRC (₡)</option>
@@ -173,7 +173,7 @@ export function BusinessSettings({
                 type="text"
                 value={business.taxLabel}
                 onChange={(e) => update("taxLabel", e.target.value)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-emerald-500/60 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm text-white focus:border-blue-500/60 focus:outline-none"
               />
             </div>
             <div>
@@ -184,7 +184,7 @@ export function BusinessSettings({
                 max="50"
                 value={business.taxPercent}
                 onChange={(e) => update("taxPercent", Number(e.target.value) || 0)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 font-mono text-sm text-white focus:border-emerald-500/60 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 font-mono text-sm text-white focus:border-blue-500/60 focus:outline-none"
               />
             </div>
           </div>
@@ -197,7 +197,7 @@ export function BusinessSettings({
               rows={3}
               value={business.defaultNotes}
               onChange={(e) => update("defaultNotes", e.target.value)}
-              className="mt-1 w-full resize-none rounded-xl border border-white/10 bg-[#070b14] p-3 text-xs text-slate-200 focus:border-emerald-500/60 focus:outline-none"
+              className="mt-1 w-full resize-none rounded-xl border border-white/10 bg-[#070b14] p-3 text-xs text-slate-200 focus:border-blue-500/60 focus:outline-none"
             />
           </div>
         </div>
@@ -226,7 +226,7 @@ export function BusinessSettings({
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl bg-emerald-500 px-3.5 py-2 text-xs font-extrabold text-slate-950 transition hover:bg-emerald-400">
+              <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl bg-blue-600 px-3.5 py-2 text-xs font-extrabold text-white transition hover:bg-blue-500">
                 <Upload className="h-3.5 w-3.5" />
                 Subir logo
                 <input
@@ -263,12 +263,12 @@ export function BusinessSettings({
               onClick={handleExportBackup}
               className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-white/10"
             >
-              <Download className="h-3.5 w-3.5 text-emerald-400" />
+              <Download className="h-3.5 w-3.5 text-blue-400" />
               Exportar JSON
             </button>
 
             <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-white/10">
-              <Upload className="h-3.5 w-3.5 text-emerald-400" />
+              <Upload className="h-3.5 w-3.5 text-blue-400" />
               Importar JSON
               <input
                 type="file"
