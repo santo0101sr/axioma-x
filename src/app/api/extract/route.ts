@@ -31,6 +31,22 @@ Tu tarea es devolver ÚNICAMENTE un JSON válido con esta estructura exacta:
 }
 Usa los precios y unidades del catálogo siempre que haya coincidencia. Si el cliente pide algo que no está en el catálogo, estima un ítem razonable y márcalo en la descripción.`;
 
+function normalizeExtractedItems(
+  rawItems: unknown,
+  prefix: string
+): QuoteLineItem[] {
+  if (!Array.isArray(rawItems)) return [];
+  return rawItems.map((it: Partial<QuoteLineItem>, idx: number) => ({
+    id: `${prefix}-${Date.now()}-${idx}`,
+    catalogItemId: it.catalogItemId || undefined,
+    name: it.name || "Servicio",
+    description: it.description || "",
+    quantity: Number(it.quantity) || 1,
+    unit: it.unit || "servicio",
+    unitPrice: Number(it.unitPrice) || 0,
+  }));
+}
+
 export async function POST(req: Request) {
   try {
     const body = (await req.json()) as ExtractRequestBody;
@@ -45,6 +61,7 @@ export async function POST(req: Request) {
       );
     }
 
+    const groqKey = process.env.GROQ_API_KEY?.trim();
     const geminiKey = process.env.GEMINI_API_KEY?.trim();
     const openaiKey = process.env.OPENAI_API_KEY?.trim();
 
@@ -67,7 +84,56 @@ Mensaje del cliente:
 ${message || "Analiza la imagen adjunta y genera una cotización basada en el catálogo."}
 """`;
 
-    // 1) Gemini API if configured
+    // 1) Groq API if configured (ultra-fast Llama 3.3 / Llama 4 Scout)
+    if (groqKey) {
+      const hasImage = Boolean(body.imageBase64);
+      const groqModel = hasImage
+        ? "meta-llama/llama-4-scout-17b-16e-instruct"
+        : "llama-3.3-70b-versatile";
+
+      const userContent = hasImage
+        ? [
+            { type: "text", text: userPrompt },
+            { type: "image_url", image_url: { url: body.imageBase64 } },
+          ]
+        : userPrompt;
+
+      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${groqKey}`,
+        },
+        body: JSON.stringify({
+          model: groqModel,
+          response_format: { type: "json_object" },
+          temperature: 0.2,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userContent },
+          ],
+        }),
+      });
+
+      if (res.ok) {
+        const json = await res.json();
+        const rawText = json?.choices?.[0]?.message?.content;
+        if (rawText) {
+          const parsed = JSON.parse(rawText);
+          return NextResponse.json({
+            clientName: parsed.clientName || "Cliente por confirmar",
+            clientPhone: parsed.clientPhone || "",
+            clientCompany: parsed.clientCompany || "",
+            summary: parsed.summary || "Cotización generada con Groq",
+            items: normalizeExtractedItems(parsed.items, "groq"),
+            notes: parsed.notes || defaultNotes,
+            mode: "groq",
+          });
+        }
+      }
+    }
+
+    // 2) Gemini API if configured
     if (geminiKey) {
       const parts: Array<Record<string, unknown>> = [{ text: `${SYSTEM_PROMPT}\n\n${userPrompt}` }];
       if (body.imageBase64) {
@@ -127,7 +193,7 @@ ${message || "Analiza la imagen adjunta y genera una cotización basada en el ca
       }
     }
 
-    // 2) OpenAI API if configured
+    // 3) OpenAI API if configured
     if (openaiKey) {
       const res = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -175,7 +241,7 @@ ${message || "Analiza la imagen adjunta y genera una cotización basada en el ca
       }
     }
 
-    // 3) Smart Demo Mode fallback (zero-friction)
+    // 4) Smart Demo Mode fallback (zero-friction)
     const demoResult = extractQuoteDemo(message, catalog, defaultNotes);
     return NextResponse.json(demoResult);
   } catch (err) {

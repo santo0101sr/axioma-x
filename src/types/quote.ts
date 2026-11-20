@@ -52,7 +52,7 @@ export interface Quote {
   currency: CurrencyCode;
   notes: string;
   status: QuoteStatus;
-  extractionMode?: "gemini" | "openai" | "demo";
+  extractionMode?: "gemini" | "openai" | "groq" | "demo";
 }
 
 export interface IndustryPreset {
