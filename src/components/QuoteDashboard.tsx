@@ -7,6 +7,8 @@ import {
   Download,
   Eye,
   FileDown,
+  Loader2,
+  Mail,
   Pencil,
   Search,
   Send,
@@ -18,6 +20,7 @@ import { BusinessProfile, Quote, QuoteStatus } from "@/types/quote";
 import { calculateQuoteTotals, formatMoney } from "@/lib/format";
 import { downloadQuotePdf } from "@/lib/pdf-generator";
 import { useLanguage } from "@/components/LanguageProvider";
+import { encodeSharedQuote } from "@/lib/share-link";
 
 interface QuoteDashboardProps {
   quotes: Quote[];
@@ -92,6 +95,46 @@ export function QuoteDashboard({
   const STATUS_META = isEn ? STATUS_META_EN : STATUS_META_ES;
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<QuoteStatus | "all">("all");
+  const [sendingEmailId, setSendingEmailId] = useState<string | null>(null);
+  const [emailToast, setEmailToast] = useState<string | null>(null);
+
+  async function handleSendQuoteEmail(q: Quote) {
+    const to =
+      q.clientEmail?.trim() ||
+      window.prompt(`Ingresa el correo de ${q.clientName} para enviar ${q.quoteNumber}:`)?.trim();
+    if (!to) return;
+
+    setSendingEmailId(q.id);
+    setEmailToast(null);
+    try {
+      const token = encodeSharedQuote({ quote: q, business });
+      const portalUrl = `${window.location.origin}/q?d=${token}`;
+      const res = await fetch("/api/integrations/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          kind: "quote",
+          to,
+          quote: q,
+          business,
+          portalUrl,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setEmailToast(data?.error || "No se pudo enviar el correo.");
+      } else {
+        setEmailToast(`Cotización ${q.quoteNumber} enviada por correo a ${to}.`);
+        if (q.status === "draft") {
+          onStatusChange(q.id, "sent");
+        }
+      }
+    } catch {
+      setEmailToast("Error de conexión al enviar el correo.");
+    } finally {
+      setSendingEmailId(null);
+    }
+  }
 
   const filtered = quotes.filter((q) => {
     const matchesFilter = filter === "all" || q.status === filter;
@@ -153,6 +196,18 @@ export function QuoteDashboard({
 
   return (
     <div className="space-y-6">
+      {emailToast && (
+        <div className="flex items-center justify-between rounded-xl border border-blue-500/30 bg-blue-500/10 px-4 py-2.5 text-xs font-medium text-sky-200">
+          <span>{emailToast}</span>
+          <button
+            type="button"
+            onClick={() => setEmailToast(null)}
+            className="text-slate-400 hover:text-white"
+          >
+            ✕
+          </button>
+        </div>
+      )}
       {/* KPI Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-2xl border border-white/10 bg-[#0f172a]/90 p-5">
@@ -332,6 +387,19 @@ export function QuoteDashboard({
                             title={isEn ? "Client preview" : "Vista previa del cliente"}
                           >
                             <Eye className="h-4 w-4" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => void handleSendQuoteEmail(q)}
+                            disabled={sendingEmailId === q.id}
+                            className="rounded-lg p-1.5 text-slate-400 transition hover:bg-emerald-500/15 hover:text-emerald-400 disabled:opacity-50"
+                            title="Enviar cotización por correo"
+                          >
+                            {sendingEmailId === q.id ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <Mail className="h-4 w-4" />
+                            )}
                           </button>
                           <button
                             type="button"

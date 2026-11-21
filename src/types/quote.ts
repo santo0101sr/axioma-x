@@ -22,6 +22,14 @@ export interface QuoteLineItem {
   unitPrice: number;
 }
 
+export interface BusinessIntegrations {
+  googleSheetsWebhookUrl?: string;
+  autoSyncSheets?: boolean;
+  notifyEmailOnApproval?: boolean;
+  autoFollowUpDays?: number;
+  resendFromEmail?: string;
+}
+
 export interface BusinessProfile {
   name: string;
   tagline: string;
@@ -34,6 +42,7 @@ export interface BusinessProfile {
   taxPercent: number;
   validityDays: number;
   defaultNotes: string;
+  integrations?: BusinessIntegrations;
 }
 
 export interface Quote {
@@ -43,6 +52,7 @@ export interface Quote {
   validUntil: string;
   clientName: string;
   clientPhone: string;
+  clientEmail?: string;
   clientCompany: string;
   originalMessage: string;
   summary: string;
@@ -52,6 +62,7 @@ export interface Quote {
   currency: CurrencyCode;
   notes: string;
   status: QuoteStatus;
+  lastFollowUpAt?: string;
   extractionMode?: "gemini" | "openai" | "groq" | "demo";
 }
 

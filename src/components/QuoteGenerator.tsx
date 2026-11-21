@@ -554,7 +554,7 @@ export function QuoteGenerator({
           </div>
 
           {/* Client Fields */}
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <label className="text-[11px] font-semibold text-slate-400">
                 {isEn ? "Client" : "Cliente"}
@@ -576,6 +576,18 @@ export function QuoteGenerator({
                 value={draft.clientPhone}
                 onChange={(e) => setDraft({ ...draft, clientPhone: e.target.value })}
                 placeholder={isEn ? "Phone / WhatsApp" : "Teléfono / WhatsApp"}
+                className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm font-medium text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="text-[11px] font-semibold text-slate-400">
+                {isEn ? "Email (optional)" : "Correo (opcional)"}
+              </label>
+              <input
+                type="email"
+                value={draft.clientEmail || ""}
+                onChange={(e) => setDraft({ ...draft, clientEmail: e.target.value })}
+                placeholder={isEn ? "client@email.com" : "cliente@correo.com"}
                 className="mt-1 w-full rounded-xl border border-white/10 bg-[#070b14] px-3 py-2 text-sm font-medium text-white placeholder-slate-500 focus:border-blue-500/60 focus:outline-none"
               />
             </div>

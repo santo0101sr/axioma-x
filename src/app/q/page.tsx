@@ -61,6 +61,19 @@ function SharedQuoteContent() {
     }
   }
 
+  function notifyOwner(nextDecision: "approved" | "changes") {
+    void fetch("/api/integrations/portal-notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        decision: nextDecision,
+        quote,
+        business,
+        portalUrl: typeof window !== "undefined" ? window.location.href : undefined,
+      }),
+    }).catch(() => {});
+  }
+
   return (
     <div className="min-h-screen bg-slate-100 px-4 py-10">
       <div className="mx-auto max-w-3xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
@@ -216,6 +229,7 @@ function SharedQuoteContent() {
                 onClick={() => {
                   setDecision("changes");
                   syncLocalStatus("sent");
+                  notifyOwner("changes");
                 }}
                 className="inline-flex items-center gap-2 rounded-xl border border-amber-300 bg-amber-50 px-4 py-2.5 text-sm font-semibold text-amber-800 hover:bg-amber-100"
               >
@@ -226,6 +240,7 @@ function SharedQuoteContent() {
                 onClick={() => {
                   setDecision("approved");
                   syncLocalStatus("approved");
+                  notifyOwner("approved");
                 }}
                 className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
               >

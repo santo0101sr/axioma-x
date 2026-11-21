@@ -15,6 +15,7 @@ import {
   Loader2,
   LogOut,
   Package,
+  Plug,
 } from "lucide-react";
 import { auth, isFirebaseConfigured } from "@/lib/firebase";
 import {
@@ -32,13 +33,14 @@ import { QuoteGenerator } from "@/components/QuoteGenerator";
 import { QuoteDashboard } from "@/components/QuoteDashboard";
 import { CatalogManager } from "@/components/CatalogManager";
 import { BusinessSettings } from "@/components/BusinessSettings";
+import { IntegrationsPanel } from "@/components/IntegrationsPanel";
 import { ClientPreviewModal } from "@/components/ClientPreviewModal";
 import { AuthGate } from "@/components/AuthGate";
 import { AxiomaLogo } from "@/components/landing/AxiomaLogo";
 import { LanguageToggle, useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeProvider";
 
-type TabId = "generator" | "dashboard" | "catalog" | "business";
+type TabId = "generator" | "dashboard" | "catalog" | "integrations" | "business";
 
 const TAB_META_ES: Record<
   TabId,
@@ -66,6 +68,12 @@ const TAB_META_ES: Record<
     title: "Catálogo de Servicios",
     subtitle: "Administra tus tarifas reales para cotizar al instante.",
     icon: Package,
+  },
+  integrations: {
+    label: "Integraciones",
+    title: "Integraciones y Automatizaciones",
+    subtitle: "Conecta correos automáticos, Google Sheets y recordatorios de seguimiento.",
+    icon: Plug,
   },
   business: {
     label: "Mi Empresa",
@@ -101,6 +109,12 @@ const TAB_META_EN: Record<
     title: "Service Catalog",
     subtitle: "Manage your real pricing to quote accurately and instantly.",
     icon: Package,
+  },
+  integrations: {
+    label: "Integrations",
+    title: "Integrations & Automations",
+    subtitle: "Connect automatic emails, Google Sheets live sync, and follow-up reminders.",
+    icon: Plug,
   },
   business: {
     label: "My Business",
@@ -222,6 +236,21 @@ function WorkspaceContent() {
     }
   }
 
+  function autoSyncQuoteToSheets(quote: Quote) {
+    const webhookUrl = business.integrations?.googleSheetsWebhookUrl?.trim();
+    if (!business.integrations?.autoSyncSheets || !webhookUrl) return;
+    void fetch("/api/integrations/sheets", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        webhookUrl,
+        action: "sync_quote",
+        quote,
+        business,
+      }),
+    }).catch(() => {});
+  }
+
   async function handleSaveQuote(quote: Quote) {
     setQuotes((prev) => {
       const exists = prev.some((q) => q.id === quote.id);
@@ -230,6 +259,7 @@ function WorkspaceContent() {
       }
       return [quote, ...prev];
     });
+    autoSyncQuoteToSheets(quote);
     if (!user) return;
     markSyncing();
     try {
@@ -241,7 +271,19 @@ function WorkspaceContent() {
   }
 
   async function handleStatusChange(id: string, status: QuoteStatus) {
-    setQuotes((prev) => prev.map((q) => (q.id === id ? { ...q, status } : q)));
+    let updatedQuote: Quote | null = null;
+    setQuotes((prev) =>
+      prev.map((q) => {
+        if (q.id === id) {
+          updatedQuote = { ...q, status };
+          return updatedQuote;
+        }
+        return q;
+      })
+    );
+    if (updatedQuote) {
+      autoSyncQuoteToSheets(updatedQuote);
+    }
     if (!user) return;
     markSyncing();
     try {
@@ -380,7 +422,7 @@ function WorkspaceContent() {
 
           {/* Primary Navigation */}
           <nav className="mt-6 space-y-1">
-            {(["generator", "dashboard", "catalog", "business"] as TabId[]).map(
+            {(["generator", "dashboard", "catalog", "integrations", "business"] as TabId[]).map(
               (tabId) => {
                 const meta = TAB_META[tabId];
                 const Icon = meta.icon;
@@ -492,7 +534,7 @@ function WorkspaceContent() {
           </div>
 
           <nav className="mt-3 flex gap-1 overflow-x-auto pb-0.5">
-            {(["generator", "dashboard", "catalog", "business"] as TabId[]).map(
+            {(["generator", "dashboard", "catalog", "integrations", "business"] as TabId[]).map(
               (tabId) => {
                 const meta = TAB_META[tabId];
                 const Icon = meta.icon;
@@ -588,6 +630,23 @@ function WorkspaceContent() {
               catalog={catalog}
               currency={business.currency}
               onChange={handleCatalogChange}
+            />
+          )}
+
+          {activeTab === "integrations" && (
+            <IntegrationsPanel
+              business={business}
+              quotes={quotes}
+              onChangeBusiness={handleBusinessChange}
+              onMarkFollowUp={(quoteId) => {
+                const target = quotes.find((q) => q.id === quoteId);
+                if (target) {
+                  void handleSaveQuote({
+                    ...target,
+                    lastFollowUpAt: new Date().toISOString(),
+                  });
+                }
+              }}
             />
           )}
 
