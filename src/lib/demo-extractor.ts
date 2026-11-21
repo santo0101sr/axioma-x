@@ -25,6 +25,7 @@ function extractPhone(text: string): string {
 function extractClientName(text: string): string {
   const patterns = [
     /(?:[Ss]oy|[Mm]e llamo|[Ll]es escribe|[Dd]e parte de)\s+(?:el\s+|la\s+|la\s+Dra\.\s+|el\s+Ing\.\s+)?((?:[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+\.?)(?:\s+[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+){0,2})/,
+    /(?:[Ii]'m|[Ii] am|[Mm]y name is|[Tt]his is)\s+(?:Dr\.\s+|Mr\.\s+|Ms\.\s+|Mrs\.\s+)?((?:[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+\.?)(?:\s+[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+){0,2})/,
   ];
   for (const re of patterns) {
     const m = text.match(re);
@@ -32,12 +33,14 @@ function extractClientName(text: string): string {
       return m[1].trim();
     }
   }
-  return "Cliente por confirmar";
+  return /[Ii]'m|[Ii] am|[Mm]y name is|[Tt]his is|\bfor\b|\bquote\b/i.test(text)
+    ? "Client to confirm"
+    : "Cliente por confirmar";
 }
 
 function extractCompany(text: string): string {
   const m = text.match(
-    /(?:de|en)\s+((?:Clínica|Clinica|Consultora|Café|Cafe|TechHub|Empresa|Taller|Grupo)\s+[A-ZÁÉÍÓÚÑa-z0-9]+)/i
+    /(?:de|en|from|at)\s+((?:Clínica|Clinica|Consultora|Café|Cafe|TechHub|Empresa|Taller|Grupo)\s+[A-ZÁÉÍÓÚÑa-z0-9]+)/i
   );
   return m ? m[1].trim() : "";
 }
@@ -46,8 +49,8 @@ function findQuantityNearKeyword(normalizedMsg: string, keyword: string): number
   const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   // e.g. "65 metros", "4 lámparas", "2 ejes", "35 personas"
   const afterOrBefore = [
-    new RegExp(`(\\d+(?:\\.\\d+)?)\\s*(?:m2|m²|metros(?:\\s+cuadrados)?|personas|meses|ejes|puntos|lamparas|lámparas)?\\s*(?:de\\s+|en\\s+|para\\s+)?${escaped}`),
-    new RegExp(`${escaped}[^\\d.,;]{0,65}?(\\d+(?:\\.\\d+)?)\\s*(?:m2|m²|metros|personas|meses|ejes|puntos)?`),
+    new RegExp(`(\\d+(?:\\.\\d+)?)\\s*(?:m2|m²|sq\\s*m|sqm|square\\s+meters|metros(?:\\s+cuadrados)?|personas|people|guests|meses|months|ejes|axles|puntos|points|lamparas|lámparas|lights|lamps)?\\s*(?:de\\s+|en\\s+|para\\s+|of\\s+|for\\s+)?${escaped}`),
+    new RegExp(`${escaped}[^\\d.,;]{0,65}?(\\d+(?:\\.\\d+)?)\\s*(?:m2|m²|sq\\s*m|sqm|square\\s+meters|metros|personas|people|guests|meses|months|ejes|axles|puntos|points)?`),
   ];
 
   for (const re of afterOrBefore) {

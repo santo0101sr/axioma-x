@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -13,8 +13,8 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
-import { INDUSTRY_PRESETS } from "@/data/presets";
-import { Quote } from "@/types/quote";
+import { getIndustryPresets } from "@/data/presets";
+import { IndustryPreset, Quote } from "@/types/quote";
 import {
   addDaysIso,
   calculateQuoteTotals,
@@ -25,10 +25,11 @@ import { downloadQuotePdf } from "@/lib/pdf-generator";
 import { encodeSharedQuote } from "@/lib/share-link";
 import { useLanguage } from "@/components/LanguageProvider";
 
-function buildInitialPreview(presetIndex = 0): Quote {
-  const preset = INDUSTRY_PRESETS[presetIndex] ?? INDUSTRY_PRESETS[0];
+function buildInitialPreview(presetIndex = 0, isEn = false): Quote {
+  const presets = getIndustryPresets(isEn);
+  const preset = presets[presetIndex] ?? presets[0];
   return {
-    id: `hero-demo-${preset.id}`,
+    id: `hero-demo-${preset.id}-${isEn ? "en" : "es"}`,
     quoteNumber: "COT-2611-804",
     createdAt: "2026-11-19",
     validUntil: "2026-12-04",
@@ -36,12 +37,16 @@ function buildInitialPreview(presetIndex = 0): Quote {
     clientPhone: "8711-4420",
     clientCompany: "",
     originalMessage: preset.sampleMessages[0]?.text ?? "",
-    summary: "Pintura de interiores (65 m²), cerámica en baño (12 m²) y 4 luminarias",
+    summary: isEn
+      ? "Interior painting (65 m²), bathroom tile (12 m²) & 4 light fixtures"
+      : "Pintura de interiores (65 m²), cerámica en baño (12 m²) y 4 luminarias",
     items: [
       {
         id: "hd-1",
         catalogItemId: preset.catalog[0]?.id,
-        name: preset.catalog[0]?.name ?? "Pintura interior / exterior",
+        name:
+          preset.catalog[0]?.name ??
+          (isEn ? "Interior / exterior painting" : "Pintura interior / exterior"),
         description: preset.catalog[0]?.description ?? "",
         quantity: 65,
         unit: preset.catalog[0]?.unit ?? "m²",
@@ -50,7 +55,9 @@ function buildInitialPreview(presetIndex = 0): Quote {
       {
         id: "hd-2",
         catalogItemId: preset.catalog[1]?.id,
-        name: preset.catalog[1]?.name ?? "Instalación de piso cerámico",
+        name:
+          preset.catalog[1]?.name ??
+          (isEn ? "Ceramic tile installation" : "Instalación de piso cerámico"),
         description: preset.catalog[1]?.description ?? "",
         quantity: 12,
         unit: preset.catalog[1]?.unit ?? "m²",
@@ -59,10 +66,12 @@ function buildInitialPreview(presetIndex = 0): Quote {
       {
         id: "hd-3",
         catalogItemId: preset.catalog[3]?.id,
-        name: preset.catalog[3]?.name ?? "Punto eléctrico / luminaria",
+        name:
+          preset.catalog[3]?.name ??
+          (isEn ? "Electrical point / light fixture" : "Punto eléctrico / luminaria"),
         description: preset.catalog[3]?.description ?? "",
         quantity: 4,
-        unit: preset.catalog[3]?.unit ?? "punto",
+        unit: preset.catalog[3]?.unit ?? (isEn ? "point" : "punto"),
         unitPrice: preset.catalog[3]?.unitPrice ?? 35,
       },
     ],
@@ -77,25 +86,37 @@ function buildInitialPreview(presetIndex = 0): Quote {
 
 export function HeroSimulator() {
   const { isEn } = useLanguage();
-  const [presetId, setPresetId] = useState<string>(INDUSTRY_PRESETS[0].id);
+  const presets = getIndustryPresets(isEn);
+  const [presetId, setPresetId] = useState<string>(presets[0].id);
   const activePreset =
-    INDUSTRY_PRESETS.find((p) => p.id === presetId) ?? INDUSTRY_PRESETS[0];
+    presets.find((p) => p.id === presetId) ?? presets[0];
 
   const [message, setMessage] = useState<string>(
     activePreset.sampleMessages[0]?.text ?? ""
   );
-  const [quote, setQuote] = useState<Quote>(() => buildInitialPreview(0));
+  const [quote, setQuote] = useState<Quote>(() => buildInitialPreview(0, isEn));
   const [loading, setLoading] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
   const [elapsedMs, setElapsedMs] = useState<number>(420);
   const [error, setError] = useState("");
+  const prevIsEnRef = useRef(isEn);
 
-  async function runExtraction(targetMessage: string, targetPresetId: string) {
-    const preset =
-      INDUSTRY_PRESETS.find((p) => p.id === targetPresetId) ?? INDUSTRY_PRESETS[0];
+  async function runExtraction(
+    targetMessage: string,
+    targetPresetId: string,
+    overridePresets?: IndustryPreset[],
+    overrideIsEn?: boolean
+  ) {
+    const list = overridePresets ?? presets;
+    const enMode = overrideIsEn ?? isEn;
+    const preset = list.find((p) => p.id === targetPresetId) ?? list[0];
 
     if (!targetMessage.trim()) {
-      setError("Escribe o selecciona un mensaje para cotizar.");
+      setError(
+        enMode
+          ? "Write or select a message to quote."
+          : "Escribe o selecciona un mensaje para cotizar."
+      );
       return;
     }
 
@@ -123,7 +144,12 @@ export function HeroSimulator() {
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "No se pudo procesar la solicitud.");
+        throw new Error(
+          data.error ||
+            (enMode
+              ? "Could not process the request."
+              : "No se pudo procesar la solicitud.")
+        );
       }
 
       const nextQuote: Quote = {
@@ -131,11 +157,17 @@ export function HeroSimulator() {
         quoteNumber: generateQuoteNumber(),
         createdAt: new Date().toISOString().split("T")[0],
         validUntil: addDaysIso(preset.business.validityDays),
-        clientName: data.clientName || "Cliente por confirmar",
+        clientName:
+          data.clientName ||
+          (enMode ? "Client to confirm" : "Cliente por confirmar"),
         clientPhone: data.clientPhone || "",
         clientCompany: data.clientCompany || "",
         originalMessage: targetMessage,
-        summary: data.summary || "Cotización generada automáticamente",
+        summary:
+          data.summary ||
+          (enMode
+            ? "Automatically generated quote"
+            : "Cotización generada automáticamente"),
         items: Array.isArray(data.items) ? data.items : [],
         discountPercent: 0,
         taxPercent: preset.business.taxPercent,
@@ -148,15 +180,41 @@ export function HeroSimulator() {
       setQuote(nextQuote);
       setElapsedMs(Math.max(120, Math.round(performance.now() - start)));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error inesperado al procesar.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : enMode
+            ? "Unexpected error while processing."
+            : "Error inesperado al procesar."
+      );
     } finally {
       setLoading(false);
       setStepIndex(0);
     }
   }
 
+  useEffect(() => {
+    if (prevIsEnRef.current === isEn) return;
+    prevIsEnRef.current = isEn;
+
+    const nextPresets = getIndustryPresets(isEn);
+    const idx = Math.max(
+      0,
+      nextPresets.findIndex((p) => p.id === presetId)
+    );
+    const nextPreset = nextPresets[idx] ?? nextPresets[0];
+    const nextMsg = nextPreset.sampleMessages[0]?.text ?? "";
+    setMessage(nextMsg);
+    if (idx === 0) {
+      setQuote(buildInitialPreview(0, isEn));
+    } else {
+      void runExtraction(nextMsg, nextPreset.id, nextPresets, isEn);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEn]);
+
   function handlePresetChange(newId: string) {
-    const preset = INDUSTRY_PRESETS.find((p) => p.id === newId);
+    const preset = presets.find((p) => p.id === newId);
     if (!preset) return;
     setPresetId(preset.id);
     const nextMsg = preset.sampleMessages[0]?.text ?? "";
@@ -200,7 +258,7 @@ export function HeroSimulator() {
           <span className="mr-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             {isEn ? "Industry:" : "Rubro:"}
           </span>
-          {INDUSTRY_PRESETS.map((preset) => {
+          {presets.map((preset) => {
             const isSelected = presetId === preset.id;
             return (
               <button

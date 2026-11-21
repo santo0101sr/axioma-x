@@ -10,16 +10,16 @@ import {
   MessageSquareQuote,
   Tag,
 } from "lucide-react";
-import { INDUSTRY_PRESETS } from "@/data/presets";
+import { getIndustryPresets } from "@/data/presets";
 import { formatMoney } from "@/lib/format";
 import { useLanguage } from "@/components/LanguageProvider";
 import { MagneticButton, ScrollReveal } from "@/components/landing/MotionPrimitives";
 
 export function IndustryExplorer() {
   const { isEn } = useLanguage();
-  const [selectedId, setSelectedId] = useState(INDUSTRY_PRESETS[0].id);
-  const preset =
-    INDUSTRY_PRESETS.find((p) => p.id === selectedId) ?? INDUSTRY_PRESETS[0];
+  const presets = getIndustryPresets(isEn);
+  const [selectedId, setSelectedId] = useState(presets[0].id);
+  const preset = presets.find((p) => p.id === selectedId) ?? presets[0];
 
   return (
     <section
@@ -47,7 +47,7 @@ export function IndustryExplorer() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {INDUSTRY_PRESETS.map((item) => {
+              {presets.map((item) => {
                 const isSelected = selectedId === item.id;
                 return (
                   <button
